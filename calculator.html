@@ -153,9 +153,17 @@
     }
 
     .calc-card.active-card {
-      border-color: rgba(255, 94, 54, 0.5);
+      border-color: rgba(86, 212, 255, 0.4);
     }
     .calc-card.active-card:hover {
+      box-shadow: 0 8px 24px var(--accent-glow);
+      border-color: var(--accent-frost);
+    }
+
+    .calc-card.fc-card {
+      border-color: rgba(255, 94, 54, 0.4);
+    }
+    .calc-card.fc-card:hover {
       box-shadow: 0 8px 24px rgba(255, 94, 54, 0.45);
       border-color: var(--fire-crystal);
     }
@@ -184,10 +192,15 @@
       padding: 4px 10px;
       border-radius: 20px;
     }
-    .status-badge.live {
+    .status-badge.live-fc {
       background: rgba(255, 94, 54, 0.18);
       color: var(--fire-crystal);
       border: 1px solid rgba(255, 94, 54, 0.35);
+    }
+    .status-badge.live-blue {
+      background: rgba(86, 212, 255, 0.18);
+      color: var(--accent-frost);
+      border: 1px solid rgba(86, 212, 255, 0.35);
     }
     .status-badge.queue {
       background: rgba(255, 209, 102, 0.15);
@@ -228,15 +241,26 @@
       transition: all 0.2s ease;
     }
 
-    .calc-card.active-card .btn-calc {
+    .calc-card.fc-card .btn-calc {
       background: rgba(255, 94, 54, 0.2);
       border-color: rgba(255, 94, 54, 0.4);
       color: #ff9176;
     }
-    .calc-card.active-card:hover .btn-calc {
+    .calc-card.fc-card:hover .btn-calc {
       background: var(--fire-crystal);
       color: #040910;
       box-shadow: 0 0 14px rgba(255, 94, 54, 0.6);
+    }
+
+    .calc-card.active-card .btn-calc {
+      background: rgba(86, 212, 255, 0.2);
+      border-color: rgba(86, 212, 255, 0.4);
+      color: #e8f5ff;
+    }
+    .calc-card.active-card:hover .btn-calc {
+      background: var(--accent-frost);
+      color: #040910;
+      box-shadow: 0 0 14px var(--accent-glow);
     }
 
     .calc-card.disabled .btn-calc {
@@ -271,11 +295,11 @@
     </div>
 
     <main class="calc-grid">
-      <!-- 1. Dedicated Fire Crystal Calculator (ONLINE) -->
-      <a href="calc-fire-crystals.html" class="calc-card active-card">
+      <!-- 1. Dedicated Fire Crystal Calculator -->
+      <a href="calc-fire-crystals.html" class="calc-card fc-card">
         <div class="card-top">
           <span class="card-icon">🔥</span>
-          <span class="status-badge live">● Ready to Use</span>
+          <span class="status-badge live-fc">● Ready to Use</span>
         </div>
         <div>
           <h2 class="card-title">Fire Crystals</h2>
@@ -284,24 +308,24 @@
         <div class="btn-calc">Open Fire Crystal Calc ➔</div>
       </a>
 
-      <!-- 2. Chief Gear & Charms (Next) -->
-      <div class="calc-card disabled">
+      <!-- 2. Chief Gear & Charms (Now Active) -->
+      <a href="calc-chief-gear.html" class="calc-card active-card">
         <div class="card-top">
           <span class="card-icon">🛡️</span>
-          <span class="status-badge queue">Next In Line</span>
+          <span class="status-badge live-blue">● Ready to Use</span>
         </div>
         <div>
           <h2 class="card-title">Chief Gear & Charms</h2>
-          <p class="card-desc">Alloy, Polishing Solutions, Design Plans, and Lunar/Solar Charm upgrade ladders for all 6 slots.</p>
+          <p class="card-desc">Full endgame ladder up to Red T6 (3★) and Chief Charms up to Level 18 with sub-levels, guides, and Jewel Secrets.</p>
         </div>
-        <div class="btn-calc">In Testing</div>
-      </div>
+        <div class="btn-calc">Open Chief Gear Calc ➔</div>
+      </a>
 
-      <!-- 3. Troop Training & Speedups -->
+      <!-- 3. Troop Training & Speedups (Next) -->
       <div class="calc-card disabled">
         <div class="card-top">
           <span class="card-icon">🏹</span>
-          <span class="status-badge queue">Scheduled</span>
+          <span class="status-badge queue">Next In Line</span>
         </div>
         <div>
           <h2 class="card-title">Troops & Speedups</h2>
