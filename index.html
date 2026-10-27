@@ -400,7 +400,7 @@
         <div class="btn-portal">Join Server ➔</div>
       </a>
 
-      <!-- 5. WOS Calculator (Back Under Construction) -->
+      <!-- 5. WOS Calculator (In Development) -->
       <div class="portal-card disabled">
         <div class="card-top">
           <span class="card-icon">🧮</span>
@@ -473,7 +473,7 @@
     }
     drawSnow();
 
-    // Live Visitor Counter (CounterAPI - Landing Page)
+    // Live Visitor Counter (CounterAPI.com)
     (function initLandingCounter() {
       const countEl = document.getElementById('visitCount');
       if (!countEl) return;
@@ -482,16 +482,14 @@
       const key = 'landing-portal';
 
       const hasVisited = sessionStorage.getItem('eu1_visited_landing');
-      const action = hasVisited ? '' : '/up';
+      const readOnlyParam = hasVisited ? '&readOnly=true' : '';
 
-      fetch(`https://api.counterapi.dev/v1/${namespace}/${key}${action}`)
+      fetch(`https://counterapi.com/api/${namespace}/view/${key}?startNumber=1280${readOnlyParam}`)
         .then(res => res.json())
         .then(data => {
-          if (data && typeof data.count !== 'undefined') {
-            countEl.innerText = Number(data.count).toLocaleString();
+          if (data && typeof data.value !== 'undefined') {
+            countEl.innerText = Number(data.value).toLocaleString();
             sessionStorage.setItem('eu1_visited_landing', 'true');
-          } else {
-            countEl.innerText = '1,280';
           }
         })
         .catch(() => {
