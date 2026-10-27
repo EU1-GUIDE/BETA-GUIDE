@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU1 BETA | Frost Supply & Gift Code Depot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060b13;
+      --bg-card: rgba(14, 26, 43, 0.78);
+      --border-ice: rgba(120, 210, 255, 0.28);
+      --accent-frost: #56d4ff;
+      --accent-glow: rgba(86, 212, 255, 0.45);
+      --text-main: #e8f5ff;
+      --text-muted: #8ca3be;
+      --claimed-bg: rgba(8, 14, 23, 0.6);
+      --gold-tag: #ffd166;
+      --ember-glow: #ff7b00;
+    }
+
+    body.halloween {
+      --bg-deep: #09060f;
+      --bg-card: rgba(26, 16, 36, 0.85);
+      --border-ice: rgba(255, 123, 0, 0.4);
+      --accent-frost: #ff8400;
+      --accent-glow: rgba(255, 132, 0, 0.5);
+      --text-main: #fff2e0;
+      --text-muted: #ad94a8;
+      --gold-tag: #ffb703;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    /* Blizzard canvas background */
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Top Server Banner */
+    .top-badge-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      padding: 10px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 18px;
+    }
+
+    .server-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--accent-frost);
+      text-shadow: 0 0 10px var(--accent-glow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00ff88;
+      box-shadow: 0 0 8px #00ff88;
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    /* Header Section */
+    .hero-header {
+      text-align: center;
+      padding: 20px 12px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      letter-spacing: 1.2px;
+      margin-top: 6px;
+    }
+
+    /* Action Deck (Search + Merge Toggle) */
+    .action-deck {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border-ice);
+      background: rgba(10, 20, 32, 0.7);
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .btn-action {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-ice);
+      background: rgba(18, 38, 62, 0.8);
+      color: var(--accent-frost);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-action:hover, .btn-action:active {
+      background: var(--accent-frost);
+      color: #040910;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    /* Filter Chips */
+    .filters-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+    .filters-bar::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-ice);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter-chip.active {
+      background: var(--accent-frost);
+      color: #040910;
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* Progress Tracker Bar */
+    .progress-box {
+      background: rgba(6, 13, 22, 0.8);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+    }
+
+    .progress-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-frost), #4ade80);
+      transition: width 0.3s ease;
+      box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+    }
+
+    /* Code Cards Grid */
+    .codes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .code-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .code-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-frost);
+    }
+
+    .code-card.claimed {
+      opacity: 0.55;
+      background: var(--claimed-bg);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .code-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(86, 212, 255, 0.15);
+      color: var(--accent-frost);
+      border: 1px solid var(--border-ice);
+    }
+
+    .card-badge.gold {
+      background: rgba(255, 209, 102, 0.15);
+      color: var(--gold-tag);
+      border-color: rgba(255, 209, 102, 0.3);
+    }
+
+    .claim-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.15rem;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .claim-toggle-btn:hover {
+      color: #4ade80;
+    }
+
+    .code-card.claimed .claim-toggle-btn {
+      color: #4ade80;
+    }
+
+    .code-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      margin-bottom: 12px;
+      word-break: break-all;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    .btn-copy {
+      width: 100%;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-ice);
+      border-radius: 8px;
+      color: var(--accent-frost);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy:active {
+      background: var(--accent-frost);
+      color: #040910;
+      transform: scale(0.98);
+    }
+
+    /* Embedded Mini-Game Drawer */
+    .minigame-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 22px;
+      display: none;
+    }
+
+    .minigame-container.open {
+      display: block;
+    }
+
+    .minigame-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .minigame-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: var(--accent-frost);
+      font-weight: 700;
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      max-width: 320px;
+      margin: 0 auto 12px auto;
+    }
+
+    .merge-cell {
+      aspect-ratio: 1;
+      background: rgba(5, 11, 20, 0.8);
+      border: 1px solid var(--border-ice);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .merge-cell:active {
+      transform: scale(0.92);
+    }
+
+    .cell-sub {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Toast Notification */
+    .toast-pill {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #00ff88;
+      color: #040d16;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 10px 22px;
+      border-radius: 30px;
+      box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
+      z-index: 99;
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Snow Particle Canvas -->
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <!-- Server Banner -->
+    <header class="top-badge-banner">
+      <div class="server-tag">
+        <span class="pulse-dot"></span>
+        EU1 BETA REALM
+      </div>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <!-- Hero Header -->
+    <div class="hero-header">
+      <h1 class="hero-title">GIFT CODE HUB</h1>
+      <p class="hero-subtitle">Official Community Supply Cache • Standalone Beta Tool</p>
+    </div>
+
+    <!-- Search & Quick Utilities -->
+    <div class="action-deck">
+      <div class="search-row">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search codes (e.g., FROST, GEAR)..." oninput="renderCards()">
+        <button class="btn-action" onclick="copyAllUnclaimed()">📋 Copy All</button>
+        <button class="btn-action" onclick="toggleMergeGame()">🔥 Merge Mini-Game</button>
+      </div>
+
+      <!-- Filter Chips -->
+      <div class="filters-bar">
+        <div class="filter-chip active" onclick="setFilter('all', this)">All Codes (<span id="countAll">0</span>)</div>
+        <div class="filter-chip" onclick="setFilter('unclaimed', this)">Unclaimed (<span id="countUnclaimed">0</span>)</div>
+        <div class="filter-chip" onclick="setFilter('claimed', this)">Claimed (<span id="countClaimed">0</span>)</div>
+        <div class="filter-chip" onclick="setFilter('special', this)">Special Drops (<span id="countSpecial">0</span>)</div>
+      </div>
+    </div>
+
+    <!-- Progress Meter -->
+    <div class="progress-box">
+      <div class="progress-label-row">
+        <span>Claimed Progress</span>
+        <span id="progressText">0 / 0</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- Optional Merge Minigame Drawer -->
+    <div class="minigame-container" id="minigameDrawer">
+      <div class="minigame-header">
+        <span class="minigame-title">🔥 Campfire Fuel Merge</span>
+        <button class="theme-toggle-btn" onclick="spawnResource()">+ Gather Wood</button>
+      </div>
+      <div class="board-grid" id="mergeBoard"></div>
+      <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted);">Tap matching materials to merge: 🪵 Wood ➔ 🌿 Twigs ➔ ⛏️ Coal ➔ 🕯️ Torch ➔ ⛺ Campfire ➔ 🏰 Great Furnace</p>
+    </div>
+
+    <!-- Codes Grid -->
+    <main class="codes-grid" id="codesGrid"></main>
+  </div>
+
+  <!-- Copied Toast Banner -->
+  <div class="toast-pill" id="toastPill">Code Copied!</div>
+
+  <script>
+    // List of provided codes
+    const RAW_CODES = [
+      "KEUNULFW", "WLRCRJMR", "EUC6GDSQ", "N5CS4D9C", "HWWKPGF6",
+      "BigChiefKeys", "HEROGEAR1000", "FROST500K", "FROST1MXD", "NEWVERSIONEV1",
+      "HAPPYDAY15", "11120172", "438ZBHYA", "5NVXR8X6", "JZHDQ3LD",
+      "FROST200K", "5CMG6L4C", "NQVVBPDK", "2WLQSRT7", "QMJHTWCQ",
+      "CFXWMGZX", "VALJNWRC", "NQYBSZRU", "ZTUJTNFX", "LKELPEVD",
+      "JLSHYTCA", "WCAHNEXZ", "WLZBJLPX", "SERPENT10", "HWRGTWZE",
+      "GAMQQLPQ", "DMGNDZEXMV", "EUZYMLTD", "DVXQDREBUS", "LIONQUEEN", "EJGFULXG"
+    ];
+
+    // Remove duplicates
+    const UNIQUE_CODES = [...new Set(RAW_CODES)];
+
+    let currentFilter = 'all';
+
+    // LocalStorage helper for claimed status
+    function getClaimedSet() {
+      try {
+        const stored = localStorage.getItem('eu1_claimed_codes');
+        return stored ? new Set(JSON.parse(stored)) : new Set();
+      } catch (e) {
+        return new Set();
+      }
+    }
+
+    function saveClaimedSet(set) {
+      localStorage.setItem('eu1_claimed_codes', JSON.stringify([...set]));
+    }
+
+    function toggleClaim(code, event) {
+      if (event) event.stopPropagation();
+      const claimed = getClaimedSet();
+      if (claimed.has(code)) {
+        claimed.delete(code);
+      } else {
+        claimed.add(code);
+      }
+      saveClaimedSet(claimed);
+      renderCards();
+    }
+
+    function isSpecial(code) {
+      return code.includes("FROST") || code.includes("GEAR") || code.includes("Keys") || code.includes("QUEEN") || code.includes("SERPENT");
+    }
+
+    function getTag(code) {
+      if (code.includes("FROST")) return "Milestone";
+      if (code.includes("GEAR")) return "Hero Gear";
+      if (code.includes("Keys")) return "Chief Keys";
+      if (code.includes("QUEEN") || code.includes("SERPENT") || code.includes("HAPPY")) return "Special";
+      return "Supply Cache";
+    }
+
+    // Sound effect for copying
+    function playBeep() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.12);
+      } catch(e) {}
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastPill');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      playBeep();
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1500);
+    }
+
+    function copyToClipboard(text, event) {
+      if (event) event.stopPropagation();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast(`Copied: ${text}`));
+      } else {
+        const temp = document.createElement("input");
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+        showToast(`Copied: ${text}`);
+      }
+    }
+
+    function copyAllUnclaimed() {
+      const claimed = getClaimedSet();
+      const unclaimed = UNIQUE_CODES.filter(c => !claimed.has(c));
+      if (unclaimed.length === 0) {
+        showToast("All codes are already claimed!");
+        return;
+      }
+      const text = unclaimed.join("\n");
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast(`Copied ${unclaimed.length} Unclaimed Codes!`));
+      }
+    }
+
+    function setFilter(filter, el) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      renderCards();
+    }
+
+    function renderCards() {
+      const query = document.getElementById('searchInput').value.trim().toUpperCase();
+      const claimed = getClaimedSet();
+      const grid = document.getElementById('codesGrid');
+
+      let visible = UNIQUE_CODES.filter(code => {
+        const matchesQuery = code.toUpperCase().includes(query);
+        const isClm = claimed.has(code);
+        const isSpc = isSpecial(code);
+
+        if (!matchesQuery) return false;
+        if (currentFilter === 'unclaimed') return !isClm;
+        if (currentFilter === 'claimed') return isClm;
+        if (currentFilter === 'special') return isSpc;
+        return true;
+      });
+
+      // Update counters
+      document.getElementById('countAll').innerText = UNIQUE_CODES.length;
+      document.getElementById('countUnclaimed').innerText = UNIQUE_CODES.filter(c => !claimed.has(c)).length;
+      document.getElementById('countClaimed').innerText = claimed.size;
+      document.getElementById('countSpecial').innerText = UNIQUE_CODES.filter(isSpecial).length;
+
+      // Progress bar
+      const pct = Math.round((claimed.size / UNIQUE_CODES.length) * 100);
+      document.getElementById('progressFill').style.width = `${pct}%`;
+      document.getElementById('progressText').innerText = `${claimed.size} / ${UNIQUE_CODES.length} (${pct}%)`;
+
+      // Render items
+      grid.innerHTML = visible.map(code => {
+        const isClm = claimed.has(code);
+        const tag = getTag(code);
+        const isGold = tag !== "Supply Cache";
+
+        return `
+          <div class="code-card ${isClm ? 'claimed' : ''}">
+            <div class="code-card-header">
+              <span class="card-badge ${isGold ? 'gold' : ''}">${tag}</span>
+              <button class="claim-toggle-btn" title="Toggle Claimed" onclick="toggleClaim('${code}', event)">
+                ${isClm ? '✓ Claimed' : '○ Mark'}
+              </button>
+            </div>
+            <div class="code-value">${code}</div>
+            <button class="btn-copy" onclick="copyToClipboard('${code}', event)">
+              📋 Copy Code
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Halloween Toggle
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    // Falling Snow Effect
+    const canvas = document.getElementById('snowCanvas');
+    const ctx = canvas.getContext('2d');
+    let flakes = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 60; i++) {
+      flakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        d: Math.random() + 0.5
+      });
+    }
+
+    function drawSnow() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+      ctx.beginPath();
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      }
+      ctx.fill();
+
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        f.y += f.d;
+        f.x += Math.sin(f.y / 20) * 0.5;
+        if (f.y > canvas.height) {
+          flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+        }
+      }
+      requestAnimationFrame(drawSnow);
+    }
+    drawSnow();
+
+    // Campfire Merge Mini Game
+    const MERGE_ITEMS = [
+      { level: 1, name: "Wood", icon: "🪵" },
+      { level: 2, name: "Twigs", icon: "🌿" },
+      { level: 3, name: "Coal", icon: "⛏️" },
+      { level: 4, name: "Torch", icon: "🕯️" },
+      { level: 5, name: "Campfire", icon: "⛺" },
+      { level: 6, name: "Furnace", icon: "🏰" }
+    ];
+
+    let board = Array(12).fill(null);
+    let selectedCell = null;
+
+    function toggleMergeGame() {
+      const drawer = document.getElementById('minigameDrawer');
+      drawer.classList.toggle('open');
+      if (drawer.classList.contains('open') && board.every(x => x === null)) {
+        spawnResource();
+        spawnResource();
+      }
+    }
+
+    function renderBoard() {
+      const container = document.getElementById('mergeBoard');
+      container.innerHTML = board.map((item, idx) => {
+        if (!item) return `<div class="merge-cell" onclick="handleCellClick(${idx})"></div>`;
+        const meta = MERGE_ITEMS[item - 1];
+        const isSel = selectedCell === idx;
+        return `
+          <div class="merge-cell" style="${isSel ? 'border-color: #ffd166; background: rgba(255,209,102,0.15)' : ''}" onclick="handleCellClick(${idx})">
+            <div>${meta.icon}</div>
+            <span class="cell-sub">${meta.name}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function spawnResource() {
+      const emptyIdxs = board.map((val, idx) => val === null ? idx : null).filter(val => val !== null);
+      if (emptyIdxs.length === 0) {
+        showToast("Storage Full! Merge items first.");
+        return;
+      }
+      const target = emptyIdxs[Math.floor(Math.random() * emptyIdxs.length)];
+      board[target] = 1;
+      renderBoard();
+    }
+
+    function handleCellClick(idx) {
+      if (selectedCell === null) {
+        if (board[idx] !== null) {
+          selectedCell = idx;
+          renderBoard();
+        }
+      } else {
+        if (selectedCell === idx) {
+          selectedCell = null;
+          renderBoard();
+        } else if (board[selectedCell] === board[idx] && board[idx] !== null) {
+          // Merge
+          const currLevel = board[idx];
+          if (currLevel < MERGE_ITEMS.length) {
+            board[idx] = currLevel + 1;
+            board[selectedCell] = null;
+            selectedCell = null;
+            showToast(`Merged into ${MERGE_ITEMS[currLevel].name}!`);
+          } else {
+            showToast("Maximum level reached (Great Furnace)!");
+            selectedCell = null;
+          }
+          renderBoard();
+        } else {
+          selectedCell = board[idx] !== null ? idx : null;
+          renderBoard();
+        }
+      }
+    }
+
+    // Initial render
+    renderCards();
+    renderBoard();
+  </script>
+</body>
+</html>
