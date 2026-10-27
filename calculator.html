@@ -10,7 +10,7 @@
   <style>
     :root {
       --bg-deep: #060b13;
-      --bg-card: rgba(14, 26, 43, 0.85);
+      --bg-card: rgba(14, 26, 43, 0.88);
       --border-ice: rgba(120, 210, 255, 0.28);
       --accent-frost: #56d4ff;
       --accent-glow: rgba(86, 212, 255, 0.45);
@@ -18,8 +18,8 @@
       --text-muted: #8ca3be;
       --gold-tag: #ffd166;
       --online-green: #00ff88;
-      --discord-blurple: #5865f2;
-      --fire-orange: #ff7b00;
+      --fire-crystal: #ff5e36;
+      --refined-crystal: #b388ff;
     }
 
     body.halloween {
@@ -32,16 +32,11 @@
       --text-muted: #ad94a8;
       --gold-tag: #ffb703;
       --online-green: #ffb703;
-      --discord-blurple: #ff7700;
-      --fire-orange: #ff5500;
+      --fire-crystal: #ff7700;
+      --refined-crystal: #d580ff;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg-deep);
       color: var(--text-main);
@@ -65,7 +60,7 @@
     .container {
       position: relative;
       z-index: 2;
-      width: min(94vw, 860px);
+      width: min(94vw, 920px);
       margin: 0 auto;
       padding: 16px 8px;
     }
@@ -90,11 +85,6 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: color 0.2s;
-    }
-
-    .back-nav-link:hover {
-      text-shadow: 0 0 10px var(--accent-glow);
     }
 
     .theme-toggle-btn {
@@ -106,17 +96,12 @@
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      white-space: nowrap;
     }
 
     .hero-header {
       text-align: center;
       padding: 24px 14px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       border-radius: 16px;
       background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
       border: 1px solid rgba(255, 255, 255, 0.05);
@@ -126,7 +111,7 @@
       font-family: 'Cinzel', serif;
       font-size: 2.2rem;
       font-weight: 900;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       color: #fff;
       text-transform: uppercase;
       text-shadow: 0 0 16px var(--accent-glow);
@@ -135,27 +120,23 @@
     .hero-subtitle {
       color: var(--text-muted);
       font-size: 1.05rem;
-      letter-spacing: 1.2px;
+      letter-spacing: 1px;
       margin-top: 6px;
     }
 
-    /* Tab Navigation */
+    /* Tabs */
     .tab-nav {
       display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 24px;
-      scrollbar-width: thin;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
     .tab-btn {
       flex: 1;
-      min-width: 130px;
-      padding: 12px 14px;
-      background: rgba(4, 9, 16, 0.85);
+      padding: 12px 16px;
+      background: var(--bg-card);
       border: 1px solid var(--border-ice);
-      border-radius: 12px;
+      border-radius: 10px;
       color: var(--text-muted);
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.05rem;
@@ -166,22 +147,15 @@
       justify-content: center;
       gap: 8px;
       transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .tab-btn:hover {
-      color: #fff;
-      border-color: var(--accent-frost);
     }
 
     .tab-btn.active {
-      background: rgba(86, 212, 255, 0.16);
-      border-color: var(--accent-frost);
+      background: rgba(86, 212, 255, 0.18);
       color: var(--accent-frost);
-      box-shadow: 0 0 14px var(--accent-glow);
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    /* Calculator Cards */
     .calc-card {
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
@@ -192,178 +166,251 @@
       margin-bottom: 24px;
     }
 
-    .card-heading {
+    /* Building Selection Grid */
+    .section-label {
       font-family: 'Cinzel', serif;
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 6px;
+      font-size: 1rem;
+      color: var(--accent-frost);
+      text-transform: uppercase;
       letter-spacing: 1.5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      margin-bottom: 12px;
+      display: block;
     }
 
-    .card-subtext {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-    }
-
-    /* Form Controls */
-    .form-grid {
+    .building-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin-bottom: 24px;
     }
 
-    .input-group {
+    .building-btn {
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      padding: 12px 6px;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .building-btn .b-icon {
+      font-size: 1.6rem;
+    }
+
+    .building-btn:hover {
+      border-color: var(--accent-frost);
+      transform: translateY(-2px);
+    }
+
+    .building-btn.active {
+      background: rgba(86, 212, 255, 0.2);
+      border-color: var(--accent-frost);
+      color: #fff;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    /* Sliders */
+    .slider-container {
+      background: rgba(4, 9, 16, 0.7);
+      border: 1px solid var(--border-ice);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .slider-group {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
-    .input-label {
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 0.95rem;
       font-weight: 700;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
     }
 
-    .custom-select, .custom-input {
-      height: 46px;
+    .slider-badge {
+      background: rgba(86, 212, 255, 0.15);
+      border: 1px solid var(--accent-frost);
+      color: var(--accent-frost);
+      padding: 2px 10px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .slider-badge.target {
+      border-color: var(--gold-tag);
+      color: var(--gold-tag);
+      background: rgba(255, 209, 102, 0.15);
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      border: 1px solid var(--border-ice);
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -8px;
+      transition: transform 0.15s ease;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    /* Preset Quick Buttons */
+    .presets-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+
+    .preset-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-btn:hover {
+      border-color: var(--accent-frost);
+      color: var(--accent-frost);
+    }
+
+    /* Results Totals */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .result-stat {
       background: rgba(4, 9, 16, 0.85);
       border: 1px solid var(--border-ice);
       border-radius: 10px;
-      padding: 0 14px;
-      color: #fff;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 600;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .custom-select:focus, .custom-input:focus {
-      border-color: var(--accent-frost);
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
-
-    /* Output Results Box */
-    .results-container {
-      background: rgba(4, 9, 16, 0.75);
-      border: 1px solid var(--border-ice);
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 10px;
-    }
-
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 14px;
-    }
-
-    .result-item {
-      background: rgba(14, 26, 43, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      padding: 12px 14px;
+      padding: 12px 8px;
+      text-align: center;
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
 
-    .result-name {
-      font-size: 0.82rem;
+    .stat-label {
+      font-size: 0.75rem;
       font-weight: 700;
-      color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
     }
 
-    .result-val {
+    .stat-val {
       font-family: 'Cinzel', serif;
       font-size: 1.35rem;
       font-weight: 800;
       color: var(--accent-frost);
     }
 
-    .result-val.fire {
-      color: var(--fire-orange);
-    }
+    .stat-val.fc { color: var(--fire-crystal); text-shadow: 0 0 10px rgba(255, 94, 54, 0.3); }
+    .stat-val.refined { color: var(--refined-crystal); text-shadow: 0 0 10px rgba(179, 136, 255, 0.3); }
 
-    .result-val.gold {
-      color: var(--gold-tag);
-    }
-
-    /* Checkbox rows */
-    .checkbox-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin: 16px 0;
-      padding: 12px;
-      background: rgba(4, 9, 16, 0.5);
+    /* Breakdown Table */
+    .breakdown-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border-ice);
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(4, 9, 16, 0.7);
     }
 
-    .check-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.95rem;
+    table.breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
     }
 
-    .check-label input {
-      accent-color: var(--accent-frost);
-      width: 16px;
-      height: 16px;
+    table.breakdown-table th {
+      background: rgba(86, 212, 255, 0.1);
+      color: var(--accent-frost);
+      padding: 10px 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-ice);
+      white-space: nowrap;
     }
 
-    .tab-content {
-      display: none;
+    table.breakdown-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      white-space: nowrap;
     }
 
-    .tab-content.active {
-      display: block;
+    table.breakdown-table tr:last-child td {
+      border-bottom: none;
     }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
     .portal-footer {
       text-align: center;
       margin-top: 36px;
       color: var(--text-muted);
       font-size: 0.85rem;
-      letter-spacing: 1px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .visitor-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-ice);
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      backdrop-filter: blur(6px);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .visitor-count {
-      color: var(--accent-frost);
-      font-weight: 700;
       letter-spacing: 1px;
     }
   </style>
@@ -374,7 +421,7 @@
 
   <div class="container">
     <header class="top-badge-banner">
-      <a href="index.html" class="back-nav-link">← Portal Home</a>
+      <a href="index.html" class="back-nav-link">← Command Portal</a>
       <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
         <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
       </button>
@@ -382,154 +429,410 @@
 
     <div class="hero-header">
       <h1 class="hero-title">SURVIVOR CALCULATOR</h1>
-      <p class="hero-subtitle">Fire Crystals, Speedups, Chief Progression & Tactical Planners</p>
+      <p class="hero-subtitle">Interactive Fire Crystal & Resource Progression</p>
     </div>
 
-    <!-- Modular Tab Bar -->
     <nav class="tab-nav">
-      <button class="tab-btn active" onclick="switchTab('fc')">
+      <button class="tab-btn active" onclick="switchTab('fcModule', this)">
         <span>🔥</span> Fire Crystals
       </button>
-      <button class="tab-btn" onclick="switchTab('troops')">
-        <span>⚔️</span> Troop Training
-      </button>
-      <button class="tab-btn" onclick="switchTab('gear')">
-        <span>🛡️</span> Chief Gear
-      </button>
-      <button class="tab-btn" onclick="switchTab('widgets')">
-        <span>⚡</span> Hero Widgets
+      <button class="tab-btn" onclick="switchTab('troopsModule', this)">
+        <span>⚔️</span> Troop Training & Speedups
       </button>
     </nav>
 
-    <!-- 1. FIRE CRYSTAL CALCULATOR -->
-    <section id="tab-fc" class="tab-content active">
+    <!-- MODULE 1: FIRE CRYSTAL CALCULATOR -->
+    <main id="fcModule" class="tab-content active">
       <div class="calc-card">
-        <h2 class="card-heading"><span>🔥</span> Fire Crystal Planner</h2>
-        <p class="card-subtext">Calculate Fire Crystals and Refined Crystals needed from Level 30 through FC8.</p>
+        
+        <!-- 1. Interactive Item/Building Selector -->
+        <span class="section-label">1. Choose Structure</span>
+        <div class="building-grid">
+          <button class="building-btn active" onclick="selectBuilding('furnace', this)">
+            <span class="b-icon">🌋</span>
+            <span>Furnace</span>
+          </button>
+          <button class="building-btn" onclick="selectBuilding('embassy', this)">
+            <span class="b-icon">🏛️</span>
+            <span>Embassy</span>
+          </button>
+          <button class="building-btn" onclick="selectBuilding('command', this)">
+            <span class="b-icon">🎖️</span>
+            <span>Command</span>
+          </button>
+          <button class="building-btn" onclick="selectBuilding('infantry', this)">
+            <span class="b-icon">🛡️</span>
+            <span>Infantry Camp</span>
+          </button>
+          <button class="building-btn" onclick="selectBuilding('marksman', this)">
+            <span class="b-icon">🏹</span>
+            <span>Marksman</span>
+          </button>
+          <button class="building-btn" onclick="selectBuilding('lancer', this)">
+            <span class="b-icon">🐎</span>
+            <span>Lancer Camp</span>
+          </button>
+          <button class="building-btn" onclick="selectBuilding('infirmary', this)">
+            <span class="b-icon">🏥</span>
+            <span>Infirmary</span>
+          </button>
+        </div>
 
-        <div class="form-grid">
-          <div class="input-group">
-            <label class="input-label" for="fcBuilding">Building Target</label>
-            <select id="fcBuilding" class="custom-select" onchange="calcFC()">
-              <option value="furnace">Furnace (HQ)</option>
-              <option value="infirmary">Infirmary</option>
-              <option value="embassy">Embassy</option>
-              <option value="command">Command Center</option>
-              <option value="camp">Infantry / Marksman / Lancer Camp</option>
-            </select>
+        <!-- 2. Dual Interactive Sliders -->
+        <span class="section-label">2. Target Level Range</span>
+        <div class="slider-container">
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Current Level:</span>
+              <span id="currentLevelLabel" class="slider-badge">Level 30 (FC 0)</span>
+            </div>
+            <input type="range" id="currentRange" min="0" max="7" value="0" oninput="onCurrentSliderChange()">
           </div>
 
-          <div class="input-group">
-            <label class="input-label" for="fcStart">Current Level</label>
-            <select id="fcStart" class="custom-select" onchange="calcFC()">
-              <option value="0">Level 30 (FC0)</option>
-              <option value="1">Fire Crystal 1</option>
-              <option value="2">Fire Crystal 2</option>
-              <option value="3">Fire Crystal 3</option>
-              <option value="4">Fire Crystal 4</option>
-              <option value="5">Fire Crystal 5</option>
-              <option value="6">Fire Crystal 6</option>
-              <option value="7">Fire Crystal 7</option>
-            </select>
-          </div>
-
-          <div class="input-group">
-            <label class="input-label" for="fcEnd">Target Level</label>
-            <select id="fcEnd" class="custom-select" onchange="calcFC()">
-              <option value="1">Fire Crystal 1</option>
-              <option value="2">Fire Crystal 2</option>
-              <option value="3">Fire Crystal 3</option>
-              <option value="4">Fire Crystal 4</option>
-              <option value="5" selected>Fire Crystal 5</option>
-              <option value="6">Fire Crystal 6</option>
-              <option value="7">Fire Crystal 7</option>
-              <option value="8">Fire Crystal 8</option>
-            </select>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Target Level:</span>
+              <span id="targetLevelLabel" class="slider-badge target">FC 5</span>
+            </div>
+            <input type="range" id="targetRange" min="1" max="8" value="5" oninput="onTargetSliderChange()">
           </div>
         </div>
 
-        <div class="results-container">
-          <div class="results-grid">
-            <div class="result-item">
-              <span class="result-name">Standard Fire Crystals</span>
-              <span id="resFC" class="result-val fire">0</span>
-            </div>
-            <div class="result-item">
-              <span class="result-name">Refined Fire Crystals (FC6-8)</span>
-              <span id="resRefined" class="result-val fire">0</span>
-            </div>
-            <div class="result-item">
-              <span class="result-name">Estimated Meat Needed</span>
-              <span id="resMeat" class="result-val">0M</span>
-            </div>
-            <div class="result-item">
-              <span class="result-name">Estimated Iron Needed</span>
-              <span id="resIron" class="result-val">0M</span>
-            </div>
+        <!-- 3. Quick Presets -->
+        <div class="presets-row">
+          <span class="preset-label">Quick Jumps:</span>
+          <button class="preset-btn" onclick="setPreset(0, 1)">FC 0 → FC 1</button>
+          <button class="preset-btn" onclick="setPreset(0, 3)">FC 0 → FC 3</button>
+          <button class="preset-btn" onclick="setPreset(0, 5)">FC 0 → FC 5</button>
+          <button class="preset-btn" onclick="setPreset(5, 8)">FC 5 → FC 8</button>
+          <button class="preset-btn" onclick="setPreset(0, 8)">Max (FC 0 → FC 8)</button>
+        </div>
+
+        <!-- 4. Total Output Stats -->
+        <span class="section-label">Total Requirements</span>
+        <div class="results-grid">
+          <div class="result-stat">
+            <span class="stat-label">Fire Crystals</span>
+            <span id="totalFC" class="stat-val fc">0</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Refined FC</span>
+            <span id="totalRefined" class="stat-val refined">0</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Meat</span>
+            <span id="totalMeat" class="stat-val">0M</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Wood</span>
+            <span id="totalWood" class="stat-val">0M</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Coal</span>
+            <span id="totalCoal" class="stat-val">0M</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Iron</span>
+            <span id="totalIron" class="stat-val">0M</span>
+          </div>
+        </div>
+
+        <!-- 5. Step-by-Step Level Breakdown -->
+        <span class="section-label">Upgrade Breakdown by Level</span>
+        <div class="breakdown-wrapper">
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>Fire Crystals</th>
+                <th>Refined Crystals</th>
+                <th>Meat</th>
+                <th>Wood</th>
+                <th>Coal</th>
+                <th>Iron</th>
+              </tr>
+            </thead>
+            <tbody id="breakdownTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- MODULE 2: TROOP TRAINING & SPEEDUPS -->
+    <main id="troopsModule" class="tab-content">
+      <div class="calc-card">
+        <span class="section-label">Troop Training & Speedup Math</span>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin: 16px 0 24px;">
+          <div>
+            <label style="font-size:0.9rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px;">TROOP TIER</label>
+            <select id="troopTier" onchange="calcTroops()" style="width:100%; height:46px; background:rgba(4,9,16,0.85); border:1px solid var(--border-ice); border-radius:8px; color:#fff; font-family:'Rajdhani',sans-serif; font-size:1rem; padding:0 12px; font-weight:700;">
+              <option value="t9">Tier 9</option>
+              <option value="t10" selected>Tier 10</option>
+              <option value="t11">Tier 11 (FC)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.9rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px;">BATCH SIZE (TROOPS)</label>
+            <input type="number" id="troopCount" value="1000" min="1" step="100" oninput="calcTroops()" style="width:100%; height:46px; background:rgba(4,9,16,0.85); border:1px solid var(--border-ice); border-radius:8px; color:#fff; font-family:'Rajdhani',sans-serif; font-size:1.1rem; padding:0 12px; font-weight:700;">
+          </div>
+          <div>
+            <label style="font-size:0.9rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px;">TRAINING SPEED BUFF (%)</label>
+            <input type="number" id="trainingBuff" value="120" min="0" step="5" oninput="calcTroops()" style="width:100%; height:46px; background:rgba(4,9,16,0.85); border:1px solid var(--border-ice); border-radius:8px; color:#fff; font-family:'Rajdhani',sans-serif; font-size:1.1rem; padding:0 12px; font-weight:700;">
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-stat">
+            <span class="stat-label">Training Time</span>
+            <span id="resTime" class="stat-val" style="font-size:1.25rem;">0h 0m</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Total Minutes</span>
+            <span id="resMins" class="stat-val">0</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Meat Cost</span>
+            <span id="resTroopMeat" class="stat-val">0K</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">SvS Points</span>
+            <span id="resPoints" class="stat-val" style="color:var(--gold-tag)">0</span>
           </div>
         </div>
       </div>
-    </section>
+    </main>
 
-    <!-- 2. TROOP TRAINING & SPEEDUP CALCULATOR -->
-    <section id="tab-troops" class="tab-content">
-      <div class="calc-card">
-        <h2 class="card-heading"><span>⚔️</span> Troop Training & Speedups</h2>
-        <p class="card-subtext">Determine exact hours, days, and event points earned for batch troop training.</p>
+    <footer class="portal-footer">
+      EU1 BETA SERVER • COMMAND CALCULATOR SUITE
+    </footer>
+  </div>
 
-        <div class="form-grid">
-          <div class="input-group">
-            <label class="input-label" for="troopTier">Troop Tier</label>
-            <select id="troopTier" class="custom-select" onchange="calcTroops()">
-              <option value="9">Tier 9 (T9)</option>
-              <option value="10" selected>Tier 10 (T10)</option>
-              <option value="11">Tier 11 (Fire Crystal Troops)</option>
-            </select>
-          </div>
+  <script>
+    // Database for building costs per level (Index 0 = FC1, Index 7 = FC8)
+    const buildingData = {
+      furnace: [
+        { lvl: "FC 1", fc: 600,  ref: 0,   meat: 120, wood: 120, coal: 24, iron: 6 },
+        { lvl: "FC 2", fc: 900,  ref: 0,   meat: 180, wood: 180, coal: 36, iron: 9 },
+        { lvl: "FC 3", fc: 1400, ref: 0,   meat: 260, wood: 260, coal: 52, iron: 13 },
+        { lvl: "FC 4", fc: 2200, ref: 0,   meat: 400, wood: 400, coal: 80, iron: 20 },
+        { lvl: "FC 5", fc: 3500, ref: 0,   meat: 620, wood: 620, coal: 124, iron: 31 },
+        { lvl: "FC 6", fc: 4800, ref: 250, meat: 850, wood: 850, coal: 170, iron: 42 },
+        { lvl: "FC 7", fc: 6400, ref: 500, meat: 1100, wood: 1100, coal: 220, iron: 55 },
+        { lvl: "FC 8", fc: 8500, ref: 900, meat: 1500, wood: 1500, coal: 300, iron: 75 }
+      ],
+      camp: [ // Military Camps: Infantry, Marksman, Lancer
+        { lvl: "FC 1", fc: 200,  ref: 0,   meat: 40, wood: 40, coal: 8, iron: 2 },
+        { lvl: "FC 2", fc: 300,  ref: 0,   meat: 60, wood: 60, coal: 12, iron: 3 },
+        { lvl: "FC 3", fc: 450,  ref: 0,   meat: 90, wood: 90, coal: 18, iron: 4.5 },
+        { lvl: "FC 4", fc: 700,  ref: 0,   meat: 140, wood: 140, coal: 28, iron: 7 },
+        { lvl: "FC 5", fc: 1100, ref: 0,   meat: 210, wood: 210, coal: 42, iron: 10.5 },
+        { lvl: "FC 6", fc: 1600, ref: 80,  meat: 290, wood: 290, coal: 58, iron: 14.5 },
+        { lvl: "FC 7", fc: 2200, ref: 160, meat: 380, wood: 380, coal: 76, iron: 19 },
+        { lvl: "FC 8", fc: 2900, ref: 300, meat: 500, wood: 500, coal: 100, iron: 25 }
+      ],
+      support: [ // Embassy, Command Center, Infirmary
+        { lvl: "FC 1", fc: 180,  ref: 0,   meat: 35, wood: 35, coal: 7, iron: 1.8 },
+        { lvl: "FC 2", fc: 270,  ref: 0,   meat: 55, wood: 55, coal: 11, iron: 2.7 },
+        { lvl: "FC 3", fc: 400,  ref: 0,   meat: 80, wood: 80, coal: 16, iron: 4 },
+        { lvl: "FC 4", fc: 650,  ref: 0,   meat: 125, wood: 125, coal: 25, iron: 6.2 },
+        { lvl: "FC 5", fc: 1000, ref: 0,   meat: 190, wood: 190, coal: 38, iron: 9.5 },
+        { lvl: "FC 6", fc: 1500, ref: 75,  meat: 260, wood: 260, coal: 52, iron: 13 },
+        { lvl: "FC 7", fc: 2000, ref: 150, meat: 340, wood: 340, coal: 68, iron: 17 },
+        { lvl: "FC 8", fc: 2600, ref: 280, meat: 450, wood: 450, coal: 90, iron: 22.5 }
+      ]
+    };
 
-          <div class="input-group">
-            <label class="input-label" for="troopCount">Troops to Train</label>
-            <input type="number" id="troopCount" class="custom-input" value="10000" min="1" step="500" oninput="calcTroops()">
-          </div>
+    let selectedBuildingCategory = 'furnace';
 
-          <div class="input-group">
-            <label class="input-label" for="trainingSpeedBuff">Training Speed Buff (%)</label>
-            <input type="number" id="trainingSpeedBuff" class="custom-input" value="120" min="0" max="800" step="5" oninput="calcTroops()">
-          </div>
-        </div>
+    function selectBuilding(buildingKey, btnElement) {
+      document.querySelectorAll('.building-btn').forEach(b => b.classList.remove('active'));
+      btnElement.classList.add('active');
 
-        <div class="checkbox-row">
-          <label class="check-label">
-            <input type="checkbox" id="buffMinistry" onchange="calcTroops()">
-            <span>Ministry Buff (+10%)</span>
-          </label>
-          <label class="check-label">
-            <input type="checkbox" id="buffPet" onchange="calcTroops()">
-            <span>Snow Leopard Buff (+15%)</span>
-          </label>
-        </div>
+      if (buildingKey === 'furnace') {
+        selectedBuildingCategory = 'furnace';
+      } else if (['infantry', 'marksman', 'lancer'].includes(buildingKey)) {
+        selectedBuildingCategory = 'camp';
+      } else {
+        selectedBuildingCategory = 'support';
+      }
 
-        <div class="results-container">
-          <div class="results-grid">
-            <div class="result-item">
-              <span class="result-name">Total Speedup Time</span>
-              <span id="resTimeFormatted" class="result-val">0d 0h</span>
-            </div>
-            <div class="result-item">
-              <span class="result-name">Total Speedup Minutes</span>
-              <span id="resSpeedupMins" class="result-val">0 min</span>
-            </div>
-            <div class="result-item">
-              <span class="result-name">SvS / Prep Event Points</span>
-              <span id="resSvsPoints" class="result-val gold">0 pts</span>
-            </div>
-            <div class="result-item">
-              <span class="result-name">Total Power Gained</span>
-              <span id="resPowerGain" class="result-val">+0</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      calculateFC();
+    }
 
-    <!-- 3
+    function formatLevelText(val) {
+      return val === 0 ? 'Level 30 (FC 0)' : `FC ${val}`;
+    }
+
+    function onCurrentSliderChange() {
+      const currentSlider = document.getElementById('currentRange');
+      const targetSlider = document.getElementById('targetRange');
+      let currentVal = parseInt(currentSlider.value);
+      let targetVal = parseInt(targetSlider.value);
+
+      if (currentVal >= targetVal) {
+        targetVal = currentVal + 1;
+        targetSlider.value = targetVal;
+      }
+
+      document.getElementById('currentLevelLabel').innerText = formatLevelText(currentVal);
+      document.getElementById('targetLevelLabel').innerText = `FC ${targetVal}`;
+      calculateFC();
+    }
+
+    function onTargetSliderChange() {
+      const currentSlider = document.getElementById('currentRange');
+      const targetSlider = document.getElementById('targetRange');
+      let currentVal = parseInt(currentSlider.value);
+      let targetVal = parseInt(targetSlider.value);
+
+      if (targetVal <= currentVal) {
+        currentVal = targetVal - 1;
+        currentSlider.value = currentVal;
+      }
+
+      document.getElementById('currentLevelLabel').innerText = formatLevelText(currentVal);
+      document.getElementById('targetLevelLabel').innerText = `FC ${targetVal}`;
+      calculateFC();
+    }
+
+    function setPreset(cur, tar) {
+      document.getElementById('currentRange').value = cur;
+      document.getElementById('targetRange').value = tar;
+      document.getElementById('currentLevelLabel').innerText = formatLevelText(cur);
+      document.getElementById('targetLevelLabel').innerText = `FC ${tar}`;
+      calculateFC();
+    }
+
+    function calculateFC() {
+      const cur = parseInt(document.getElementById('currentRange').value);
+      const tar = parseInt(document.getElementById('targetRange').value);
+      const data = buildingData[selectedBuildingCategory];
+
+      let sumFC = 0, sumRef = 0, sumMeat = 0, sumWood = 0, sumCoal = 0, sumIron = 0;
+      let tbodyHtml = '';
+
+      for (let i = cur; i < tar; i++) {
+        const row = data[i];
+        sumFC += row.fc;
+        sumRef += row.ref;
+        sumMeat += row.meat;
+        sumWood += row.wood;
+        sumCoal += row.coal;
+        sumIron += row.iron;
+
+        tbodyHtml += `
+          <tr>
+            <td><strong>${row.lvl}</strong></td>
+            <td style="color:var(--fire-crystal); font-weight:700;">${row.fc.toLocaleString()}</td>
+            <td style="color:var(--refined-crystal); font-weight:700;">${row.ref.toLocaleString()}</td>
+            <td>${row.meat}M</td>
+            <td>${row.wood}M</td>
+            <td>${row.coal}M</td>
+            <td>${row.iron}M</td>
+          </tr>
+        `;
+      }
+
+      document.getElementById('totalFC').innerText = sumFC.toLocaleString();
+      document.getElementById('totalRefined').innerText = sumRef.toLocaleString();
+      document.getElementById('totalMeat').innerText = sumMeat.toFixed(1).replace('.0','') + 'M';
+      document.getElementById('totalWood').innerText = sumWood.toFixed(1).replace('.0','') + 'M';
+      document.getElementById('totalCoal').innerText = sumCoal.toFixed(1).replace('.0','') + 'M';
+      document.getElementById('totalIron').innerText = sumIron.toFixed(1).replace('.0','') + 'M';
+      document.getElementById('breakdownTableBody').innerHTML = tbodyHtml;
+    }
+
+    // Troop Training Calculator
+    const troopBaseSeconds = { t9: 36, t10: 45, t11: 58 };
+    const troopBaseMeat = { t9: 250, t10: 340, t11: 460 };
+    const troopPoints = { t9: 28, t10: 40, t11: 65 };
+
+    function calcTroops() {
+      const tier = document.getElementById('troopTier').value;
+      const count = parseInt(document.getElementById('troopCount').value) || 0;
+      const buff = parseFloat(document.getElementById('trainingBuff').value) || 0;
+
+      const baseSecPerUnit = troopBaseSeconds[tier];
+      const actualSecPerUnit = baseSecPerUnit / (1 + (buff / 100));
+      const totalSec = Math.round(actualSecPerUnit * count);
+
+      const totalMins = Math.round(totalSec / 60);
+      const hours = Math.floor(totalSec / 3600);
+      const remainingMins = Math.floor((totalSec % 3600) / 60);
+
+      document.getElementById('resTime').innerText = `${hours}h ${remainingMins}m`;
+      document.getElementById('resMins').innerText = totalMins.toLocaleString();
+      document.getElementById('resTroopMeat').innerText = ((troopBaseMeat[tier] * count) / 1000).toLocaleString() + 'K';
+      document.getElementById('resPoints').innerText = (troopPoints[tier] * count).toLocaleString();
+    }
+
+    // Tab Navigation
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      el.classList.add('active');
+    }
+
+    // Theme toggle
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    // Snow Canvas
+    const canvas = document.getElementById('snowCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let flakes = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      for (let i = 0; i < 45; i++) {
+        flakes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 2 + 1,
+          d: Math.random() + 0.5
+        });
+      }
+
+      function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.y += f.d;
+          f.x += Math.sin(f.y / 20) * 0.5;
+          if (f.y > canvas.height) {
+            flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+          }
+        }
+        requestAnimationFrame(drawSnow);
+      }
+      drawSnow();
+    }
+
+    // Initialize on load
+    calculateFC();
+    calcTroops();
+  </script>
+</body>
+</html>
