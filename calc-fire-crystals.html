@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU1 BETA | Fire Crystal Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060b13;
+      --bg-card: rgba(14, 26, 43, 0.88);
+      --border-ice: rgba(120, 210, 255, 0.28);
+      --accent-frost: #56d4ff;
+      --accent-glow: rgba(86, 212, 255, 0.45);
+      --text-main: #e8f5ff;
+      --text-muted: #8ca3be;
+      --gold-tag: #ffd166;
+      --fire-crystal: #ff5e36;
+      --refined-crystal: #c084fc;
+    }
+
+    body.halloween {
+      --bg-deep: #09060f;
+      --bg-card: rgba(26, 16, 36, 0.88);
+      --border-ice: rgba(255, 123, 0, 0.4);
+      --accent-frost: #ff8400;
+      --accent-glow: rgba(255, 132, 0, 0.5);
+      --text-main: #fff2e0;
+      --text-muted: #ad94a8;
+      --gold-tag: #ffb703;
+      --fire-crystal: #ff7700;
+      --refined-crystal: #e879f9;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(94vw, 880px);
+      margin: 0 auto;
+      padding: 16px 8px;
+    }
+
+    .top-badge-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      padding: 10px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+    }
+
+    .back-nav-link {
+      color: var(--accent-frost);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 20px 14px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      background: radial-gradient(circle at center, rgba(255, 94, 54, 0.12) 0%, transparent 75%);
+      border: 1px solid rgba(255, 94, 54, 0.2);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px rgba(255, 94, 54, 0.5);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+
+    .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 22px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      color: var(--accent-frost);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .building-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .building-btn {
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 8px;
+      padding: 10px 6px;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    .building-btn .b-icon { font-size: 1.5rem; }
+    .building-btn:hover { border-color: var(--fire-crystal); }
+    .building-btn.active {
+      background: rgba(255, 94, 54, 0.2);
+      border-color: var(--fire-crystal);
+      box-shadow: 0 0 12px rgba(255, 94, 54, 0.4);
+      color: #fff;
+    }
+    .building-btn.all-btn.active {
+      background: rgba(255, 209, 102, 0.2);
+      border-color: var(--gold-tag);
+      box-shadow: 0 0 12px rgba(255, 209, 102, 0.4);
+    }
+
+    /* Settlement Bundle Checklist Panel */
+    .bundle-panel {
+      background: rgba(4, 9, 16, 0.75);
+      border: 1px solid var(--gold-tag);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .bundle-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      color: var(--gold-tag);
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bundle-checklist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+    }
+    .bundle-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+    .bundle-check-label input {
+      accent-color: var(--gold-tag);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .selectors-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) {
+      .selectors-row { grid-template-columns: 1fr; }
+    }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .styled-select {
+      height: 44px;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      padding: 0 12px;
+      font-weight: 700;
+      outline: none;
+    }
+    .styled-select:focus {
+      border-color: var(--fire-crystal);
+      box-shadow: 0 0 10px rgba(255, 94, 54, 0.4);
+    }
+
+    .prereq-banner {
+      background: rgba(4, 9, 16, 0.7);
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .prereq-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .prereq-icon { font-size: 1.4rem; }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      transition: .3s;
+      border-radius: 26px;
+      border: 1px solid var(--border-ice);
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background-color: #fff;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--gold-tag); border-color: var(--gold-tag); }
+    input:checked + .slider:before { transform: translateX(22px); }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .result-stat {
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      padding: 12px 6px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.35rem; font-weight: 700; }
+    .stat-val.fc { color: var(--fire-crystal); text-shadow: 0 0 10px rgba(255, 94, 54, 0.35); }
+    .stat-val.refined { color: var(--refined-crystal); text-shadow: 0 0 10px rgba(192, 132, 252, 0.35); }
+
+    .breakdown-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      background: rgba(4, 9, 16, 0.7);
+    }
+    table.breakdown-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+    table.breakdown-table th {
+      background: rgba(86, 212, 255, 0.1);
+      color: var(--accent-frost);
+      padding: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-ice);
+      white-space: nowrap;
+    }
+    table.breakdown-table td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .portal-footer { text-align: center; margin-top: 36px; color: var(--text-muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <header class="top-badge-banner">
+      <a href="calculator.html" class="back-nav-link">← Calculators Hub</a>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <div class="hero-header">
+      <h1 class="hero-title">FIRE CRYSTAL CALCULATOR</h1>
+      <p class="hero-subtitle">Exact Sub-Node Costs & Combined Settlement Totals</p>
+    </div>
+
+    <div class="calc-card">
+      <span class="section-label">1. Select Target Structure</span>
+      <div class="building-grid">
+        <button class="building-btn active" onclick="selectBuilding('furnace', this)">
+          <span class="b-icon">🌋</span><span>Furnace</span>
+        </button>
+        <button class="building-btn" onclick="selectBuilding('embassy', this)">
+          <span class="b-icon">🏛️</span><span>Embassy</span>
+        </button>
+        <button class="building-btn" onclick="selectBuilding('camp', this)">
+          <span class="b-icon">🛡️</span><span>Troop Camp</span>
+        </button>
+        <button class="building-btn" onclick="selectBuilding('command', this)">
+          <span class="b-icon">🎖️</span><span>Command</span>
+        </button>
+        <button class="building-btn" onclick="selectBuilding('infirmary', this)">
+          <span class="b-icon">🏥</span><span>Infirmary</span>
+        </button>
+        <button class="building-btn all-btn" onclick="selectBuilding('all', this)">
+          <span class="b-icon">🏰</span><span>All Combined</span>
+        </button>
+      </div>
+
+      <!-- Settlement Bundle Customizer (Only visible when All Combined is chosen) -->
+      <div class="bundle-panel" id="bundlePanel">
+        <div class="bundle-title">
+          <span>⚙️</span> Buildings Included in Settlement Total
+        </div>
+        <div class="bundle-checklist">
+          <label class="bundle-check-label">
+            <input type="checkbox" id="bundleFurnace" checked onchange="calculate()"> Furnace (1x)
+          </label>
+          <label class="bundle-check-label">
+            <input type="checkbox" id="bundleEmbassy" checked onchange="calculate()"> Embassy (1x)
+          </label>
+          <label class="bundle-check-label">
+            <input type="checkbox" id="bundleCamps" checked onchange="calculate()"> 3x Troop Camps (Inf, Lan, Mark)
+          </label>
+          <label class="bundle-check-label">
+            <input type="checkbox" id="bundleCommand" checked onchange="calculate()"> Command Center (1x)
+          </label>
+          <label class="bundle-check-label">
+            <input type="checkbox" id="bundleInfirmary" checked onchange="calculate()"> Infirmary (1x)
+          </label>
+        </div>
+      </div>
+
+      <span class="section-label">2. Select Current and Target Sub-Stages</span>
+      <div class="selectors-row">
+        <div class="field-group">
+          <label class="field-label" for="curStage">Current Progress</label>
+          <select id="curStage" class="styled-select" onchange="onStageChange()"></select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="tarStage">Target Progress</label>
+          <select id="tarStage" class="styled-select" onchange="onStageChange()"></select>
+        </div>
+      </div>
+
+      <!-- Prerequisite Toggle (Active on Furnace only) -->
+      <div class="prereq-banner" id="prereqBox">
+        <div class="prereq-left">
+          <span class="prereq-icon">⛓️</span>
+          <div>
+            <strong>Include Mandatory Prerequisites</strong>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
+              Automatically calculates matching Embassy & Troop Camp upgrades required to unlock these Furnace tiers.
+            </p>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="prereqToggle" onchange="calculate()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <span class="section-label" id="resultsLabel">Total Requirements</span>
+      <div class="results-grid">
+        <div class="result-stat"><span class="stat-label">Fire Crystals</span><span id="resFC" class="stat-val fc">0</span></div>
+        <div class="result-stat"><span class="stat-label">Refined FC</span><span id="resRefined" class="stat-val refined">0</span></div>
+        <div class="result-stat"><span class="stat-label">Meat</span><span id="resMeat" class="stat-val">0M</span></div>
+        <div class="result-stat"><span class="stat-label">Wood</span><span id="resWood" class="stat-val">0M</span></div>
+        <div class="result-stat"><span class="stat-label">Coal</span><span id="resCoal" class="stat-val">0M</span></div>
+        <div class="result-stat"><span class="stat-label">Iron</span><span id="resIron" class="stat-val">0M</span></div>
+      </div>
+
+      <span class="section-label" id="tableLabel">Step-by-Step Breakdown</span>
+      <div class="breakdown-wrapper">
+        <table class="breakdown-table">
+          <thead>
+            <tr>
+              <th id="thCol1">Stage</th>
+              <th id="thCol2">Structure</th>
+              <th>Fire Crystals</th>
+              <th>Refined FC</th>
+              <th>Meat</th>
+              <th>Wood</th>
+              <th>Coal</th>
+              <th>Iron</th>
+            </tr>
+          </thead>
+          <tbody id="breakdownBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="portal-footer">
+      EU1 BETA SERVER • SURVIVOR TOOLKIT
+    </footer>
+  </div>
+
+  <script>
+    // Standard Retail 5-Stage Sub-Node Cost Curves (FC1 to FC10)
+    const buildingCurves = {
+      furnace: [
+        { fc: 132, ref: 0, meat: 13.4, wood: 13.4, coal: 2.6, iron: 0.7 }, // FC1
+        { fc: 158, ref: 0, meat: 14.4, wood: 14.4, coal: 2.8, iron: 0.72 }, // FC2
+        { fc: 238, ref: 0, meat: 15.8, wood: 15.8, coal: 3.1, iron: 0.78 }, // FC3
+        { fc: 280, ref: 0, meat: 16.4, wood: 16.4, coal: 3.3, iron: 0.82 }, // FC4
+        { fc: 335, ref: 0, meat: 16.8, wood: 16.8, coal: 3.4, iron: 0.84 }, // FC5
+        { fc: 180, ref: 12, meat: 19.2, wood: 19.2, coal: 3.8, iron: 0.96 }, // FC6
+        { fc: 216, ref: 18, meat: 20.0, wood: 20.0, coal: 4.0, iron: 1.0 }, // FC7
+        { fc: 216, ref: 24, meat: 26.0, wood: 26.0, coal: 5.2, iron: 1.3 }, // FC8
+        { fc: 252, ref: 36, meat: 29.0, wood: 29.0, coal: 5.8, iron: 1.45 }, // FC9
+        { fc: 315, ref: 84, meat: 33.0, wood: 33.0, coal: 6.6, iron: 1.65 }  // FC10
+      ],
+      embassy: [
+        { fc: 33, ref: 0, meat: 14.0, wood: 14.0, coal: 2.8, iron: 0.7 },
+        { fc: 39, ref: 0, meat: 15.0, wood: 15.0, coal: 3.0, iron: 0.75 },
+        { fc: 59, ref: 0, meat: 16.0, wood: 16.0, coal: 3.2, iron: 0.8 },
+        { fc: 70, ref: 0, meat: 16.0, wood: 16.0, coal: 3.2, iron: 0.8 },
+        { fc: 83, ref: 0, meat: 17.0, wood: 17.0, coal: 3.4, iron: 0.85 },
+        { fc: 45, ref: 2.6, meat: 19.0, wood: 19.0, coal: 3.8, iron: 0.96 },
+        { fc: 54, ref: 4.0, meat: 20.0, wood: 20.0, coal: 4.0, iron: 1.0 },
+        { fc: 54, ref: 6.0, meat: 26.0, wood: 26.0, coal: 5.3, iron: 1.3 },
+        { fc: 63, ref: 8.6, meat: 29.0, wood: 29.0, coal: 5.8, iron: 1.4 },
+        { fc: 78, ref: 20.6, meat: 33.0, wood: 33.0, coal: 6.7, iron: 1.6 }
+      ],
+      camp: [
+        { fc: 66, ref: 0, meat: 13.0, wood: 13.0, coal: 2.6, iron: 0.65 },
+        { fc: 79, ref: 0, meat: 14.0, wood: 14.0, coal: 2.8, iron: 0.7 },
+        { fc: 119, ref: 0, meat: 15.0, wood: 15.0, coal: 3.0, iron: 0.75 },
+        { fc: 140, ref: 0, meat: 16.0, wood: 16.0, coal: 3.2, iron: 0.8 },
+        { fc: 168, ref: 0, meat: 17.0, wood: 17.0, coal: 3.4, iron: 0.85 },
+        { fc: 90, ref: 6.0, meat: 19.0, wood: 19.0, coal: 3.8, iron: 0.95 },
+        { fc: 108, ref: 9.0, meat: 20.0, wood: 20.0, coal: 4.0, iron: 1.0 },
+        { fc: 108, ref: 12.0, meat: 25.0, wood: 25.0, coal: 5.0, iron: 1.25 },
+        { fc: 126, ref: 18.0, meat: 28.0, wood: 28.0, coal: 5.6, iron: 1.4 },
+        { fc: 158, ref: 42.0, meat: 32.0, wood: 32.0, coal: 6.4, iron: 1.6 }
+      ],
+      command: [
+        { fc: 26, ref: 0, meat: 10.0, wood: 10.0, coal: 2.0, iron: 0.5 },
+        { fc: 31, ref: 0, meat: 11.0, wood: 11.0, coal: 2.2, iron: 0.55 },
+        { fc: 47, ref: 0, meat: 12.0, wood: 12.0, coal: 2.4, iron: 0.6 },
+        { fc: 56, ref: 0, meat: 13.0, wood: 13.0, coal: 2.6, iron: 0.65 },
+        { fc: 67, ref: 0, meat: 14.0, wood: 14.0, coal: 2.8, iron: 0.7 },
+        { fc: 36, ref: 2.4, meat: 15.0, wood: 15.0, coal: 3.0, iron: 0.75 },
+        { fc: 43, ref: 3.6, meat: 16.0, wood: 16.0, coal: 3.2, iron: 0.8 },
+        { fc: 43, ref: 4.8, meat: 20.0, wood: 20.0, coal: 4.0, iron: 1.0 },
+        { fc: 50, ref: 7.2, meat: 22.0, wood: 22.0, coal: 4.4, iron: 1.1 },
+        { fc: 63, ref: 16.8, meat: 25.0, wood: 25.0, coal: 5.0, iron: 1.25 }
+      ],
+      infirmary: [
+        { fc: 26, ref: 0, meat: 10.0, wood: 10.0, coal: 2.0, iron: 0.5 },
+        { fc: 31, ref: 0, meat: 11.0, wood: 11.0, coal: 2.2, iron: 0.55 },
+        { fc: 47, ref: 0, meat: 12.0, wood: 12.0, coal: 2.4, iron: 0.6 },
+        { fc: 56, ref: 0, meat: 13.0, wood: 13.0, coal: 2.6, iron: 0.65 },
+        { fc: 67, ref: 0, meat: 14.0, wood: 14.0, coal: 2.8, iron: 0.7 },
+        { fc: 36, ref: 2.4, meat: 15.0, wood: 15.0, coal: 3.0, iron: 0.75 },
+        { fc: 43, ref: 3.6, meat: 16.0, wood: 16.0, coal: 3.2, iron: 0.8 },
+        { fc: 43, ref: 4.8, meat: 20.0, wood: 20.0, coal: 4.0, iron: 1.0 },
+        { fc: 50, ref: 7.2, meat: 22.0, wood: 22.0, coal: 4.4, iron: 1.1 },
+        { fc: 63, ref: 16.8, meat: 25.0, wood: 25.0, coal: 5.0, iron: 1.25 }
+      ]
+    };
+
+    let activeBuilding = 'furnace';
+
+    function populateStages() {
+      const curSel = document.getElementById('curStage');
+      const tarSel = document.getElementById('tarStage');
+      curSel.innerHTML = '';
+      tarSel.innerHTML = '';
+
+      let idx = 0;
+      for (let fc = 1; fc <= 10; fc++) {
+        for (let sub = 0; sub < 5; sub++) {
+          const label = sub === 0 ? `Level ${fc === 1 ? '30' : 'FC ' + (fc - 1)} (Full)` : `FC ${fc} (${sub}/5 Sub-Nodes)`;
+          curSel.add(new Option(label, idx));
+          tarSel.add(new Option(label, idx));
+          idx++;
+        }
+      }
+      tarSel.add(new Option('FC 10 (Full Max)', 50));
+
+      curSel.value = 0;   // Level 30 Full
+      tarSel.value = 25;  // FC 5 Full
+    }
+
+    function selectBuilding(key, btn) {
+      activeBuilding = key;
+      document.querySelectorAll('.building-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const prereqBox = document.getElementById('prereqBox');
+      const bundlePanel = document.getElementById('bundlePanel');
+      const tableLabel = document.getElementById('tableLabel');
+      const resultsLabel = document.getElementById('resultsLabel');
+
+      if (key === 'all') {
+        prereqBox.style.display = 'none';
+        bundlePanel.style.display = 'block';
+        tableLabel.innerText = 'Combined Settlement Breakdown';
+        resultsLabel.innerText = 'Grand Total Settlement Requirements';
+      } else {
+        bundlePanel.style.display = 'none';
+        prereqBox.style.display = (key === 'furnace') ? 'flex' : 'none';
+        tableLabel.innerText = 'Step-by-Step Breakdown';
+        resultsLabel.innerText = 'Total Requirements';
+      }
+
+      calculate();
+    }
+
+    function onStageChange() {
+      const cur = parseInt(document.getElementById('curStage').value);
+      const tar = parseInt(document.getElementById('tarStage').value);
+      if (cur >= tar) {
+        document.getElementById('tarStage').value = Math.min(50, cur + 1);
+      }
+      calculate();
+    }
+
+    function sumBuildingRange(bKey, cur, tar) {
+      let fc = 0, ref = 0, meat = 0, wood = 0, coal = 0, iron = 0;
+      for (let i = cur; i < tar; i++) {
+        const fcLvl = Math.floor(i / 5);
+        const step = buildingCurves[bKey][fcLvl];
+        fc += step.fc;
+        ref += step.ref;
+        meat += step.meat;
+        wood += step.wood;
+        coal += step.coal;
+        iron += step.iron;
+      }
+      return { fc, ref, meat, wood, coal, iron };
+    }
+
+    function calculate() {
+      const cur = parseInt(document.getElementById('curStage').value);
+      const tar = parseInt(document.getElementById('tarStage').value);
+      const thCol1 = document.getElementById('thCol1');
+      const thCol2 = document.getElementById('thCol2');
+
+      // MODE A: Combined Settlement ("All Buildings")
+      if (activeBuilding === 'all') {
+        thCol1.innerText = 'Structure';
+        thCol2.innerText = 'Count';
+
+        const includeFurnace = document.getElementById('bundleFurnace').checked;
+        const includeEmbassy = document.getElementById('bundleEmbassy').checked;
+        const includeCamps = document.getElementById('bundleCamps').checked;
+        const includeCommand = document.getElementById('bundleCommand').checked;
+        const includeInfirmary = document.getElementById('bundleInfirmary').checked;
+
+        let totalFC = 0, totalRef = 0, totalMeat = 0, totalWood = 0, totalCoal = 0, totalIron = 0;
+        let rowsHtml = '';
+
+        const bundleItems = [
+          { key: 'furnace', name: 'Furnace', count: 1, active: includeFurnace },
+          { key: 'embassy', name: 'Embassy', count: 1, active: includeEmbassy },
+          { key: 'camp', name: 'Troop Camps (Inf, Lan, Mark)', count: 3, active: includeCamps },
+          { key: 'command', name: 'Command Center', count: 1, active: includeCommand },
+          { key: 'infirmary', name: 'Infirmary', count: 1, active: includeInfirmary }
+        ];
+
+        bundleItems.forEach(item => {
+          if (!item.active) return;
+          const cost = sumBuildingRange(item.key, cur, tar);
+          const bFC = cost.fc * item.count;
+          const bRef = cost.ref * item.count;
+          const bMeat = cost.meat * item.count;
+          const bWood = cost.wood * item.count;
+          const bCoal = cost.coal * item.count;
+          const bIron = cost.iron * item.count;
+
+          totalFC += bFC;
+          totalRef += bRef;
+          totalMeat += bMeat;
+          totalWood += bWood;
+          totalCoal += bCoal;
+          totalIron += bIron;
+
+          rowsHtml += `
+            <tr>
+              <td><strong>${item.name}</strong></td>
+              <td><span style="color:var(--gold-tag); font-weight:700;">${item.count}x</span></td>
+              <td style="color:var(--fire-crystal); font-weight:700;">${Math.round(bFC).toLocaleString()}</td>
+              <td style="color:var(--refined-crystal); font-weight:700;">${Math.round(bRef).toLocaleString()}</td>
+              <td>${bMeat.toFixed(1)}M</td>
+              <td>${bWood.toFixed(1)}M</td>
+              <td>${bCoal.toFixed(1)}M</td>
+              <td>${bIron.toFixed(2)}M</td>
+            </tr>
+          `;
+        });
+
+        // Add Grand Total summary row
+        rowsHtml += `
+          <tr style="background: rgba(86, 212, 255, 0.12); border-top: 2px solid var(--accent-frost); font-weight:800;">
+            <td><strong>TOTAL SETTLEMENT</strong></td>
+            <td>Combined</td>
+            <td style="color:var(--fire-crystal);">${Math.round(totalFC).toLocaleString()}</td>
+            <td style="color:var(--refined-crystal);">${Math.round(totalRef).toLocaleString()}</td>
+            <td>${totalMeat.toFixed(1)}M</td>
+            <td>${totalWood.toFixed(1)}M</td>
+            <td>${totalCoal.toFixed(1)}M</td>
+            <td>${totalIron.toFixed(2)}M</td>
+          </tr>
+        `;
+
+        document.getElementById('resFC').innerText = Math.round(totalFC).toLocaleString();
+        document.getElementById('resRefined').innerText = Math.round(totalRef).toLocaleString();
+        document.getElementById('resMeat').innerText = totalMeat.toFixed(1).replace('.0','') + 'M';
+        document.getElementById('resWood').innerText = totalWood.toFixed(1).replace('.0','') + 'M';
+        document.getElementById('resCoal').innerText = totalCoal.toFixed(1).replace('.0','') + 'M';
+        document.getElementById('resIron').innerText = totalIron.toFixed(1).replace('.0','') + 'M';
+        document.getElementById('breakdownBody').innerHTML = rowsHtml;
+        return;
+      }
+
+      // MODE B: Single Building (with optional Furnace Prerequisites)
+      thCol1.innerText = 'Stage';
+      thCol2.innerText = 'Structure';
+
+      const includePrereqs = (activeBuilding === 'furnace') && document.getElementById('prereqToggle').checked;
+      let totalFC = 0, totalRef = 0, totalMeat = 0, totalWood = 0, totalCoal = 0, totalIron = 0;
+      let rowsHtml = '';
+
+      for (let i = cur; i < tar; i++) {
+        const fcLevelIndex = Math.floor(i / 5);
+        const subIndex = (i % 5) + 1;
+        const step = buildingCurves[activeBuilding][fcLevelIndex];
+
+        totalFC += step.fc;
+        totalRef += step.ref;
+        totalMeat += step.meat;
+        totalWood += step.wood;
+        totalCoal += step.coal;
+        totalIron += step.iron;
+
+        const stageLabel = `FC ${fcLevelIndex + 1} (${subIndex}/5)`;
+        const buildingName = activeBuilding.charAt(0).toUpperCase() + activeBuilding.slice(1);
+
+        rowsHtml += `
+          <tr>
+            <td><strong>${stageLabel}</strong></td>
+            <td>${buildingName}</td>
+            <td style="color:var(--fire-crystal); font-weight:700;">${Math.round(step.fc).toLocaleString()}</td>
+            <td style="color:var(--refined-crystal); font-weight:700;">${Math.round(step.ref).toLocaleString()}</td>
+            <td>${step.meat.toFixed(1)}M</td>
+            <td>${step.wood.toFixed(1)}M</td>
+            <td>${step.coal.toFixed(1)}M</td>
+            <td>${step.iron.toFixed(2)}M</td>
+          </tr>
+        `;
+      }
+
+      if (includePrereqs) {
+        let prereqFC = 0, prereqRef = 0, prereqMeat = 0, prereqWood = 0, prereqCoal = 0, prereqIron = 0;
+        for (let i = cur; i < tar; i++) {
+          const fcLevelIndex = Math.floor(i / 5);
+          const embStep = buildingCurves.embassy[fcLevelIndex];
+          const campStep = buildingCurves.camp[fcLevelIndex];
+
+          prereqFC += (embStep.fc + campStep.fc);
+          prereqRef += (embStep.ref + campStep.ref);
+          prereqMeat += (embStep.meat + campStep.meat);
+          prereqWood += (embStep.wood + campStep.wood);
+          prereqCoal += (embStep.coal + campStep.coal);
+          prereqIron += (embStep.iron + campStep.iron);
+        }
+
+        totalFC += prereqFC;
+        totalRef += prereqRef;
+        totalMeat += prereqMeat;
+        totalWood += prereqWood;
+        totalCoal += prereqCoal;
+        totalIron += prereqIron;
+
+        rowsHtml = `
+          <tr style="background: rgba(255, 209, 102, 0.08); border-left: 3px solid var(--gold-tag);">
+            <td><strong>PREREQUISITES</strong></td>
+            <td>Embassy + Camp</td>
+            <td style="color:var(--fire-crystal); font-weight:700;">+${Math.round(prereqFC).toLocaleString()}</td>
+            <td style="color:var(--refined-crystal); font-weight:700;">+${Math.round(prereqRef).toLocaleString()}</td>
+            <td>+${prereqMeat.toFixed(1)}M</td>
+            <td>+${prereqWood.toFixed(1)}M</td>
+            <td>+${prereqCoal.toFixed(1)}M</td>
+            <td>+${prereqIron.toFixed(2)}M</td>
+          </tr>
+        ` + rowsHtml;
+      }
+
+      document.getElementById('resFC').innerText = Math.round(totalFC).toLocaleString();
+      document.getElementById('resRefined').innerText = Math.round(totalRef).toLocaleString();
+      document.getElementById('resMeat').innerText = totalMeat.toFixed(1).replace('.0','') + 'M';
+      document.getElementById('resWood').innerText = totalWood.toFixed(1).replace('.0','') + 'M';
+      document.getElementById('resCoal').innerText = totalCoal.toFixed(1).replace('.0','') + 'M';
+      document.getElementById('resIron').innerText = totalIron.toFixed(1).replace('.0','') + 'M';
+      document.getElementById('breakdownBody').innerHTML = rowsHtml;
+    }
+
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    const canvas = document.getElementById('snowCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let flakes = [];
+      function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      for (let i = 0; i < 45; i++) {
+        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.5 });
+      }
+      function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.y += f.d;
+          f.x += Math.sin(f.y / 20) * 0.5;
+          if (f.y > canvas.height) flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+        }
+        requestAnimationFrame(drawSnow);
+      }
+      drawSnow();
+    }
+
+    populateStages();
+    calculate();
+  </script>
+</body>
+</html>
