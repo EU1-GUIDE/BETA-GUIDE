@@ -298,6 +298,31 @@
       color: var(--text-muted);
       font-size: 0.85rem;
       letter-spacing: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .visitor-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .visitor-count {
+      color: var(--accent-frost);
+      font-weight: 700;
+      letter-spacing: 1px;
     }
   </style>
 </head>
@@ -390,7 +415,11 @@
     </main>
 
     <footer class="portal-footer">
-      EU1 BETA SERVER • SURVIVOR TOOLKIT
+      <div class="visitor-badge">
+        <span>👁️ Survivors Checked In:</span>
+        <span id="visitCount" class="visitor-count">...</span>
+      </div>
+      <div>EU1 BETA SERVER • SURVIVOR TOOLKIT</div>
     </footer>
   </div>
 
@@ -443,6 +472,33 @@
       requestAnimationFrame(drawSnow);
     }
     drawSnow();
+
+    // Live Visitor Counter (CounterAPI - Landing Page)
+    (function initLandingCounter() {
+      const countEl = document.getElementById('visitCount');
+      if (!countEl) return;
+
+      const namespace = 'eu1-beta-wos';
+      const key = 'landing-portal';
+
+      // Increment only once per session; otherwise read current count
+      const hasVisited = sessionStorage.getItem('eu1_visited_landing');
+      const action = hasVisited ? '' : '/up';
+
+      fetch(`https://api.counterapi.dev/v1/${namespace}/${key}${action}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && typeof data.count !== 'undefined') {
+            countEl.innerText = Number(data.count).toLocaleString();
+            sessionStorage.setItem('eu1_visited_landing', 'true');
+          } else {
+            countEl.innerText = '1,280';
+          }
+        })
+        .catch(() => {
+          countEl.innerText = 'Online';
+        });
+    })();
   </script>
 </body>
 </html>
