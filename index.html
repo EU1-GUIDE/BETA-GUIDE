@@ -175,6 +175,19 @@
       box-shadow: 0 8px 24px rgba(88, 101, 242, 0.4);
     }
 
+    .portal-card.disabled {
+      opacity: 0.72;
+      cursor: not-allowed;
+      border-style: dashed;
+      border-color: rgba(255, 209, 102, 0.35);
+    }
+
+    .portal-card.disabled:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: rgba(255, 209, 102, 0.35);
+    }
+
     .card-top {
       display: flex;
       justify-content: space-between;
@@ -272,70 +285,11 @@
       box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
     }
 
-    /* Snapped inline across the full grid width */
-    .calc-row-card {
-      grid-column: 1 / -1;
-      background: var(--bg-card);
-      border: 1px dashed rgba(255, 209, 102, 0.35);
-      border-radius: 16px;
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      backdrop-filter: blur(8px);
-      opacity: 0.82;
-      gap: 20px;
-    }
-
-    .calc-row-info {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .calc-icon {
-      font-size: 2.2rem;
-      line-height: 1;
-    }
-
-    .calc-row-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .calc-row-desc {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-top: 4px;
-    }
-
-    .calc-row-badge {
-      background: rgba(255, 209, 102, 0.12);
-      border: 1px solid rgba(255, 209, 102, 0.3);
+    .portal-card.disabled .btn-portal {
+      background: rgba(255, 209, 102, 0.08);
+      border-color: rgba(255, 209, 102, 0.25);
       color: var(--gold-tag);
-      font-weight: 700;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      white-space: nowrap;
-    }
-
-    @media (max-width: 620px) {
-      .calc-row-card {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 18px;
-      }
-      .calc-row-badge {
-        width: 100%;
-        text-align: center;
-      }
+      cursor: not-allowed;
     }
 
     .portal-footer {
@@ -367,7 +321,7 @@
       <p class="hero-subtitle">Official Community Hub & Survival Toolkit</p>
     </div>
 
-    <!-- Symmetrical grid containing all 5 cards -->
+    <!-- All 5 portal cards sharing the exact same responsive grid -->
     <main class="portal-grid">
       <!-- 1. Getting Started Guide -->
       <a href="guide.html" class="portal-card">
@@ -421,19 +375,17 @@
         <div class="btn-portal">Join Server ➔</div>
       </a>
 
-      <!-- 5. WOS Calculator (Integrated inside the grid, spanning column 1 to end) -->
-      <div class="calc-row-card">
-        <div class="calc-row-info">
-          <span class="calc-icon">🧮</span>
-          <div>
-            <h3 class="calc-row-title">
-              WOS Calculator
-              <span class="status-badge wip">In Development</span>
-            </h3>
-            <p class="calc-row-desc">Chief gear, charm progression, Fire Crystals, widgets, and troop training speedup planners.</p>
-          </div>
+      <!-- 5. WOS Calculator -->
+      <div class="portal-card disabled">
+        <div class="card-top">
+          <span class="card-icon">🧮</span>
+          <span class="status-badge wip">In Development</span>
         </div>
-        <div class="calc-row-badge">Coming Soon</div>
+        <div>
+          <h2 class="card-title">WOS Calculator</h2>
+          <p class="card-desc">Chief gear, charm progression, Fire Crystals, widgets, and troop training speedup planners.</p>
+        </div>
+        <div class="btn-portal">Coming Soon</div>
       </div>
     </main>
 
