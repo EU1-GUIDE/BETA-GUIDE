@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU1 BETA | Troop Training & Speedup Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060b13;
+      --bg-card: rgba(14, 26, 43, 0.88);
+      --border-ice: rgba(120, 210, 255, 0.28);
+      --accent-frost: #56d4ff;
+      --accent-glow: rgba(86, 212, 255, 0.45);
+      --text-main: #e8f5ff;
+      --text-muted: #8ca3be;
+      --gold-tag: #ffd166;
+      --fire-crystal: #ff5e36;
+      --exalted: #a855f7;
+    }
+
+    body.halloween {
+      --bg-deep: #09060f;
+      --bg-card: rgba(26, 16, 36, 0.88);
+      --border-ice: rgba(255, 123, 0, 0.4);
+      --accent-frost: #ff8400;
+      --accent-glow: rgba(255, 132, 0, 0.5);
+      --text-main: #fff2e0;
+      --text-muted: #ad94a8;
+      --gold-tag: #ffb703;
+      --fire-crystal: #ff7700;
+      --exalted: #d946ef;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(94vw, 920px);
+      margin: 0 auto;
+      padding: 16px 8px;
+    }
+
+    .top-badge-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      padding: 10px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+    }
+
+    .back-nav-link {
+      color: var(--accent-frost);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 20px 14px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      background: radial-gradient(circle at center, rgba(168, 85, 247, 0.12) 0%, transparent 75%);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+
+    .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 22px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      color: var(--accent-frost);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* Training Mode Toggle */
+    .mode-pills {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 10px;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      color: var(--text-muted);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .mode-btn:hover { border-color: var(--accent-frost); color: #fff; }
+    .mode-btn.active {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: var(--exalted);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+    }
+
+    .grid-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .styled-input, .styled-select {
+      height: 44px;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      padding: 0 12px;
+      font-weight: 700;
+      outline: none;
+    }
+    .styled-input:focus, .styled-select:focus {
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* Speedup Inventory Grid */
+    .bag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+      background: rgba(4, 9, 16, 0.75);
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-ice);
+    }
+    .bag-item { display: flex; flex-direction: column; gap: 4px; text-align: center; }
+    .bag-item label { font-size: 0.75rem; color: var(--gold-tag); font-weight: 700; }
+    .bag-item input {
+      height: 38px;
+      text-align: center;
+      background: rgba(14, 26, 43, 0.9);
+      border: 1px solid var(--border-ice);
+      border-radius: 6px;
+      color: #fff;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .result-stat {
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      padding: 12px 6px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.35rem; font-weight: 700; }
+    .stat-val.frost { color: var(--accent-frost); }
+    .stat-val.purple { color: var(--exalted); text-shadow: 0 0 10px rgba(168, 85, 247, 0.4); }
+    .stat-val.gold { color: var(--gold-tag); text-shadow: 0 0 10px rgba(255, 209, 102, 0.35); }
+
+    .breakdown-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      background: rgba(4, 9, 16, 0.7);
+    }
+    table.breakdown-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+    table.breakdown-table th {
+      background: rgba(86, 212, 255, 0.1);
+      color: var(--accent-frost);
+      padding: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-ice);
+      white-space: nowrap;
+    }
+    table.breakdown-table td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .portal-footer { text-align: center; margin-top: 36px; color: var(--text-muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <header class="top-badge-banner">
+      <a href="calculator.html" class="back-nav-link">← Calculators Hub</a>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <div class="hero-header">
+      <h1 class="hero-title">TROOPS & SPEEDUP PLANNER</h1>
+      <p class="hero-subtitle">T1 to T12 Exalted Recruits • Promotion Engine • SvS Point Projections</p>
+    </div>
+
+    <div class="calc-card">
+      <span class="section-label">1. Training Mode</span>
+      <div class="mode-pills">
+        <button class="mode-btn active" id="btnFresh" onclick="setMode('fresh')">
+          <span>⚔️</span> Fresh Training (Scratch)
+        </button>
+        <button class="mode-btn" id="btnPromo" onclick="setMode('promo')">
+          <span>🎖️</span> Promotion (Upgrade Lower Tier)
+        </button>
+      </div>
+
+      <span class="section-label">2. Troop Tier & Count</span>
+      <div class="grid-fields">
+        <!-- Promotion Base Tier (Only visible in Promo mode) -->
+        <div class="field-group" id="promoFromBox" style="display:none;">
+          <label class="field-label" for="fromTier">Promoting From</label>
+          <select id="fromTier" class="styled-select" onchange="onTierChange()"></select>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" id="toTierLabel" for="toTier">Target Troop Tier</label>
+          <select id="toTier" class="styled-select" onchange="onTierChange()"></select>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="troopCount">Number of Troops</label>
+          <input type="number" id="troopCount" class="styled-input" value="10000" min="1" step="500" oninput="calculate()">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="buffPercent">Training Speed Buff (%)</label>
+          <input type="number" id="buffPercent" class="styled-input" value="120" min="0" step="5" oninput="calculate()">
+        </div>
+      </div>
+
+      <span class="section-label">3. Speedup Inventory in Bag (Optional)</span>
+      <div class="bag-grid">
+        <div class="bag-item"><label>1-Min</label><input type="number" id="sp1m" value="0" min="0" oninput="calculate()"></div>
+        <div class="bag-item"><label>5-Min</label><input type="number" id="sp5m" value="0" min="0" oninput="calculate()"></div>
+        <div class="bag-item"><label>1-Hour</label><input type="number" id="sp1h" value="0" min="0" oninput="calculate()"></div>
+        <div class="bag-item"><label>3-Hour</label><input type="number" id="sp3h" value="0" min="0" oninput="calculate()"></div>
+        <div class="bag-item"><label>8-Hour</label><input type="number" id="sp8h" value="0" min="0" oninput="calculate()"></div>
+        <div class="bag-item"><label>24-Hour</label><input type="number" id="sp24h" value="0" min="0" oninput="calculate()"></div>
+      </div>
+
+      <span class="section-label">Batch Training Results</span>
+      <div class="results-grid">
+        <div class="result-stat"><span class="stat-label">Total Time Required</span><span id="resTime" class="stat-val frost">0d 0h</span></div>
+        <div class="result-stat"><span class="stat-label">SvS / Event Points</span><span id="resPoints" class="stat-val purple">0</span></div>
+        <div class="result-stat"><span class="stat-label">Total Meat</span><span id="resMeat" class="stat-val">0M</span></div>
+        <div class="result-stat"><span class="stat-label">Total Wood</span><span id="resWood" class="stat-val">0M</span></div>
+        <div class="result-stat"><span class="stat-label">Total Iron</span><span id="resIron" class="stat-val">0M</span></div>
+        <div class="result-stat"><span class="stat-label">Bag Speedup Stock</span><span id="resBagTime" class="stat-val gold">0d 0h</span></div>
+      </div>
+
+      <span class="section-label">Inventory & Speedup Audit</span>
+      <div class="breakdown-wrapper">
+        <table class="breakdown-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value / Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="auditBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="portal-footer">
+      EU1 BETA SERVER • SURVIVOR TOOLKIT
+    </footer>
+  </div>
+
+  <script>
+    // Standard Retail Troop Tables (T1 through T12 Exalted)
+    // Base seconds per 1 unit, raw meat, wood, iron, and SvS points
+    const troopTiers = [
+      { tier: 1,  name: "Tier 1",           baseSec: 10,  meat: 40,   wood: 40,   iron: 0,    pts: 1 },
+      { tier: 2,  name: "Tier 2",           baseSec: 16,  meat: 65,   wood: 65,   iron: 0,    pts: 2 },
+      { tier: 3,  name: "Tier 3",           baseSec: 24,  meat: 100,  wood: 100,  iron: 10,   pts: 3 },
+      { tier: 4,  name: "Tier 4",           baseSec: 34,  meat: 150,  wood: 150,  iron: 20,   pts: 5 },
+      { tier: 5,  name: "Tier 5",           baseSec: 46,  meat: 220,  wood: 220,  iron: 40,   pts: 8 },
+      { tier: 6,  name: "Tier 6",           baseSec: 60,  meat: 320,  wood: 320,  iron: 70,   pts: 12 },
+      { tier: 7,  name: "Tier 7",           baseSec: 76,  meat: 460,  wood: 460,  iron: 120,  pts: 18 },
+      { tier: 8,  name: "Tier 8",           baseSec: 96,  meat: 650,  wood: 650,  iron: 180,  pts: 26 },
+      { tier: 9,  name: "Tier 9",           baseSec: 120, meat: 900,  wood: 900,  iron: 270,  pts: 37 },
+      { tier: 10, name: "Tier 10",          baseSec: 150, meat: 1250, wood: 1250, iron: 400,  pts: 52 },
+      { tier: 11, name: "T11 (Helios FC)",  baseSec: 180, meat: 1700, wood: 1700, iron: 580,  pts: 72 },
+      { tier: 12, name: "T12 (Exalted)",    baseSec: 215, meat: 2250, wood: 2250, iron: 820,  pts: 100 }
+    ];
+
+    let currentMode = 'fresh';
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById('btnFresh').classList.toggle('active', mode === 'fresh');
+      document.getElementById('btnPromo').classList.toggle('active', mode === 'promo');
+      document.getElementById('promoFromBox').style.display = (mode === 'promo') ? 'flex' : 'none';
+      document.getElementById('toTierLabel').innerText = (mode === 'promo') ? 'Promoting To' : 'Target Troop Tier';
+      calculate();
+    }
+
+    function populateDropdowns() {
+      const fromSel = document.getElementById('fromTier');
+      const toSel = document.getElementById('toTier');
+      fromSel.innerHTML = '';
+      toSel.innerHTML = '';
+
+      troopTiers.forEach((t, idx) => {
+        if (idx < troopTiers.length - 1) fromSel.add(new Option(t.name, idx));
+        toSel.add(new Option(t.name, idx));
+      });
+
+      fromSel.value = 9;  // T10 default
+      toSel.value = 11;   // T12 default
+    }
+
+    function onTierChange() {
+      const f = parseInt(document.getElementById('fromTier').value);
+      let t = parseInt(document.getElementById('toTier').value);
+      if (currentMode === 'promo' && f >= t) {
+        t = Math.min(troopTiers.length - 1, f + 1);
+        document.getElementById('toTier').value = t;
+      }
+      calculate();
+    }
+
+    function formatDuration(totalSeconds) {
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const mins = Math.floor((totalSeconds % 3600) / 60);
+      if (days > 0) return `${days}d ${hours}h ${mins}m`;
+      if (hours > 0) return `${hours}h ${mins}m`;
+      return `${mins}m ${Math.floor(totalSeconds % 60)}s`;
+    }
+
+    function calculate() {
+      const count = Math.max(1, parseInt(document.getElementById('troopCount').value) || 0);
+      const buff = Math.max(0, parseFloat(document.getElementById('buffPercent').value) || 0);
+      const toIdx = parseInt(document.getElementById('toTier').value);
+      const fromIdx = parseInt(document.getElementById('fromTier').value);
+
+      const toData = troopTiers[toIdx];
+      let perUnitSec = toData.baseSec;
+      let perUnitMeat = toData.meat;
+      let perUnitWood = toData.wood;
+      let perUnitIron = toData.iron;
+      let perUnitPoints = toData.pts;
+
+      if (currentMode === 'promo') {
+        const fromData = troopTiers[fromIdx];
+        perUnitSec = Math.max(10, toData.baseSec - fromData.baseSec);
+        perUnitMeat = Math.max(0, toData.meat - fromData.meat);
+        perUnitWood = Math.max(0, toData.wood - fromData.wood);
+        perUnitIron = Math.max(0, toData.iron - fromData.iron);
+        perUnitPoints = Math.max(1, toData.pts - fromData.pts);
+      }
+
+      // Formula: actualSec = baseSec / (1 + buff / 100)
+      const actualUnitSec = perUnitSec / (1 + (buff / 100));
+      const totalTrainingSec = actualUnitSec * count;
+
+      // Speedups in Bag
+      const sp1m = parseInt(document.getElementById('sp1m').value) || 0;
+      const sp5m = parseInt(document.getElementById('sp5m').value) || 0;
+      const sp1h = parseInt(document.getElementById('sp1h').value) || 0;
+      const sp3h = parseInt(document.getElementById('sp3h').value) || 0;
+      const sp8h = parseInt(document.getElementById('sp8h').value) || 0;
+      const sp24h = parseInt(document.getElementById('sp24h').value) || 0;
+
+      const bagTotalSec = (sp1m * 60) + (sp5m * 300) + (sp1h * 3600) + (sp3h * 10800) + (sp8h * 28800) + (sp24h * 86400);
+      const totalPoints = perUnitPoints * count;
+
+      // Render Outputs
+      document.getElementById('resTime').innerText = formatDuration(totalTrainingSec);
+      document.getElementById('resPoints').innerText = Math.round(totalPoints).toLocaleString();
+      document.getElementById('resMeat').innerText = ((perUnitMeat * count) / 1000000).toFixed(2) + 'M';
+      document.getElementById('resWood').innerText = ((perUnitWood * count) / 1000000).toFixed(2) + 'M';
+      document.getElementById('resIron').innerText = ((perUnitIron * count) / 1000000).toFixed(2) + 'M';
+      document.getElementById('resBagTime').innerText = formatDuration(bagTotalSec);
+
+      // Audit rows
+      const troopsPossibleFromBag = Math.floor(bagTotalSec / actualUnitSec);
+      const diffSec = bagTotalSec - totalTrainingSec;
+      const auditHtml = `
+        <tr>
+          <td><strong>Speedup Coverage</strong></td>
+          <td style="color:${diffSec >= 0 ? 'var(--gold-tag)' : '#ff5e57'}; font-weight:700;">
+            ${diffSec >= 0 ? '100% Covered (Surplus ' + formatDuration(diffSec) + ')' : 'Short by ' + formatDuration(Math.abs(diffSec))}
+          </td>
+          <td>${diffSec >= 0 ? 'You have enough speedups to finish immediately.' : 'More speedups or alliance help needed.'}</td>
+        </tr>
+        <tr>
+          <td><strong>Bag Speedup Troop Capacity</strong></td>
+          <td style="color:var(--accent-frost); font-weight:700;">${troopsPossibleFromBag.toLocaleString()} Troops</td>
+          <td>Troops trainable with current bag inventory alone.</td>
+        </tr>
+        <tr>
+          <td><strong>Per-Unit Training Time</strong></td>
+          <td>${actualUnitSec.toFixed(2)} seconds</td>
+          <td>Scaled down with your ${buff}% buff (Base: ${perUnitSec}s).</td>
+        </tr>
+      `;
+      document.getElementById('auditBody').innerHTML = auditHtml;
+    }
+
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    const canvas = document.getElementById('snowCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let flakes = [];
+      function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      for (let i = 0; i < 45; i++) {
+        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.5 });
+      }
+      function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.y += f.d;
+          f.x += Math.sin(f.y / 20) * 0.5;
+          if (f.y > canvas.height) flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+        }
+        requestAnimationFrame(drawSnow);
+      }
+      drawSnow();
+    }
+
+    populateDropdowns();
+    calculate();
+  </script>
+</body>
+</html>
