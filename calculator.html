@@ -19,6 +19,7 @@
       --gold-tag: #ffd166;
       --online-green: #00ff88;
       --fire-crystal: #ff5e36;
+      --exalted: #a855f7;
     }
 
     body.halloween {
@@ -32,6 +33,7 @@
       --gold-tag: #ffb703;
       --online-green: #ffb703;
       --fire-crystal: #ff7700;
+      --exalted: #d946ef;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -94,9 +96,6 @@
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .hero-header {
@@ -148,24 +147,25 @@
 
     .calc-card:hover:not(.disabled) {
       transform: translateY(-4px);
-      border-color: var(--accent-frost);
       box-shadow: 0 8px 24px var(--accent-glow);
     }
 
-    .calc-card.active-card {
-      border-color: rgba(86, 212, 255, 0.4);
-    }
-    .calc-card.active-card:hover {
-      box-shadow: 0 8px 24px var(--accent-glow);
-      border-color: var(--accent-frost);
-    }
-
-    .calc-card.fc-card {
-      border-color: rgba(255, 94, 54, 0.4);
-    }
+    .calc-card.fc-card { border-color: rgba(255, 94, 54, 0.4); }
     .calc-card.fc-card:hover {
       box-shadow: 0 8px 24px rgba(255, 94, 54, 0.45);
       border-color: var(--fire-crystal);
+    }
+
+    .calc-card.gear-card { border-color: rgba(86, 212, 255, 0.4); }
+    .calc-card.gear-card:hover {
+      box-shadow: 0 8px 24px var(--accent-glow);
+      border-color: var(--accent-frost);
+    }
+
+    .calc-card.troop-card { border-color: rgba(168, 85, 247, 0.4); }
+    .calc-card.troop-card:hover {
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
+      border-color: var(--exalted);
     }
 
     .calc-card.disabled {
@@ -201,6 +201,11 @@
       background: rgba(86, 212, 255, 0.18);
       color: var(--accent-frost);
       border: 1px solid rgba(86, 212, 255, 0.35);
+    }
+    .status-badge.live-purple {
+      background: rgba(168, 85, 247, 0.18);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
     }
     .status-badge.queue {
       background: rgba(255, 209, 102, 0.15);
@@ -252,15 +257,26 @@
       box-shadow: 0 0 14px rgba(255, 94, 54, 0.6);
     }
 
-    .calc-card.active-card .btn-calc {
+    .calc-card.gear-card .btn-calc {
       background: rgba(86, 212, 255, 0.2);
       border-color: rgba(86, 212, 255, 0.4);
       color: #e8f5ff;
     }
-    .calc-card.active-card:hover .btn-calc {
+    .calc-card.gear-card:hover .btn-calc {
       background: var(--accent-frost);
       color: #040910;
       box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .calc-card.troop-card .btn-calc {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #e9d5ff;
+    }
+    .calc-card.troop-card:hover .btn-calc {
+      background: var(--exalted);
+      color: #fff;
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.6);
     }
 
     .calc-card.disabled .btn-calc {
@@ -295,7 +311,7 @@
     </div>
 
     <main class="calc-grid">
-      <!-- 1. Dedicated Fire Crystal Calculator -->
+      <!-- 1. Fire Crystals -->
       <a href="calc-fire-crystals.html" class="calc-card fc-card">
         <div class="card-top">
           <span class="card-icon">🔥</span>
@@ -303,13 +319,13 @@
         </div>
         <div>
           <h2 class="card-title">Fire Crystals</h2>
-          <p class="card-desc">FC1 to FC10 progression for Furnace, Embassy, Camps, and Command with exact 1/5 sub-stage tracking and prerequisites.</p>
+          <p class="card-desc">FC1 to FC10+ progression for Furnace, Embassy, Camps, and Command with exact sub-nodes & settlement bundles.</p>
         </div>
         <div class="btn-calc">Open Fire Crystal Calc ➔</div>
       </a>
 
-      <!-- 2. Chief Gear & Charms (Now Active) -->
-      <a href="calc-chief-gear.html" class="calc-card active-card">
+      <!-- 2. Chief Gear & Charms -->
+      <a href="calc-chief-gear.html" class="calc-card gear-card">
         <div class="card-top">
           <span class="card-icon">🛡️</span>
           <span class="status-badge live-blue">● Ready to Use</span>
@@ -321,24 +337,24 @@
         <div class="btn-calc">Open Chief Gear Calc ➔</div>
       </a>
 
-      <!-- 3. Troop Training & Speedups (Next) -->
-      <div class="calc-card disabled">
+      <!-- 3. Troops & Speedups (Now Active with T12) -->
+      <a href="calc-troops.html" class="calc-card troop-card">
         <div class="card-top">
           <span class="card-icon">🏹</span>
-          <span class="status-badge queue">Next In Line</span>
+          <span class="status-badge live-purple">● Ready to Use</span>
         </div>
         <div>
           <h2 class="card-title">Troops & Speedups</h2>
-          <p class="card-desc">Batch size calculator, speed buff equations, meat upkeep, and SvS prep point converters.</p>
+          <p class="card-desc">T1 to T12 Exalted training, promotion differential engine, speedup bag inventory converter, and SvS points.</p>
         </div>
-        <div class="btn-calc">In Testing</div>
-      </div>
+        <div class="btn-calc">Open Troop Calc ➔</div>
+      </a>
 
       <!-- 4. Hero Gear & Widgets -->
       <div class="calc-card disabled">
         <div class="card-top">
           <span class="card-icon">⚔️</span>
-          <span class="status-badge queue">Scheduled</span>
+          <span class="status-badge queue">Next In Line</span>
         </div>
         <div>
           <h2 class="card-title">Hero Widgets & Gear</h2>
