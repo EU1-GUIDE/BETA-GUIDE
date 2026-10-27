@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU1 BETA | Getting Started & Installation Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060b13;
+      --bg-card: rgba(14, 26, 43, 0.85);
+      --border-ice: rgba(120, 210, 255, 0.28);
+      --accent-frost: #56d4ff;
+      --accent-glow: rgba(86, 212, 255, 0.45);
+      --text-main: #e8f5ff;
+      --text-muted: #8ca3be;
+      --alert-warn: #ffd166;
+      --success-green: #00ff88;
+    }
+
+    body.halloween {
+      --bg-deep: #09060f;
+      --bg-card: rgba(26, 16, 36, 0.88);
+      --border-ice: rgba(255, 123, 0, 0.4);
+      --accent-frost: #ff8400;
+      --accent-glow: rgba(255, 132, 0, 0.5);
+      --text-main: #fff2e0;
+      --text-muted: #ad94a8;
+      --alert-warn: #ffb703;
+      --success-green: #ffb703;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(94vw, 860px);
+      margin: 0 auto;
+      padding: 16px 8px;
+    }
+
+    .top-badge-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      padding: 10px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+    }
+
+    .back-nav-link {
+      color: var(--accent-frost);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-nav-link:hover {
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 24px 12px;
+      margin-bottom: 24px;
+      border-radius: 16px;
+      background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      letter-spacing: 1.2px;
+      margin-top: 6px;
+    }
+
+    .guide-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .step-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .step-num {
+      background: var(--accent-frost);
+      color: #040910;
+      font-weight: 900;
+      font-size: 0.85rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+    }
+
+    .step-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    .step-desc {
+      color: var(--text-main);
+      font-size: 1.02rem;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .btn-download-big {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #103254, #1a4d7d);
+      border: 1px solid var(--accent-frost);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      padding: 14px 20px;
+      border-radius: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px var(--accent-glow);
+      transition: all 0.2s ease;
+      margin-bottom: 14px;
+    }
+
+    .btn-download-big:active, .btn-download-big:hover {
+      background: var(--accent-frost);
+      color: #040910;
+      box-shadow: 0 0 24px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .screenshot-frame {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-ice);
+      background: #03060b;
+      margin-top: 10px;
+    }
+
+    .guide-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      max-height: 520px;
+    }
+
+    .warn-callout {
+      background: rgba(255, 209, 102, 0.12);
+      border: 1px solid rgba(255, 209, 102, 0.35);
+      border-radius: 10px;
+      padding: 14px;
+      color: var(--alert-warn);
+      margin-top: 8px;
+    }
+
+    .warn-callout strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .ios-notice-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed var(--border-ice);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .ios-notice-box strong {
+      color: var(--accent-frost);
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <header class="top-badge-banner">
+      <a href="index.html" class="back-nav-link">← Portal Home</a>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <div class="hero-header">
+      <h1 class="hero-title">GETTING STARTED</h1>
+      <p class="hero-subtitle">EU1 BETA Client Download & Setup Instructions</p>
+    </div>
+
+    <main class="guide-flow">
+      <!-- Step 1: Download APK -->
+      <section class="step-card">
+        <div class="step-badge-row">
+          <span class="step-num">STEP 1</span>
+          <h2 class="step-heading">Download WOS APK Client</h2>
+        </div>
+        <p class="step-desc">
+          Tap the button below to download the official EU1 BETA game client APK directly to your phone:
+        </p>
+        <a href="https://europa.176.9.65.91.nip.io/" target="_blank" rel="noopener noreferrer" class="btn-download-big">
+          ⬇️ Download EU1 BETA APK
+        </a>
+        <div class="screenshot-frame">
+          <img src="download.jpg" alt="Download APK confirmation screenshot" class="guide-img">
+        </div>
+      </section>
+
+      <!-- Step 2: Auto Blocker Settings -->
+      <section class="step-card">
+        <div class="step-badge-row">
+          <span class="step-num">STEP 2</span>
+          <h2 class="step-heading">Phone Security Settings (Auto Blocker)</h2>
+        </div>
+        <p class="step-desc">
+          On modern Android/Samsung devices, external installations are prevented by default. Before opening the installer:
+        </p>
+        <div class="warn-callout">
+          <strong>⚠️ Required Setting Adjustment:</strong>
+          Go to your device's <b>Settings</b> ➔ tap <b>Security & Privacy</b> (or Security) ➔ locate <b>Auto Blocker</b> and switch it <b>OFF</b> while installing the client.
+        </div>
+      </section>
+
+      <!-- Step 3: Registration & Login -->
+      <section class="step-card">
+        <div class="step-badge-row">
+          <span class="step-num">STEP 3</span>
+          <h2 class="step-heading">Launch & Create Account</h2>
+        </div>
+        <p class="step-desc">
+          Once the APK finishes installing, open the game. At the login portal screen, tap <b>Sign Up</b> at the <b>bottom left</b> to create your account credentials and enter the server.
+        </p>
+        <div class="screenshot-frame">
+          <img src="logineu1.jpg" alt="EU1 Login screen showing Sign Up button at bottom left" class="guide-img">
+        </div>
+      </section>
+
+      <!-- iOS Notice -->
+      <div class="ios-notice-box">
+        🍎 <strong>iOS Players:</strong> Apple iOS client support is currently in development and will be available soon!
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    const canvas = document.getElementById('snowCanvas');
+    const ctx = canvas.getContext('2d');
+    let flakes = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 55; i++) {
+      flakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        d: Math.random() + 0.5
+      });
+    }
+
+    function drawSnow() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+      ctx.beginPath();
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      }
+      ctx.fill();
+
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        f.y += f.d;
+        f.x += Math.sin(f.y / 20) * 0.5;
+        if (f.y > canvas.height) {
+          flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+        }
+      }
+      requestAnimationFrame(drawSnow);
+    }
+    drawSnow();
+  </script>
+</body>
+</html>
