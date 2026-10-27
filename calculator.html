@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU1 BETA | Survivor Calculator Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060b13;
+      --bg-card: rgba(14, 26, 43, 0.85);
+      --border-ice: rgba(120, 210, 255, 0.28);
+      --accent-frost: #56d4ff;
+      --accent-glow: rgba(86, 212, 255, 0.45);
+      --text-main: #e8f5ff;
+      --text-muted: #8ca3be;
+      --gold-tag: #ffd166;
+      --online-green: #00ff88;
+      --discord-blurple: #5865f2;
+      --fire-orange: #ff7b00;
+    }
+
+    body.halloween {
+      --bg-deep: #09060f;
+      --bg-card: rgba(26, 16, 36, 0.88);
+      --border-ice: rgba(255, 123, 0, 0.4);
+      --accent-frost: #ff8400;
+      --accent-glow: rgba(255, 132, 0, 0.5);
+      --text-main: #fff2e0;
+      --text-muted: #ad94a8;
+      --gold-tag: #ffb703;
+      --online-green: #ffb703;
+      --discord-blurple: #ff7700;
+      --fire-orange: #ff5500;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(94vw, 860px);
+      margin: 0 auto;
+      padding: 16px 8px;
+    }
+
+    .top-badge-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      padding: 10px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 24px;
+    }
+
+    .back-nav-link {
+      color: var(--accent-frost);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-nav-link:hover {
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 24px 14px;
+      margin-bottom: 24px;
+      border-radius: 16px;
+      background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      letter-spacing: 1.2px;
+      margin-top: 6px;
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 24px;
+      scrollbar-width: thin;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 130px;
+      padding: 12px 14px;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 12px;
+      color: var(--text-muted);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      border-color: var(--accent-frost);
+    }
+
+    .tab-btn.active {
+      background: rgba(86, 212, 255, 0.16);
+      border-color: var(--accent-frost);
+      color: var(--accent-frost);
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    /* Calculator Cards */
+    .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      margin-bottom: 24px;
+    }
+
+    .card-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-subtext {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    /* Form Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .custom-select, .custom-input {
+      height: 46px;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      padding: 0 14px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .custom-select:focus, .custom-input:focus {
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* Output Results Box */
+    .results-container {
+      background: rgba(4, 9, 16, 0.75);
+      border: 1px solid var(--border-ice);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+    }
+
+    .result-item {
+      background: rgba(14, 26, 43, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .result-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .result-val {
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--accent-frost);
+    }
+
+    .result-val.fire {
+      color: var(--fire-orange);
+    }
+
+    .result-val.gold {
+      color: var(--gold-tag);
+    }
+
+    /* Checkbox rows */
+    .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 16px 0;
+      padding: 12px;
+      background: rgba(4, 9, 16, 0.5);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .check-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .check-label input {
+      accent-color: var(--accent-frost);
+      width: 16px;
+      height: 16px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .portal-footer {
+      text-align: center;
+      margin-top: 36px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .visitor-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .visitor-count {
+      color: var(--accent-frost);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <header class="top-badge-banner">
+      <a href="index.html" class="back-nav-link">← Portal Home</a>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <div class="hero-header">
+      <h1 class="hero-title">SURVIVOR CALCULATOR</h1>
+      <p class="hero-subtitle">Fire Crystals, Speedups, Chief Progression & Tactical Planners</p>
+    </div>
+
+    <!-- Modular Tab Bar -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('fc')">
+        <span>🔥</span> Fire Crystals
+      </button>
+      <button class="tab-btn" onclick="switchTab('troops')">
+        <span>⚔️</span> Troop Training
+      </button>
+      <button class="tab-btn" onclick="switchTab('gear')">
+        <span>🛡️</span> Chief Gear
+      </button>
+      <button class="tab-btn" onclick="switchTab('widgets')">
+        <span>⚡</span> Hero Widgets
+      </button>
+    </nav>
+
+    <!-- 1. FIRE CRYSTAL CALCULATOR -->
+    <section id="tab-fc" class="tab-content active">
+      <div class="calc-card">
+        <h2 class="card-heading"><span>🔥</span> Fire Crystal Planner</h2>
+        <p class="card-subtext">Calculate Fire Crystals and Refined Crystals needed from Level 30 through FC8.</p>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label class="input-label" for="fcBuilding">Building Target</label>
+            <select id="fcBuilding" class="custom-select" onchange="calcFC()">
+              <option value="furnace">Furnace (HQ)</option>
+              <option value="infirmary">Infirmary</option>
+              <option value="embassy">Embassy</option>
+              <option value="command">Command Center</option>
+              <option value="camp">Infantry / Marksman / Lancer Camp</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="fcStart">Current Level</label>
+            <select id="fcStart" class="custom-select" onchange="calcFC()">
+              <option value="0">Level 30 (FC0)</option>
+              <option value="1">Fire Crystal 1</option>
+              <option value="2">Fire Crystal 2</option>
+              <option value="3">Fire Crystal 3</option>
+              <option value="4">Fire Crystal 4</option>
+              <option value="5">Fire Crystal 5</option>
+              <option value="6">Fire Crystal 6</option>
+              <option value="7">Fire Crystal 7</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="fcEnd">Target Level</label>
+            <select id="fcEnd" class="custom-select" onchange="calcFC()">
+              <option value="1">Fire Crystal 1</option>
+              <option value="2">Fire Crystal 2</option>
+              <option value="3">Fire Crystal 3</option>
+              <option value="4">Fire Crystal 4</option>
+              <option value="5" selected>Fire Crystal 5</option>
+              <option value="6">Fire Crystal 6</option>
+              <option value="7">Fire Crystal 7</option>
+              <option value="8">Fire Crystal 8</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="results-container">
+          <div class="results-grid">
+            <div class="result-item">
+              <span class="result-name">Standard Fire Crystals</span>
+              <span id="resFC" class="result-val fire">0</span>
+            </div>
+            <div class="result-item">
+              <span class="result-name">Refined Fire Crystals (FC6-8)</span>
+              <span id="resRefined" class="result-val fire">0</span>
+            </div>
+            <div class="result-item">
+              <span class="result-name">Estimated Meat Needed</span>
+              <span id="resMeat" class="result-val">0M</span>
+            </div>
+            <div class="result-item">
+              <span class="result-name">Estimated Iron Needed</span>
+              <span id="resIron" class="result-val">0M</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TROOP TRAINING & SPEEDUP CALCULATOR -->
+    <section id="tab-troops" class="tab-content">
+      <div class="calc-card">
+        <h2 class="card-heading"><span>⚔️</span> Troop Training & Speedups</h2>
+        <p class="card-subtext">Determine exact hours, days, and event points earned for batch troop training.</p>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label class="input-label" for="troopTier">Troop Tier</label>
+            <select id="troopTier" class="custom-select" onchange="calcTroops()">
+              <option value="9">Tier 9 (T9)</option>
+              <option value="10" selected>Tier 10 (T10)</option>
+              <option value="11">Tier 11 (Fire Crystal Troops)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="troopCount">Troops to Train</label>
+            <input type="number" id="troopCount" class="custom-input" value="10000" min="1" step="500" oninput="calcTroops()">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="trainingSpeedBuff">Training Speed Buff (%)</label>
+            <input type="number" id="trainingSpeedBuff" class="custom-input" value="120" min="0" max="800" step="5" oninput="calcTroops()">
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <label class="check-label">
+            <input type="checkbox" id="buffMinistry" onchange="calcTroops()">
+            <span>Ministry Buff (+10%)</span>
+          </label>
+          <label class="check-label">
+            <input type="checkbox" id="buffPet" onchange="calcTroops()">
+            <span>Snow Leopard Buff (+15%)</span>
+          </label>
+        </div>
+
+        <div class="results-container">
+          <div class="results-grid">
+            <div class="result-item">
+              <span class="result-name">Total Speedup Time</span>
+              <span id="resTimeFormatted" class="result-val">0d 0h</span>
+            </div>
+            <div class="result-item">
+              <span class="result-name">Total Speedup Minutes</span>
+              <span id="resSpeedupMins" class="result-val">0 min</span>
+            </div>
+            <div class="result-item">
+              <span class="result-name">SvS / Prep Event Points</span>
+              <span id="resSvsPoints" class="result-val gold">0 pts</span>
+            </div>
+            <div class="result-item">
+              <span class="result-name">Total Power Gained</span>
+              <span id="resPowerGain" class="result-val">+0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3
