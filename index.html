@@ -304,25 +304,21 @@
       gap: 12px;
     }
 
-    .visitor-badge {
+    .visitor-badge-container {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
       border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      backdrop-filter: blur(6px);
+      padding: 4px 14px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
-    .visitor-count {
-      color: var(--accent-frost);
-      font-weight: 700;
-      letter-spacing: 1px;
+    .visitor-badge-container img {
+      height: 20px;
+      border-radius: 4px;
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -415,9 +411,11 @@
     </main>
 
     <footer class="portal-footer">
-      <div class="visitor-badge">
-        <span>👁️ Survivors Checked In:</span>
-        <span id="visitCount" class="visitor-count">...</span>
+      <div class="visitor-badge-container">
+        <img 
+          src="https://hits.sh/eu1-beta-realm.github.io.svg?label=Survivors+Checked+In&extraCount=1280&color=56d4ff&labelColor=0e1a2b&style=flat" 
+          alt="Survivors Checked In"
+        />
       </div>
       <div>EU1 BETA SERVER • SURVIVOR TOOLKIT</div>
     </footer>
@@ -472,30 +470,6 @@
       requestAnimationFrame(drawSnow);
     }
     drawSnow();
-
-    // Live Visitor Counter (CounterAPI.com)
-    (function initLandingCounter() {
-      const countEl = document.getElementById('visitCount');
-      if (!countEl) return;
-
-      const namespace = 'eu1-beta-wos';
-      const key = 'landing-portal';
-
-      const hasVisited = sessionStorage.getItem('eu1_visited_landing');
-      const readOnlyParam = hasVisited ? '&readOnly=true' : '';
-
-      fetch(`https://counterapi.com/api/${namespace}/view/${key}?startNumber=1280${readOnlyParam}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && typeof data.value !== 'undefined') {
-            countEl.innerText = Number(data.value).toLocaleString();
-            sessionStorage.setItem('eu1_visited_landing', 'true');
-          }
-        })
-        .catch(() => {
-          countEl.innerText = 'Online';
-        });
-    })();
   </script>
 </body>
 </html>
