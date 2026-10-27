@@ -68,7 +68,6 @@
       padding: 16px 8px;
     }
 
-    /* Clean, uncluttered top bar */
     .top-badge-banner {
       display: flex;
       justify-content: space-between;
@@ -143,11 +142,11 @@
       margin-top: 6px;
     }
 
-    /* Balanced 2-column desktop / 1-column mobile grid */
     .portal-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
+      margin-bottom: 16px;
     }
 
     .portal-card {
@@ -177,18 +176,6 @@
       box-shadow: 0 8px 24px rgba(88, 101, 242, 0.4);
     }
 
-    .portal-card.disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-      filter: grayscale(0.2);
-    }
-
-    .portal-card.disabled:hover {
-      transform: none;
-      border-color: var(--border-ice);
-      box-shadow: none;
-    }
-
     .card-top {
       display: flex;
       justify-content: space-between;
@@ -213,6 +200,12 @@
       background: rgba(0, 255, 136, 0.15);
       color: #00ff88;
       border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    .status-badge.faq {
+      background: rgba(86, 212, 255, 0.15);
+      color: var(--accent-frost);
+      border: 1px solid rgba(86, 212, 255, 0.3);
     }
 
     .status-badge.discord {
@@ -280,11 +273,68 @@
       box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
     }
 
-    .portal-card.disabled .btn-portal {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
-      border-color: rgba(255, 255, 255, 0.1);
+    /* Full-width Calculator Card across the bottom */
+    .calc-row-card {
+      background: var(--bg-card);
+      border: 1px dashed rgba(255, 209, 102, 0.35);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(8px);
+      opacity: 0.78;
       cursor: not-allowed;
+      gap: 20px;
+    }
+
+    .calc-row-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .calc-icon {
+      font-size: 2.2rem;
+    }
+
+    .calc-row-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .calc-row-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .calc-row-badge {
+      background: rgba(255, 209, 102, 0.12);
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      color: var(--gold-tag);
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .calc-row-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .calc-row-badge {
+        width: 100%;
+        text-align: center;
+      }
     }
 
     .portal-footer {
@@ -301,7 +351,6 @@
   <canvas id="snowCanvas"></canvas>
 
   <div class="container">
-    <!-- Clean, balanced top banner -->
     <header class="top-badge-banner">
       <div class="server-tag">
         <span class="pulse-dot"></span>
@@ -312,15 +361,14 @@
       </button>
     </header>
 
-    <!-- Hero Header -->
     <div class="hero-header">
       <h1 class="hero-title">COMMAND PORTAL</h1>
       <p class="hero-subtitle">Official Community Hub & Survival Toolkit</p>
     </div>
 
-    <!-- Navigation Hub Grid: Balanced 2x2 on desktop, single-column on mobile -->
+    <!-- 4 Active Navigation Cards -->
     <main class="portal-grid">
-      <!-- 1. Getting Started Guide (TOP PRIORITY) -->
+      <!-- 1. Getting Started Guide -->
       <a href="guide.html" class="portal-card">
         <div class="card-top">
           <span class="card-icon">📜</span>
@@ -328,7 +376,7 @@
         </div>
         <div>
           <h2 class="card-title">Getting Started</h2>
-          <p class="card-desc">Full APK download link, Android Auto Blocker setup, account registration, and initial login steps.</p>
+          <p class="card-desc">Direct APK download link, Android Auto Blocker setup, account registration, and initial login steps.</p>
         </div>
         <div class="btn-portal">Open Guide ➔</div>
       </a>
@@ -346,7 +394,20 @@
         <div class="btn-portal">Launch Depot ➔</div>
       </a>
 
-      <!-- 3. Official Discord Server -->
+      <!-- 3. FAQ & Support Desk -->
+      <a href="faq.html" class="portal-card">
+        <div class="card-top">
+          <span class="card-icon">❓</span>
+          <span class="status-badge faq">● Q&A / Support</span>
+        </div>
+        <div>
+          <h2 class="card-title">FAQ & Help Desk</h2>
+          <p class="card-desc">Frequently asked questions about private servers, safety, beta wipe details, and direct mod inquiry form.</p>
+        </div>
+        <div class="btn-portal">Visit FAQ ➔</div>
+      </a>
+
+      <!-- 4. Official Discord -->
       <a href="https://discord.gg/pqEHcrqB3" target="_blank" rel="noopener noreferrer" class="portal-card discord-card">
         <div class="card-top">
           <span class="card-icon">💬</span>
@@ -358,20 +419,22 @@
         </div>
         <div class="btn-portal">Join Server ➔</div>
       </a>
-
-      <!-- 4. Calculator (IN DEVELOPMENT) -->
-      <div class="portal-card disabled">
-        <div class="card-top">
-          <span class="card-icon">🧮</span>
-          <span class="status-badge wip">In Development</span>
-        </div>
-        <div>
-          <h2 class="card-title">WOS Calculator</h2>
-          <p class="card-desc">Chief gear, charm progression, Fire Crystals, widgets, and troop speedup planners.</p>
-        </div>
-        <div class="btn-portal">Coming Soon</div>
-      </div>
     </main>
+
+    <!-- 5. WOS Calculator Coming Soon Bar -->
+    <div class="calc-row-card">
+      <div class="calc-row-info">
+        <span class="calc-icon">🧮</span>
+        <div>
+          <h3 class="calc-row-title">
+            WOS Calculator
+            <span class="status-badge wip">In Development</span>
+          </h3>
+          <p class="calc-row-desc">Chief gear, charm progression, Fire Crystals, widgets, and troop training speedup planners.</p>
+        </div>
+      </div>
+      <div class="calc-row-badge">Coming Soon</div>
+    </div>
 
     <footer class="portal-footer">
       EU1 BETA SERVER • SURVIVOR TOOLKIT
