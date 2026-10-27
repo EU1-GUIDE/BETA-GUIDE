@@ -175,6 +175,19 @@
       box-shadow: 0 8px 24px rgba(88, 101, 242, 0.4);
     }
 
+    .portal-card.disabled {
+      opacity: 0.72;
+      cursor: not-allowed;
+      border-style: dashed;
+      border-color: rgba(255, 209, 102, 0.35);
+    }
+
+    .portal-card.disabled:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: rgba(255, 209, 102, 0.35);
+    }
+
     .card-top {
       display: flex;
       justify-content: space-between;
@@ -211,6 +224,12 @@
       background: rgba(88, 101, 242, 0.18);
       color: #7289da;
       border: 1px solid rgba(88, 101, 242, 0.35);
+    }
+
+    .status-badge.wip {
+      background: rgba(255, 209, 102, 0.15);
+      color: var(--gold-tag);
+      border: 1px solid rgba(255, 209, 102, 0.3);
     }
 
     .card-title {
@@ -264,6 +283,13 @@
       background: var(--discord-blurple);
       color: #fff;
       box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
+    }
+
+    .portal-card.disabled .btn-portal {
+      background: rgba(255, 209, 102, 0.08);
+      border-color: rgba(255, 209, 102, 0.25);
+      color: var(--gold-tag);
+      cursor: not-allowed;
     }
 
     .portal-footer {
@@ -374,18 +400,18 @@
         <div class="btn-portal">Join Server ➔</div>
       </a>
 
-      <!-- 5. WOS Calculator (Live) -->
-      <a href="calculator.html" class="portal-card">
+      <!-- 5. WOS Calculator (Back Under Construction) -->
+      <div class="portal-card disabled">
         <div class="card-top">
           <span class="card-icon">🧮</span>
-          <span class="status-badge live">● Active Suite</span>
+          <span class="status-badge wip">In Development</span>
         </div>
         <div>
           <h2 class="card-title">WOS Calculator</h2>
-          <p class="card-desc">Fire Crystal furnace progressions, troop training speeds, meat costs, and SvS event point planners.</p>
+          <p class="card-desc">Chief gear, charm progression, Fire Crystals, widgets, and troop training speedup planners.</p>
         </div>
-        <div class="btn-portal">Launch Tools ➔</div>
-      </a>
+        <div class="btn-portal">Coming Soon</div>
+      </div>
     </main>
 
     <footer class="portal-footer">
