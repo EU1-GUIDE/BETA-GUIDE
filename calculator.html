@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EU1 BETA | Survivor Calculator Suite</title>
+  <title>EU1 BETA | Calculator Suite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-deep: #060b13;
-      --bg-card: rgba(14, 26, 43, 0.88);
+      --bg-card: rgba(14, 26, 43, 0.85);
       --border-ice: rgba(120, 210, 255, 0.28);
       --accent-frost: #56d4ff;
       --accent-glow: rgba(86, 212, 255, 0.45);
@@ -19,7 +19,6 @@
       --gold-tag: #ffd166;
       --online-green: #00ff88;
       --fire-crystal: #ff5e36;
-      --refined-crystal: #b388ff;
     }
 
     body.halloween {
@@ -33,7 +32,6 @@
       --gold-tag: #ffb703;
       --online-green: #ffb703;
       --fire-crystal: #ff7700;
-      --refined-crystal: #d580ff;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -60,7 +58,7 @@
     .container {
       position: relative;
       z-index: 2;
-      width: min(95vw, 940px);
+      width: min(94vw, 860px);
       margin: 0 auto;
       padding: 16px 8px;
     }
@@ -74,7 +72,7 @@
       padding: 10px 16px;
       border-radius: 12px;
       backdrop-filter: blur(8px);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .back-nav-link {
@@ -96,12 +94,15 @@
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .hero-header {
       text-align: center;
-      padding: 20px 14px;
-      margin-bottom: 18px;
+      padding: 24px 14px;
+      margin-bottom: 24px;
       border-radius: 16px;
       background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
       border: 1px solid rgba(255, 255, 255, 0.05);
@@ -109,9 +110,9 @@
 
     .hero-title {
       font-family: 'Cinzel', serif;
-      font-size: 2.1rem;
+      font-size: 2.3rem;
       font-weight: 900;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       color: #fff;
       text-transform: uppercase;
       text-shadow: 0 0 16px var(--accent-glow);
@@ -119,44 +120,15 @@
 
     .hero-subtitle {
       color: var(--text-muted);
-      font-size: 1rem;
-      letter-spacing: 1px;
-      margin-top: 4px;
+      font-size: 1.05rem;
+      letter-spacing: 1.2px;
+      margin-top: 6px;
     }
 
-    /* Scrollable Tab Navigation */
-    .tab-nav {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      scrollbar-width: thin;
-    }
-
-    .tab-btn {
-      flex: 0 0 auto;
-      padding: 10px 16px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-ice);
-      border-radius: 10px;
-      color: var(--text-muted);
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .tab-btn.active {
-      background: rgba(86, 212, 255, 0.18);
-      color: var(--accent-frost);
-      border-color: var(--accent-frost);
-      box-shadow: 0 0 12px var(--accent-glow);
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
     }
 
     .calc-card {
@@ -164,215 +136,121 @@
       border: 1px solid var(--border-ice);
       border-radius: 16px;
       padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       backdrop-filter: blur(8px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-      margin-bottom: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+      min-height: 220px;
     }
 
-    .section-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.95rem;
-      color: var(--accent-frost);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .building-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .building-btn {
-      background: rgba(4, 9, 16, 0.85);
-      border: 1px solid var(--border-ice);
-      border-radius: 8px;
-      padding: 10px 6px;
-      color: var(--text-main);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.2s ease;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-
-    .building-btn .b-icon { font-size: 1.5rem; }
-    .building-btn:hover { border-color: var(--accent-frost); }
-    .building-btn.active {
-      background: rgba(86, 212, 255, 0.2);
+    .calc-card:hover:not(.disabled) {
+      transform: translateY(-4px);
       border-color: var(--accent-frost);
-      box-shadow: 0 0 12px var(--accent-glow);
-      color: #fff;
+      box-shadow: 0 8px 24px var(--accent-glow);
     }
 
-    .slider-container {
-      background: rgba(4, 9, 16, 0.7);
-      border: 1px solid var(--border-ice);
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .calc-card.active-card {
+      border-color: rgba(255, 94, 54, 0.5);
+    }
+    .calc-card.active-card:hover {
+      box-shadow: 0 8px 24px rgba(255, 94, 54, 0.45);
+      border-color: var(--fire-crystal);
     }
 
-    .slider-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .calc-card.disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      border-style: dashed;
+      border-color: rgba(255, 255, 255, 0.18);
     }
 
-    .slider-header {
+    .card-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    .card-icon { font-size: 2rem; }
+    
+    .status-badge {
+      font-size: 0.72rem;
       font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .status-badge.live {
+      background: rgba(255, 94, 54, 0.18);
+      color: var(--fire-crystal);
+      border: 1px solid rgba(255, 94, 54, 0.35);
+    }
+    .status-badge.queue {
+      background: rgba(255, 209, 102, 0.15);
+      color: var(--gold-tag);
+      border: 1px solid rgba(255, 209, 102, 0.3);
+    }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
+      margin-bottom: 18px;
+      flex-grow: 1;
+    }
+
+    .btn-calc {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-ice);
+      background: rgba(18, 38, 62, 0.8);
+      color: var(--accent-frost);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .calc-card.active-card .btn-calc {
+      background: rgba(255, 94, 54, 0.2);
+      border-color: rgba(255, 94, 54, 0.4);
+      color: #ff9176;
+    }
+    .calc-card.active-card:hover .btn-calc {
+      background: var(--fire-crystal);
+      color: #040910;
+      box-shadow: 0 0 14px rgba(255, 94, 54, 0.6);
+    }
+
+    .calc-card.disabled .btn-calc {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.1);
       color: var(--text-muted);
     }
 
-    .slider-badge {
-      background: rgba(86, 212, 255, 0.15);
-      border: 1px solid var(--accent-frost);
-      color: var(--accent-frost);
-      padding: 2px 10px;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 0.9rem;
-    }
-
-    .slider-badge.target {
-      border-color: var(--gold-tag);
-      color: var(--gold-tag);
-      background: rgba(255, 209, 102, 0.15);
-    }
-
-    input[type=range] {
-      -webkit-appearance: none;
-      width: 100%;
-      background: transparent;
-    }
-    input[type=range]:focus { outline: none; }
-    input[type=range]::-webkit-slider-runnable-track {
-      width: 100%;
-      height: 8px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 6px;
-      border: 1px solid var(--border-ice);
-    }
-    input[type=range]::-webkit-slider-thumb {
-      height: 20px;
-      width: 20px;
-      border-radius: 50%;
-      background: var(--accent-frost);
-      box-shadow: 0 0 10px var(--accent-glow);
-      cursor: pointer;
-      -webkit-appearance: none;
-      margin-top: -6px;
-    }
-
-    .presets-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-      align-items: center;
-    }
-    .preset-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
-    .preset-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-ice);
-      color: var(--text-main);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .preset-btn:hover { border-color: var(--accent-frost); color: var(--accent-frost); }
-
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .result-stat {
-      background: rgba(4, 9, 16, 0.85);
-      border: 1px solid var(--border-ice);
-      border-radius: 10px;
-      padding: 12px 6px;
+    .portal-footer {
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      margin-top: 36px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
     }
-    .stat-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
-    .stat-val { font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 800; color: var(--accent-frost); }
-    .stat-val.fc { color: var(--fire-crystal); }
-    .stat-val.refined { color: var(--refined-crystal); }
-    .stat-val.gold { color: var(--gold-tag); }
-
-    .input-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 14px;
-      margin: 12px 0 20px;
-    }
-    .form-field { display: flex; flex-direction: column; gap: 6px; }
-    .form-field label { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-    .styled-input, .styled-select {
-      height: 44px;
-      background: rgba(4, 9, 16, 0.85);
-      border: 1px solid var(--border-ice);
-      border-radius: 8px;
-      color: #fff;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 1rem;
-      padding: 0 12px;
-      font-weight: 700;
-      outline: none;
-    }
-    .styled-input:focus, .styled-select:focus {
-      border-color: var(--accent-frost);
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
-
-    .breakdown-wrapper {
-      overflow-x: auto;
-      border: 1px solid var(--border-ice);
-      border-radius: 10px;
-      background: rgba(4, 9, 16, 0.7);
-    }
-    table.breakdown-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
-    table.breakdown-table th {
-      background: rgba(86, 212, 255, 0.1);
-      color: var(--accent-frost);
-      padding: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--border-ice);
-      white-space: nowrap;
-    }
-    table.breakdown-table td {
-      padding: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--text-main);
-      white-space: nowrap;
-    }
-
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-    .portal-footer { text-align: center; margin-top: 36px; color: var(--text-muted); font-size: 0.85rem; }
   </style>
 </head>
 <body>
@@ -381,305 +259,96 @@
 
   <div class="container">
     <header class="top-badge-banner">
-      <a href="index.html" class="back-nav-link">← Command Portal</a>
+      <a href="index.html" class="back-nav-link">← Portal Home</a>
       <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
         <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
       </button>
     </header>
 
     <div class="hero-header">
-      <h1 class="hero-title">COMMAND CALCULATORS</h1>
-      <p class="hero-subtitle">Fire Crystals, Gear, Pets, Experts & Troop Speeds</p>
+      <h1 class="hero-title">CALCULATOR SUITE</h1>
+      <p class="hero-subtitle">Accurate Survivor Planners & Resource Projections</p>
     </div>
 
-    <!-- 6 Primary Tool Tabs -->
-    <nav class="tab-nav">
-      <button class="tab-btn active" onclick="switchTab('fcTab', this)"><span>🔥</span> Fire Crystals</button>
-      <button class="tab-btn" onclick="switchTab('gearTab', this)"><span>🛡️</span> Chief Gear & Charms</button>
-      <button class="tab-btn" onclick="switchTab('heroTab', this)"><span>⚔️</span> Hero Gear & Widgets</button>
-      <button class="tab-btn" onclick="switchTab('expertTab', this)"><span>📜</span> Dawn Experts</button>
-      <button class="tab-btn" onclick="switchTab('petTab', this)"><span>🐾</span> Beast Sanctuary</button>
-      <button class="tab-btn" onclick="switchTab('troopTab', this)"><span>🏹</span> Troop Training</button>
-    </nav>
-
-    <!-- 1. FIRE CRYSTALS -->
-    <section id="fcTab" class="tab-content active">
-      <div class="calc-card">
-        <span class="section-label">1. Choose Structure</span>
-        <div class="building-grid">
-          <button class="building-btn active" onclick="selectBuilding('furnace', this)"><span class="b-icon">🌋</span><span>Furnace</span></button>
-          <button class="building-btn" onclick="selectBuilding('embassy', this)"><span class="b-icon">🏛️</span><span>Embassy</span></button>
-          <button class="building-btn" onclick="selectBuilding('command', this)"><span class="b-icon">🎖️</span><span>Command</span></button>
-          <button class="building-btn" onclick="selectBuilding('camp', this)"><span class="b-icon">🛡️</span><span>Troop Camps</span></button>
-          <button class="building-btn" onclick="selectBuilding('infirmary', this)"><span class="b-icon">🏥</span><span>Infirmary</span></button>
+    <main class="calc-grid">
+      <!-- 1. Dedicated Fire Crystal Calculator (ONLINE) -->
+      <a href="calc-fire-crystals.html" class="calc-card active-card">
+        <div class="card-top">
+          <span class="card-icon">🔥</span>
+          <span class="status-badge live">● Ready to Use</span>
         </div>
-
-        <span class="section-label">2. Target Level Range</span>
-        <div class="slider-container">
-          <div class="slider-group">
-            <div class="slider-header"><span>Current Level:</span><span id="fcCurLabel" class="slider-badge">Level 30 (FC 0)</span></div>
-            <input type="range" id="fcCur" min="0" max="7" value="0" oninput="onFCSliderChange(true)">
-          </div>
-          <div class="slider-group">
-            <div class="slider-header"><span>Target Level:</span><span id="fcTarLabel" class="slider-badge target">FC 5</span></div>
-            <input type="range" id="fcTar" min="1" max="8" value="5" oninput="onFCSliderChange(false)">
-          </div>
+        <div>
+          <h2 class="card-title">Fire Crystals</h2>
+          <p class="card-desc">FC1 to FC10 progression for Furnace, Embassy, Camps, and Command with exact 1/5 sub-stage tracking and prerequisites.</p>
         </div>
+        <div class="btn-calc">Open Fire Crystal Calc ➔</div>
+      </a>
 
-        <div class="presets-row">
-          <span class="preset-label">Quick Jumps:</span>
-          <button class="preset-btn" onclick="setFCPreset(0, 1)">FC 0 → FC 1</button>
-          <button class="preset-btn" onclick="setFCPreset(0, 3)">FC 0 → FC 3</button>
-          <button class="preset-btn" onclick="setFCPreset(0, 5)">FC 0 → FC 5</button>
-          <button class="preset-btn" onclick="setFCPreset(5, 8)">FC 5 → FC 8</button>
-          <button class="preset-btn" onclick="setFCPreset(0, 8)">Max (FC 0 → FC 8)</button>
+      <!-- 2. Chief Gear & Charms (Next) -->
+      <div class="calc-card disabled">
+        <div class="card-top">
+          <span class="card-icon">🛡️</span>
+          <span class="status-badge queue">Next In Line</span>
         </div>
-
-        <span class="section-label">Total Requirements</span>
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Fire Crystals</span><span id="fcTotalFC" class="stat-val fc">0</span></div>
-          <div class="result-stat"><span class="stat-label">Refined FC</span><span id="fcTotalRef" class="stat-val refined">0</span></div>
-          <div class="result-stat"><span class="stat-label">Meat</span><span id="fcTotalMeat" class="stat-val">0M</span></div>
-          <div class="result-stat"><span class="stat-label">Wood</span><span id="fcTotalWood" class="stat-val">0M</span></div>
-          <div class="result-stat"><span class="stat-label">Coal</span><span id="fcTotalCoal" class="stat-val">0M</span></div>
-          <div class="result-stat"><span class="stat-label">Iron</span><span id="fcTotalIron" class="stat-val">0M</span></div>
+        <div>
+          <h2 class="card-title">Chief Gear & Charms</h2>
+          <p class="card-desc">Alloy, Polishing Solutions, Design Plans, and Lunar/Solar Charm upgrade ladders for all 6 slots.</p>
         </div>
-
-        <span class="section-label">Level Breakdown</span>
-        <div class="breakdown-wrapper">
-          <table class="breakdown-table">
-            <thead>
-              <tr><th>Level</th><th>Fire Crystals</th><th>Refined Crystals</th><th>Meat</th><th>Wood</th><th>Coal</th><th>Iron</th></tr>
-            </thead>
-            <tbody id="fcTableBody"></tbody>
-          </table>
-        </div>
+        <div class="btn-calc">In Testing</div>
       </div>
-    </section>
 
-    <!-- 2. CHIEF GEAR & CHARMS -->
-    <section id="gearTab" class="tab-content">
-      <div class="calc-card">
-        <span class="section-label">Chief Gear Upgrades (Single Piece)</span>
-        <div class="input-row">
-          <div class="form-field">
-            <label>Current Tier</label>
-            <select id="gearCur" class="styled-select" onchange="calcChiefGear()">
-              <option value="0">Green</option>
-              <option value="1">Blue</option>
-              <option value="2">Purple</option>
-              <option value="3">Gold (T1)</option>
-              <option value="4">Mythic (T2)</option>
-              <option value="5">Lunar (T3)</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>Target Tier</label>
-            <select id="gearTar" class="styled-select" onchange="calcChiefGear()">
-              <option value="1">Blue</option>
-              <option value="2">Purple</option>
-              <option value="3">Gold (T1)</option>
-              <option value="4" selected>Mythic (T2)</option>
-              <option value="5">Lunar (T3)</option>
-              <option value="6">Solar (T4)</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>Pieces Upgrading</label>
-            <select id="gearPieces" class="styled-select" onchange="calcChiefGear()">
-              <option value="1">1 Piece</option>
-              <option value="6" selected>All 6 Pieces</option>
-            </select>
-          </div>
+      <!-- 3. Troop Training & Speedups -->
+      <div class="calc-card disabled">
+        <div class="card-top">
+          <span class="card-icon">🏹</span>
+          <span class="status-badge queue">Scheduled</span>
         </div>
-
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Hardened Alloy</span><span id="gearAlloy" class="stat-val">0</span></div>
-          <div class="result-stat"><span class="stat-label">Polishing Solution</span><span id="gearPolish" class="stat-val">0</span></div>
-          <div class="result-stat"><span class="stat-label">Design Plans</span><span id="gearPlans" class="stat-val gold">0</span></div>
+        <div>
+          <h2 class="card-title">Troops & Speedups</h2>
+          <p class="card-desc">Batch size calculator, speed buff equations, meat upkeep, and SvS prep point converters.</p>
         </div>
-
-        <span class="section-label" style="margin-top:20px;">Chief Charm Progression (Single Charm)</span>
-        <div class="input-row">
-          <div class="form-field">
-            <label>Current Charm Level</label>
-            <select id="charmCur" class="styled-select" onchange="calcCharms()">
-              <option value="0">Level 0 (Ununlocked)</option>
-              <option value="1">Level 1</option>
-              <option value="2">Level 2</option>
-              <option value="3">Level 3</option>
-              <option value="4">Level 4</option>
-              <option value="5">Level 5</option>
-              <option value="6">Level 6</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>Target Charm Level</label>
-            <select id="charmTar" class="styled-select" onchange="calcCharms()">
-              <option value="1">Level 1</option>
-              <option value="2">Level 2</option>
-              <option value="3">Level 3</option>
-              <option value="4">Level 4</option>
-              <option value="5">Level 5</option>
-              <option value="6">Level 6</option>
-              <option value="7" selected>Level 7</option>
-              <option value="8">Level 8</option>
-              <option value="9">Level 9</option>
-              <option value="10">Level 10</option>
-              <option value="11">Level 11 (Max)</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>Charms Upgrading</label>
-            <select id="charmPieces" class="styled-select" onchange="calcCharms()">
-              <option value="1">1 Charm</option>
-              <option value="6" selected>All 6 Charms</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Charm Guides</span><span id="resGuides" class="stat-val">0</span></div>
-          <div class="result-stat"><span class="stat-label">Charm Designs</span><span id="resDesigns" class="stat-val gold">0</span></div>
-          <div class="result-stat"><span class="stat-label">Lunar/Solar Secrets</span><span id="resSecrets" class="stat-val refined">0</span></div>
-        </div>
+        <div class="btn-calc">In Testing</div>
       </div>
-    </section>
 
-    <!-- 3. HERO GEAR & WIDGETS -->
-    <section id="heroTab" class="tab-content">
-      <div class="calc-card">
-        <span class="section-label">Exclusive Weapon Widgets</span>
-        <div class="input-row">
-          <div class="form-field">
-            <label>Current Widget Level</label>
-            <input type="number" id="widgetCur" class="styled-input" value="0" min="0" max="29" oninput="calcWidgets()">
-          </div>
-          <div class="form-field">
-            <label>Target Widget Level</label>
-            <input type="number" id="widgetTar" class="styled-input" value="10" min="1" max="30" oninput="calcWidgets()">
-          </div>
+      <!-- 4. Hero Gear & Widgets -->
+      <div class="calc-card disabled">
+        <div class="card-top">
+          <span class="card-icon">⚔️</span>
+          <span class="status-badge queue">Scheduled</span>
         </div>
-
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Custom Widgets Required</span><span id="resWidgets" class="stat-val gold">0</span></div>
-          <div class="result-stat"><span class="stat-label">SvS Event Points</span><span id="resWidgetPoints" class="stat-val">0</span></div>
+        <div>
+          <h2 class="card-title">Hero Widgets & Gear</h2>
+          <p class="card-desc">Exclusive weapon widget shards (0-30), Mastery Forging Stones, and gear enhancement XP.</p>
         </div>
-
-        <span class="section-label" style="margin-top:20px;">Mythic Hero Gear Mastery Forging</span>
-        <div class="input-row">
-          <div class="form-field">
-            <label>Current Mastery (0 - 19)</label>
-            <input type="number" id="masteryCur" class="styled-input" value="0" min="0" max="19" oninput="calcMastery()">
-          </div>
-          <div class="form-field">
-            <label>Target Mastery (1 - 20)</label>
-            <input type="number" id="masteryTar" class="styled-input" value="10" min="1" max="20" oninput="calcMastery()">
-          </div>
-          <div class="form-field">
-            <label>Gear Slots</label>
-            <select id="masterySlots" class="styled-select" onchange="calcMastery()">
-              <option value="1">1 Item</option>
-              <option value="4" selected>Full Set (4 Items)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Mastery Forging Stones</span><span id="resMasteryStones" class="stat-val gold">0</span></div>
-          <div class="result-stat"><span class="stat-label">Enhancement XP Needed</span><span id="resMasteryXP" class="stat-val">0</span></div>
-        </div>
+        <div class="btn-calc">In Testing</div>
       </div>
-    </section>
 
-    <!-- 4. DAWN EXPERTS -->
-    <section id="expertTab" class="tab-content">
-      <div class="calc-card">
-        <span class="section-label">Dawn Academy Expert Leveling</span>
-        <div class="input-row">
-          <div class="form-field">
-            <label>Current Level</label>
-            <input type="number" id="expertCur" class="styled-input" value="1" min="1" max="99" oninput="calcExperts()">
-          </div>
-          <div class="form-field">
-            <label>Target Level</label>
-            <input type="number" id="expertTar" class="styled-input" value="50" min="2" max="100" oninput="calcExperts()">
-          </div>
-          <div class="form-field">
-            <label>Daily Stamina Limit</label>
-            <input type="number" id="expertStam" class="styled-input" value="120" min="10" step="10" oninput="calcExperts()">
-          </div>
+      <!-- 5. Beast Sanctuary & Pets -->
+      <div class="calc-card disabled">
+        <div class="card-top">
+          <span class="card-icon">🐾</span>
+          <span class="status-badge queue">Scheduled</span>
         </div>
-
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Manuals Required</span><span id="resManuals" class="stat-val gold">0</span></div>
-          <div class="result-stat"><span class="stat-label">Total Stamina Cost</span><span id="resStamina" class="stat-val">0</span></div>
-          <div class="result-stat"><span class="stat-label">Estimated Days Needed</span><span id="resDays" class="stat-val refined">0</span></div>
+        <div>
+          <h2 class="card-title">Beast Sanctuary</h2>
+          <p class="card-desc">Pet food levels, refining potions, beast marks, and combat skill milestone requirements.</p>
         </div>
+        <div class="btn-calc">In Testing</div>
       </div>
-    </section>
 
-    <!-- 5. PETS / BEAST SANCTUARY -->
-    <section id="petTab" class="tab-content">
-      <div class="calc-card">
-        <span class="section-label">Beast Sanctuary Leveling</span>
-        <div class="input-row">
-          <div class="form-field">
-            <label>Beast Tier</label>
-            <select id="petTier" class="styled-select" onchange="calcPets()">
-              <option value="epic">Epic Beast (Cave Hyena, Musk Ox)</option>
-              <option value="mythic" selected>Mythic Beast (Snow Leopard, Titan Crane)</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>Current Level</label>
-            <input type="number" id="petCur" class="styled-input" value="1" min="1" max="99" oninput="calcPets()">
-          </div>
-          <div class="form-field">
-            <label>Target Level</label>
-            <input type="number" id="petTar" class="styled-input" value="50" min="2" max="100" oninput="calcPets()">
-          </div>
+      <!-- 6. Dawn Academy Experts -->
+      <div class="calc-card disabled">
+        <div class="card-top">
+          <span class="card-icon">📜</span>
+          <span class="status-badge queue">Scheduled</span>
         </div>
-
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Pet Food</span><span id="resPetFood" class="stat-val">0</span></div>
-          <div class="result-stat"><span class="stat-label">Refining Potions</span><span id="resPetPotions" class="stat-val refined">0</span></div>
-          <div class="result-stat"><span class="stat-label">Beast Marks</span><span id="resPetMarks" class="stat-val gold">0</span></div>
+        <div>
+          <h2 class="card-title">Dawn Experts</h2>
+          <p class="card-desc">Manuals, daily stamina budgets, and timeline projections to level all 5 Academy advisors.</p>
         </div>
+        <div class="btn-calc">In Testing</div>
       </div>
-    </section>
-
-    <!-- 6. TROOPS & SPEEDUPS -->
-    <section id="troopTab" class="tab-content">
-      <div class="calc-card">
-        <span class="section-label">Troop Training Speedup Math</span>
-        <div class="input-row">
-          <div class="form-field">
-            <label>Troop Tier</label>
-            <select id="troopTier" class="styled-select" onchange="calcTroops()">
-              <option value="t9">Tier 9</option>
-              <option value="t10" selected>Tier 10</option>
-              <option value="t11">Tier 11 (FC)</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>Batch Size (Troops)</label>
-            <input type="number" id="troopCount" class="styled-input" value="1000" min="1" step="100" oninput="calcTroops()">
-          </div>
-          <div class="form-field">
-            <label>Training Speed Buff (%)</label>
-            <input type="number" id="trainingBuff" class="styled-input" value="120" min="0" step="5" oninput="calcTroops()">
-          </div>
-        </div>
-
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Training Time</span><span id="resTime" class="stat-val" style="font-size:1.15rem;">0h 0m</span></div>
-          <div class="result-stat"><span class="stat-label">Total Minutes</span><span id="resMins" class="stat-val">0</span></div>
-          <div class="result-stat"><span class="stat-label">Meat Cost</span><span id="resTroopMeat" class="stat-val">0K</span></div>
-          <div class="result-stat"><span class="stat-label">SvS Points</span><span id="resPoints" class="stat-val gold">0</span></div>
-        </div>
-      </div>
-    </section>
+    </main>
 
     <footer class="portal-footer">
       EU1 BETA SERVER • SURVIVOR TOOLKIT
@@ -687,273 +356,12 @@
   </div>
 
   <script>
-    // Tab Router
-    function switchTab(tabId, el) {
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      el.classList.add('active');
-    }
-
-    // 1. FIRE CRYSTALS ENGINE
-    const buildingData = {
-      furnace: [
-        { lvl: "FC 1", fc: 600,  ref: 0,   meat: 120, wood: 120, coal: 24, iron: 6 },
-        { lvl: "FC 2", fc: 900,  ref: 0,   meat: 180, wood: 180, coal: 36, iron: 9 },
-        { lvl: "FC 3", fc: 1400, ref: 0,   meat: 260, wood: 260, coal: 52, iron: 13 },
-        { lvl: "FC 4", fc: 2200, ref: 0,   meat: 400, wood: 400, coal: 80, iron: 20 },
-        { lvl: "FC 5", fc: 3500, ref: 0,   meat: 620, wood: 620, coal: 124, iron: 31 },
-        { lvl: "FC 6", fc: 4800, ref: 250, meat: 850, wood: 850, coal: 170, iron: 42 },
-        { lvl: "FC 7", fc: 6400, ref: 500, meat: 1100, wood: 1100, coal: 220, iron: 55 },
-        { lvl: "FC 8", fc: 8500, ref: 900, meat: 1500, wood: 1500, coal: 300, iron: 75 }
-      ],
-      camp: [
-        { lvl: "FC 1", fc: 200,  ref: 0,   meat: 40, wood: 40, coal: 8, iron: 2 },
-        { lvl: "FC 2", fc: 300,  ref: 0,   meat: 60, wood: 60, coal: 12, iron: 3 },
-        { lvl: "FC 3", fc: 450,  ref: 0,   meat: 90, wood: 90, coal: 18, iron: 4.5 },
-        { lvl: "FC 4", fc: 700,  ref: 0,   meat: 140, wood: 140, coal: 28, iron: 7 },
-        { lvl: "FC 5", fc: 1100, ref: 0,   meat: 210, wood: 210, coal: 42, iron: 10.5 },
-        { lvl: "FC 6", fc: 1600, ref: 80,  meat: 290, wood: 290, coal: 58, iron: 14.5 },
-        { lvl: "FC 7", fc: 2200, ref: 160, meat: 380, wood: 380, coal: 76, iron: 19 },
-        { lvl: "FC 8", fc: 2900, ref: 300, meat: 500, wood: 500, coal: 100, iron: 25 }
-      ],
-      support: [
-        { lvl: "FC 1", fc: 180,  ref: 0,   meat: 35, wood: 35, coal: 7, iron: 1.8 },
-        { lvl: "FC 2", fc: 270,  ref: 0,   meat: 55, wood: 55, coal: 11, iron: 2.7 },
-        { lvl: "FC 3", fc: 400,  ref: 0,   meat: 80, wood: 80, coal: 16, iron: 4 },
-        { lvl: "FC 4", fc: 650,  ref: 0,   meat: 125, wood: 125, coal: 25, iron: 6.2 },
-        { lvl: "FC 5", fc: 1000, ref: 0,   meat: 190, wood: 190, coal: 38, iron: 9.5 },
-        { lvl: "FC 6", fc: 1500, ref: 75,  meat: 260, wood: 260, coal: 52, iron: 13 },
-        { lvl: "FC 7", fc: 2000, ref: 150, meat: 340, wood: 340, coal: 68, iron: 17 },
-        { lvl: "FC 8", fc: 2600, ref: 280, meat: 450, wood: 450, coal: 90, iron: 22.5 }
-      ]
-    };
-
-    let selectedBuildingCat = 'furnace';
-
-    function selectBuilding(key, btn) {
-      document.querySelectorAll('.building-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      selectedBuildingCat = (key === 'furnace') ? 'furnace' : (key === 'camp' ? 'camp' : 'support');
-      calcFireCrystals();
-    }
-
-    function onFCSliderChange(isCurrent) {
-      const curEl = document.getElementById('fcCur');
-      const tarEl = document.getElementById('fcTar');
-      let c = parseInt(curEl.value), t = parseInt(tarEl.value);
-      if (isCurrent && c >= t) { t = c + 1; tarEl.value = t; }
-      else if (!isCurrent && t <= c) { c = t - 1; curEl.value = c; }
-      document.getElementById('fcCurLabel').innerText = c === 0 ? 'Level 30 (FC 0)' : `FC ${c}`;
-      document.getElementById('fcTarLabel').innerText = `FC ${t}`;
-      calcFireCrystals();
-    }
-
-    function setFCPreset(c, t) {
-      document.getElementById('fcCur').value = c;
-      document.getElementById('fcTar').value = t;
-      document.getElementById('fcCurLabel').innerText = c === 0 ? 'Level 30 (FC 0)' : `FC ${c}`;
-      document.getElementById('fcTarLabel').innerText = `FC ${t}`;
-      calcFireCrystals();
-    }
-
-    function calcFireCrystals() {
-      const cur = parseInt(document.getElementById('fcCur').value);
-      const tar = parseInt(document.getElementById('fcTar').value);
-      const data = buildingData[selectedBuildingCat];
-      let sumFC = 0, sumRef = 0, sumMeat = 0, sumWood = 0, sumCoal = 0, sumIron = 0;
-      let tbody = '';
-
-      for (let i = cur; i < tar; i++) {
-        const row = data[i];
-        sumFC += row.fc; sumRef += row.ref; sumMeat += row.meat; sumWood += row.wood; sumCoal += row.coal; sumIron += row.iron;
-        tbody += `<tr><td><strong>${row.lvl}</strong></td><td style="color:var(--fire-crystal); font-weight:700;">${row.fc.toLocaleString()}</td><td style="color:var(--refined-crystal); font-weight:700;">${row.ref.toLocaleString()}</td><td>${row.meat}M</td><td>${row.wood}M</td><td>${row.coal}M</td><td>${row.iron}M</td></tr>`;
-      }
-      document.getElementById('fcTotalFC').innerText = sumFC.toLocaleString();
-      document.getElementById('fcTotalRef').innerText = sumRef.toLocaleString();
-      document.getElementById('fcTotalMeat').innerText = sumMeat.toFixed(1).replace('.0','') + 'M';
-      document.getElementById('fcTotalWood').innerText = sumWood.toFixed(1).replace('.0','') + 'M';
-      document.getElementById('fcTotalCoal').innerText = sumCoal.toFixed(1).replace('.0','') + 'M';
-      document.getElementById('fcTotalIron').innerText = sumIron.toFixed(1).replace('.0','') + 'M';
-      document.getElementById('fcTableBody').innerHTML = tbody;
-    }
-
-    // 2. CHIEF GEAR & CHARMS ENGINE
-    const gearTiers = [
-      { alloy: 600, polish: 60, plans: 0 },     // Blue
-      { alloy: 1800, polish: 180, plans: 10 },   // Purple
-      { alloy: 5400, polish: 540, plans: 35 },   // Gold
-      { alloy: 16000, polish: 1600, plans: 120 },// Mythic
-      { alloy: 42000, polish: 4200, plans: 340 },// Lunar
-      { alloy: 95000, polish: 9500, plans: 800 } // Solar
-    ];
-
-    function calcChiefGear() {
-      const cur = parseInt(document.getElementById('gearCur').value);
-      const tar = parseInt(document.getElementById('gearTar').value);
-      const pieces = parseInt(document.getElementById('gearPieces').value);
-      if (tar <= cur) {
-        document.getElementById('gearAlloy').innerText = '0';
-        document.getElementById('gearPolish').innerText = '0';
-        document.getElementById('gearPlans').innerText = '0';
-        return;
-      }
-      let alloy = 0, polish = 0, plans = 0;
-      for (let i = cur; i < tar; i++) {
-        alloy += gearTiers[i].alloy;
-        polish += gearTiers[i].polish;
-        plans += gearTiers[i].plans;
-      }
-      document.getElementById('gearAlloy').innerText = (alloy * pieces).toLocaleString();
-      document.getElementById('gearPolish').innerText = (polish * pieces).toLocaleString();
-      document.getElementById('gearPlans').innerText = (plans * pieces).toLocaleString();
-    }
-
-    const charmData = [
-      { guides: 10, designs: 0, secrets: 0 },    // Lv 1
-      { guides: 25, designs: 5, secrets: 0 },    // Lv 2
-      { guides: 50, designs: 15, secrets: 0 },   // Lv 3
-      { guides: 100, designs: 35, secrets: 0 },  // Lv 4
-      { guides: 200, designs: 75, secrets: 0 },  // Lv 5
-      { guides: 380, designs: 140, secrets: 0 }, // Lv 6
-      { guides: 700, designs: 260, secrets: 10 },// Lv 7
-      { guides: 1200, designs: 450, secrets: 30 },// Lv 8
-      { guides: 1900, designs: 720, secrets: 65 },// Lv 9
-      { guides: 2800, designs: 1100, secrets: 120 },// Lv 10
-      { guides: 4000, designs: 1600, secrets: 200 } // Lv 11
-    ];
-
-    function calcCharms() {
-      const cur = parseInt(document.getElementById('charmCur').value);
-      const tar = parseInt(document.getElementById('charmTar').value);
-      const pieces = parseInt(document.getElementById('charmPieces').value);
-      if (tar <= cur) {
-        document.getElementById('resGuides').innerText = '0';
-        document.getElementById('resDesigns').innerText = '0';
-        document.getElementById('resSecrets').innerText = '0';
-        return;
-      }
-      let guides = 0, designs = 0, secrets = 0;
-      for (let i = cur; i < tar; i++) {
-        guides += charmData[i].guides;
-        designs += charmData[i].designs;
-        secrets += charmData[i].secrets;
-      }
-      document.getElementById('resGuides').innerText = (guides * pieces).toLocaleString();
-      document.getElementById('resDesigns').innerText = (designs * pieces).toLocaleString();
-      document.getElementById('resSecrets').innerText = (secrets * pieces).toLocaleString();
-    }
-
-    // 3. HERO WIDGETS & MASTERY
-    function calcWidgets() {
-      const cur = Math.max(0, parseInt(document.getElementById('widgetCur').value) || 0);
-      const tar = Math.min(30, parseInt(document.getElementById('widgetTar').value) || 0);
-      if (tar <= cur) {
-        document.getElementById('resWidgets').innerText = '0';
-        document.getElementById('resWidgetPoints').innerText = '0';
-        return;
-      }
-      // Widget shards scale: 1-10: 5/lvl, 11-20: 15/lvl, 21-30: 30/lvl
-      let total = 0;
-      for (let i = cur + 1; i <= tar; i++) {
-        if (i <= 10) total += 5;
-        else if (i <= 20) total += 15;
-        else total += 30;
-      }
-      document.getElementById('resWidgets').innerText = total.toLocaleString();
-      document.getElementById('resWidgetPoints').innerText = (total * 25000).toLocaleString();
-    }
-
-    function calcMastery() {
-      const cur = Math.max(0, parseInt(document.getElementById('masteryCur').value) || 0);
-      const tar = Math.min(20, parseInt(document.getElementById('masteryTar').value) || 0);
-      const slots = parseInt(document.getElementById('masterySlots').value);
-      if (tar <= cur) {
-        document.getElementById('resMasteryStones').innerText = '0';
-        document.getElementById('resMasteryXP').innerText = '0';
-        return;
-      }
-      let stones = 0, xp = 0;
-      for (let i = cur + 1; i <= tar; i++) {
-        stones += (i * 2);
-        xp += (i * 5000);
-      }
-      document.getElementById('resMasteryStones').innerText = (stones * slots).toLocaleString();
-      document.getElementById('resMasteryXP').innerText = ((xp * slots) / 1000).toLocaleString() + 'K';
-    }
-
-    // 4. DAWN EXPERTS
-    function calcExperts() {
-      const cur = Math.max(1, parseInt(document.getElementById('expertCur').value) || 1);
-      const tar = Math.min(100, parseInt(document.getElementById('expertTar').value) || 1);
-      const limit = Math.max(1, parseInt(document.getElementById('expertStam').value) || 120);
-      if (tar <= cur) {
-        document.getElementById('resManuals').innerText = '0';
-        document.getElementById('resStamina').innerText = '0';
-        document.getElementById('resDays').innerText = '0';
-        return;
-      }
-      let manuals = 0;
-      for (let i = cur; i < tar; i++) manuals += Math.round(i * 1.5 + 4);
-      const stamina = manuals * 10;
-      document.getElementById('resManuals').innerText = manuals.toLocaleString();
-      document.getElementById('resStamina').innerText = stamina.toLocaleString();
-      document.getElementById('resDays').innerText = Math.ceil(stamina / limit) + ' Days';
-    }
-
-    // 5. BEAST SANCTUARY / PETS
-    function calcPets() {
-      const tier = document.getElementById('petTier').value;
-      const cur = Math.max(1, parseInt(document.getElementById('petCur').value) || 1);
-      const tar = Math.min(100, parseInt(document.getElementById('petTar').value) || 1);
-      if (tar <= cur) {
-        document.getElementById('resPetFood').innerText = '0';
-        document.getElementById('resPetPotions').innerText = '0';
-        document.getElementById('resPetMarks').innerText = '0';
-        return;
-      }
-      const mult = (tier === 'mythic') ? 1.6 : 1.0;
-      let food = 0, potions = 0, marks = 0;
-      for (let i = cur; i < tar; i++) {
-        food += Math.round(i * 450 * mult);
-        if (i % 10 === 0) {
-          potions += Math.round((i / 10) * 12 * mult);
-          marks += Math.round((i / 10) * 5 * mult);
-        }
-      }
-      document.getElementById('resPetFood').innerText = food.toLocaleString();
-      document.getElementById('resPetPotions').innerText = potions.toLocaleString();
-      document.getElementById('resPetMarks').innerText = marks.toLocaleString();
-    }
-
-    // 6. TROOP TRAINING
-    const troopBaseSeconds = { t9: 36, t10: 45, t11: 58 };
-    const troopBaseMeat = { t9: 250, t10: 340, t11: 460 };
-    const troopPoints = { t9: 28, t10: 40, t11: 65 };
-
-    function calcTroops() {
-      const tier = document.getElementById('troopTier').value;
-      const count = parseInt(document.getElementById('troopCount').value) || 0;
-      const buff = parseFloat(document.getElementById('trainingBuff').value) || 0;
-      const totalSec = Math.round((troopBaseSeconds[tier] / (1 + (buff / 100))) * count);
-      const totalMins = Math.round(totalSec / 60);
-      const hours = Math.floor(totalSec / 3600);
-      const remMins = Math.floor((totalSec % 3600) / 60);
-
-      document.getElementById('resTime').innerText = `${hours}h ${remMins}m`;
-      document.getElementById('resMins').innerText = totalMins.toLocaleString();
-      document.getElementById('resTroopMeat').innerText = ((troopBaseMeat[tier] * count) / 1000).toLocaleString() + 'K';
-      document.getElementById('resPoints').innerText = (troopPoints[tier] * count).toLocaleString();
-    }
-
-    // Spooky Theme Toggle
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
       document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
       document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
-    // Snow Engine
     const canvas = document.getElementById('snowCanvas');
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -984,16 +392,6 @@
       }
       drawSnow();
     }
-
-    // Initialize all modules
-    calcFireCrystals();
-    calcChiefGear();
-    calcCharms();
-    calcWidgets();
-    calcMastery();
-    calcExperts();
-    calcPets();
-    calcTroops();
   </script>
 </body>
 </html>
