@@ -20,6 +20,7 @@
       --online-green: #00ff88;
       --fire-crystal: #ff5e36;
       --exalted: #a855f7;
+      --widget: #f59e0b;
     }
 
     body.halloween {
@@ -34,6 +35,7 @@
       --online-green: #ffb703;
       --fire-crystal: #ff7700;
       --exalted: #d946ef;
+      --widget: #fbbf24;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -168,6 +170,12 @@
       border-color: var(--exalted);
     }
 
+    .calc-card.widget-card { border-color: rgba(245, 158, 11, 0.4); }
+    .calc-card.widget-card:hover {
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.45);
+      border-color: var(--widget);
+    }
+
     .calc-card.disabled {
       opacity: 0.65;
       cursor: not-allowed;
@@ -206,6 +214,11 @@
       background: rgba(168, 85, 247, 0.18);
       color: #c084fc;
       border: 1px solid rgba(168, 85, 247, 0.35);
+    }
+    .status-badge.live-amber {
+      background: rgba(245, 158, 11, 0.18);
+      color: var(--widget);
+      border: 1px solid rgba(245, 158, 11, 0.35);
     }
     .status-badge.queue {
       background: rgba(255, 209, 102, 0.15);
@@ -279,6 +292,17 @@
       box-shadow: 0 0 14px rgba(168, 85, 247, 0.6);
     }
 
+    .calc-card.widget-card .btn-calc {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #fde68a;
+    }
+    .calc-card.widget-card:hover .btn-calc {
+      background: var(--widget);
+      color: #040910;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
+    }
+
     .calc-card.disabled .btn-calc {
       background: rgba(255, 255, 255, 0.04);
       border-color: rgba(255, 255, 255, 0.1);
@@ -337,7 +361,7 @@
         <div class="btn-calc">Open Chief Gear Calc ➔</div>
       </a>
 
-      <!-- 3. Troops & Speedups (Now Active with T12) -->
+      <!-- 3. Troops & Speedups -->
       <a href="calc-troops.html" class="calc-card troop-card">
         <div class="card-top">
           <span class="card-icon">🏹</span>
@@ -350,24 +374,24 @@
         <div class="btn-calc">Open Troop Calc ➔</div>
       </a>
 
-      <!-- 4. Hero Gear & Widgets -->
-      <div class="calc-card disabled">
+      <!-- 4. Hero Gear & Widgets (Now Active!) -->
+      <a href="calc-hero-gear.html" class="calc-card widget-card">
         <div class="card-top">
           <span class="card-icon">⚔️</span>
-          <span class="status-badge queue">Next In Line</span>
+          <span class="status-badge live-amber">● Ready to Use</span>
         </div>
         <div>
           <h2 class="card-title">Hero Widgets & Gear</h2>
-          <p class="card-desc">Exclusive weapon widget shards (0-30), Mastery Forging Stones, and gear enhancement XP.</p>
+          <p class="card-desc">Mastery Forging (Lv 1-20), Essence Stones, Mythic Gear sacrifices, and Exclusive Weapon Widgets (0-10).</p>
         </div>
-        <div class="btn-calc">In Testing</div>
-      </div>
+        <div class="btn-calc">Open Hero Gear Calc ➔</div>
+      </a>
 
-      <!-- 5. Beast Sanctuary & Pets -->
+      <!-- 5. Beast Sanctuary & Pets (Next) -->
       <div class="calc-card disabled">
         <div class="card-top">
           <span class="card-icon">🐾</span>
-          <span class="status-badge queue">Scheduled</span>
+          <span class="status-badge queue">Next In Line</span>
         </div>
         <div>
           <h2 class="card-title">Beast Sanctuary</h2>
