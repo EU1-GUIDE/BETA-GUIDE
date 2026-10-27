@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU1 BETA | FAQ & Community Help Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060b13;
+      --bg-card: rgba(14, 26, 43, 0.85);
+      --border-ice: rgba(120, 210, 255, 0.28);
+      --accent-frost: #56d4ff;
+      --accent-glow: rgba(86, 212, 255, 0.45);
+      --text-main: #e8f5ff;
+      --text-muted: #8ca3be;
+      --gold-tag: #ffd166;
+      --online-green: #00ff88;
+      --discord-blurple: #5865f2;
+    }
+
+    body.halloween {
+      --bg-deep: #09060f;
+      --bg-card: rgba(26, 16, 36, 0.88);
+      --border-ice: rgba(255, 123, 0, 0.4);
+      --accent-frost: #ff8400;
+      --accent-glow: rgba(255, 132, 0, 0.5);
+      --text-main: #fff2e0;
+      --text-muted: #ad94a8;
+      --gold-tag: #ffb703;
+      --online-green: #ffb703;
+      --discord-blurple: #ff7700;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(94vw, 860px);
+      margin: 0 auto;
+      padding: 16px 8px;
+    }
+
+    .top-badge-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      padding: 10px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 24px;
+    }
+
+    .back-nav-link {
+      color: var(--accent-frost);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-nav-link:hover {
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 24px 14px;
+      margin-bottom: 24px;
+      border-radius: 16px;
+      background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      letter-spacing: 1.2px;
+      margin-top: 6px;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Accordion Styles */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 12px;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s;
+    }
+
+    .faq-item:hover {
+      border-color: var(--accent-frost);
+    }
+
+    .faq-header {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 16px 20px;
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 1.08rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      gap: 12px;
+    }
+
+    .faq-arrow {
+      color: var(--accent-frost);
+      font-size: 0.95rem;
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-arrow {
+      transform: rotate(180deg);
+    }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+      padding: 0 20px;
+      color: var(--text-main);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .faq-item.open .faq-body {
+      max-height: 800px;
+      transition: max-height 0.4s ease-in-out;
+      padding: 0 20px 18px 20px;
+    }
+
+    .faq-body p {
+      margin-bottom: 8px;
+    }
+
+    .highlight-pill {
+      background: rgba(86, 212, 255, 0.12);
+      border: 1px solid rgba(86, 212, 255, 0.3);
+      color: var(--accent-frost);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    /* Contact Form Section */
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .form-textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--discord-blurple);
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.8), rgba(60, 71, 196, 0.9));
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(88, 101, 242, 0.35);
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--discord-blurple);
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .status-alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 14px;
+      display: none;
+      text-align: center;
+    }
+
+    .status-alert.success {
+      background: rgba(0, 255, 136, 0.15);
+      border: 1px solid rgba(0, 255, 136, 0.4);
+      color: #00ff88;
+    }
+
+    .status-alert.error {
+      background: rgba(255, 80, 80, 0.15);
+      border: 1px solid rgba(255, 80, 80, 0.4);
+      color: #ff6b6b;
+    }
+
+    .portal-footer {
+      text-align: center;
+      margin-top: 36px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <header class="top-badge-banner">
+      <a href="index.html" class="back-nav-link">← Portal Home</a>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <div class="hero-header">
+      <h1 class="hero-title">FAQ & SUPPORT</h1>
+      <p class="hero-subtitle">Private Server Knowledge Base & Direct Mod Inquiries</p>
+    </div>
+
+    <!-- Accordion Q&A Section -->
+    <div class="section-title">
+      <span>❓</span> FREQUENTLY ASKED QUESTIONS
+    </div>
+
+    <div class="faq-list">
+      <!-- Q1 -->
+      <div class="faq-item">
+        <button class="faq-header" onclick="toggleFaq(this)">
+          <span>Is this available for iOS?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-body">
+          <p>Not quite yet, but Apple iOS client support is actively in the works! For now, Android devices and PC Android emulators (such as BlueStacks or LDPlayer) are fully supported.</p>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="faq-item">
+        <button class="faq-header" onclick="toggleFaq(this)">
+          <span>What is a private server?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-body">
+          <p>A private server is an independent, custom-configured version of Whiteout Survival. It offers the exact same core gameplay and visuals you know, but runs on dedicated community servers with boosted benefits that retail servers do not provide.</p>
+          <p>On EU1, you can earn <span class="highlight-pill">Frost Stars</span> for free through daily gameplay, Arena combat, Bear Trap rallies, 7-day events, and Intel missions.</p>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="faq-item">
+        <button class="faq-header" onclick="toggleFaq(this)">
+          <span>Does this interfere with my original WOS app?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-body">
+          <p><strong>No, not at all.</strong> EU1 BETA is installed as a completely separate standalone application with its own package name. It will not overwrite, conflict with, or affect your official Whiteout Survival game or your retail account progression in any way.</p>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="faq-item">
+        <button class="faq-header" onclick="toggleFaq(this)">
+          <span>When will the beta end and EU1 officially launch?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-body">
+          <p>The current estimate for the full official launch is <strong>early November</strong>. Keep in mind that launch dates are subject to adjustment depending on beta test findings and server stability results. Check our Discord for official timing announcements.</p>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="faq-item">
+        <button class="faq-header" onclick="toggleFaq(this)">
+          <span>What is a beta test?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-body">
+          <p>A beta test is an open sandbox testing environment designed to stress-test server load, verify custom event scripts, and fine-tune game mechanics prior to global release.</p>
+          <p>During the beta phase, testers are provided with generous resource packages and Frost Stars so everyone can experience late-game mechanics. <em>Please note: Once the beta concludes, all accounts will be wiped clean for a fair, synchronized official launch.</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discord-Linked Inquiry Form -->
+    <section class="form-card">
+      <div class="section-title">
+        <span>💬</span> ASK A QUESTION OR REPORT AN ISSUE
+      </div>
+      <p class="form-desc">
+        Have a question not covered above? Fill out this quick form and your inquiry will be routed straight to the moderator private inbox on our Discord server.
+      </p>
+
+      <form id="qaForm" onsubmit="submitQuestion(event)">
+        <div class="form-group">
+          <label class="form-label" for="discordName">Your Discord / In-Game Name *</label>
+          <input type="text" id="discordName" class="form-input" placeholder="e.g. SurvivorChief#1234" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="chiefName">Furnace Level & Server (Optional)</label>
+          <input type="text" id="chiefName" class="form-input" placeholder="e.g. Furnace 30 • EU1 BETA">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="questionText">Your Question or Inquiry *</label>
+          <textarea id="questionText" class="form-textarea" placeholder="Type your question or feedback here..." required></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-submit">
+          <span>📨</span> Send to Discord Mod Team
+        </button>
+
+        <div id="statusAlert" class="status-alert"></div>
+      </form>
+    </section>
+
+    <footer class="portal-footer">
+      EU1 BETA SERVER • SURVIVOR TOOLKIT
+    </footer>
+  </div>
+
+  <script>
+    // Discord Webhook configuration
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1564517001249038416/N5vA3qXFX7XVVtvyINYgt36ajRr32I0DcJGd4-LSz2PAPrDWAFZnFsN-UfRpqD8C90ye";
+
+    // Accordion handler
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    }
+
+    // Question form submit handler
+    async function submitQuestion(e) {
+      e.preventDefault();
+      const name = document.getElementById('discordName').value.trim();
+      const meta = document.getElementById('chiefName').value.trim() || 'Not specified';
+      const question = document.getElementById('questionText').value.trim();
+      const submitBtn = document.getElementById('submitBtn');
+      const alertBox = document.getElementById('statusAlert');
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Transmitting to Discord...";
+      alertBox.style.display = 'none';
+
+      const payload = {
+        username: "EU1 Portal Help Desk",
+        avatar_url: "https://cdn-icons-png.flaticon.com/512/9187/9187604.png",
+        embeds: [{
+          title: "❄️ New Portal Question / Inquiry",
+          color: 0x56d4ff,
+          fields: [
+            { name: "👤 Survivor", value: name, inline: true },
+            { name: "🏰 In-Game Details", value: meta, inline: true },
+            { name: "❓ Question / Message", value: question, inline: false }
+          ],
+          footer: { text: "EU1 BETA Portal Help Desk" },
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          alertBox.className = "status-alert success";
+          alertBox.innerText = "Your question was successfully delivered to the moderators!";
+          alertBox.style.display = "block";
+          document.getElementById('qaForm').reset();
+        } else {
+          throw new Error("Discord rejected transmission");
+        }
+      } catch (err) {
+        alertBox.className = "status-alert error";
+        alertBox.innerText = "Submission failed. Please join our Discord directly and post in #general or #help!";
+        alertBox.style.display = "block";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "<span>📨</span> Send to Discord Mod Team";
+      }
+    }
+
+    // Snow animation & Spooky theme
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    const canvas = document.getElementById('snowCanvas');
+    const ctx = canvas.getContext('2d');
+    let flakes = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 55; i++) {
+      flakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        d: Math.random() + 0.5
+      });
+    }
+
+    function drawSnow() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+      ctx.beginPath();
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      }
+      ctx.fill();
+
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        f.y += f.d;
+        f.x += Math.sin(f.y / 20) * 0.5;
+        if (f.y > canvas.height) {
+          flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+        }
+      }
+      requestAnimationFrame(drawSnow);
+    }
+    drawSnow();
+  </script>
+</body>
+</html>
