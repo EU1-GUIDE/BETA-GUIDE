@@ -302,10 +302,16 @@
       margin-top: 8px;
     }
 
-    .btn-submit:hover {
+    .btn-submit:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 6px 22px rgba(88, 101, 242, 0.55);
       filter: brightness(1.1);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .toast-popup {
@@ -331,6 +337,12 @@
     .toast-popup.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
+    }
+
+    .toast-popup.error {
+      border-color: #ff4757;
+      color: #ff4757;
+      box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
     }
 
     .portal-footer {
@@ -380,7 +392,7 @@
       <p class="hero-subtitle">Server Intel • Mod Support • Troubleshooting</p>
     </div>
 
-    <!-- Frequently Asked Questions Accordion -->
+    <!-- Accordion -->
     <div class="faq-section">
       <div class="faq-item">
         <div class="faq-question" onclick="toggleAccordion(this)">
@@ -502,7 +514,7 @@
           ></textarea>
         </div>
 
-        <button type="submit" class="btn-submit">
+        <button type="submit" id="submitBtn" class="btn-submit">
           <span>📨</span> SEND TO DISCORD MOD TEAM
         </button>
       </form>
@@ -519,53 +531,87 @@
     </footer>
   </div>
 
-  <div id="toast" class="toast-popup">Inquiry Formatted & Copied! Opening Discord...</div>
+  <div id="toast" class="toast-popup">Inquiry Transmitted to Mod Inbox!</div>
 
   <script>
-    // Accordion Toggle
+    // Configured Discord Webhook URL
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1564517001249038416/N5vA3qXFX7XVVtvyINYgt36ajRr32I0DcJGd4-LSz2PAPrDWAFZnFsN-UfRpqD8C90ye";
+
     function toggleAccordion(element) {
       const item = element.parentElement;
       item.classList.toggle('open');
     }
 
-    // Form submission & Discord routing
-    function handleFormSubmit(e) {
+    async function handleFormSubmit(e) {
       e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<span>⏳</span> TRANSMITTING INTEL...`;
 
       const discordTag = document.getElementById('discordTag').value.trim();
       const ign = document.getElementById('ign').value.trim();
-      const server = document.getElementById('server').value.trim() || 'EU1 BETA';
-      const alliance = document.getElementById('alliance').value.trim() || 'None';
+      const server = document.getElementById('server').value.trim() || 'EU1 BETA (Default)';
+      const alliance = document.getElementById('alliance').value.trim() || 'None Specified';
       const question = document.getElementById('userQuestion').value.trim();
 
-      // Format clean inquiry ticket
-      const ticketText = `📩 **EU1 SUPPORT TICKET**\n` +
-                         `• **Discord:** ${discordTag}\n` +
-                         `• **IGN:** ${ign}\n` +
-                         `• **Server:** ${server}\n` +
-                         `• **Alliance:** ${alliance}\n` +
-                         `• **Inquiry:** ${question}`;
+      // Rich Discord Embed payload
+      const payload = {
+        username: "EU1 Command Dispatch",
+        avatar_url: "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/2744.png",
+        embeds: [
+          {
+            title: "❄️ New Player Support Ticket",
+            color: 5690623, // Hex #56D4FF in decimal
+            fields: [
+              { name: "👤 Discord Tag", value: discordTag, inline: true },
+              { name: "🎮 In-Game Name", value: ign, inline: true },
+              { name: "🌐 Server / Realm", value: server, inline: true },
+              { name: "🛡️ Alliance", value: alliance, inline: true },
+              { name: "📝 Inquiry / Issue", value: question, inline: false }
+            ],
+            footer: {
+              text: "EU1 BETA Support Portal • Standalone Dispatch"
+            },
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
 
-      // Copy formatted inquiry to clipboard
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(ticketText).catch(() => {});
+      try {
+        const response = await fetch(DISCORD_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          showToast("Ticket transmitted to mod team!");
+          document.getElementById('modForm').reset();
+        } else {
+          showToast("⚠️ Discord rejected ticket. Check webhook!", true);
+        }
+      } catch (err) {
+        showToast("⚠️ Network error transmitting to Discord.", true);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
       }
-
-      showToast("Ticket copied to clipboard! Opening Discord...");
-
-      // Redirect user to the official server support channel
-      setTimeout(() => {
-        window.open('https://discord.gg/pqEHcrqB3', '_blank');
-      }, 1200);
     }
 
-    function showToast(message) {
+    function showToast(message, isError = false) {
       const toast = document.getElementById('toast');
       toast.innerText = message;
+      if (isError) {
+        toast.classList.add('error');
+      } else {
+        toast.classList.remove('error');
+      }
       toast.classList.add('show');
       setTimeout(() => {
         toast.classList.remove('show');
-      }, 2400);
+      }, 3000);
     }
 
     function toggleSpookyTheme() {
@@ -574,7 +620,7 @@
       document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
-    // Snow animation
+    // Snow animation logic
     const canvas = document.getElementById('snowCanvas');
     if (canvas) {
       const ctx = canvas.getContext('2d');
