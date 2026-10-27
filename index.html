@@ -146,7 +146,6 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
-      margin-bottom: 16px;
     }
 
     .portal-card {
@@ -273,8 +272,9 @@
       box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
     }
 
-    /* Full-width Calculator Card across the bottom */
+    /* Snapped inline across the full grid width */
     .calc-row-card {
+      grid-column: 1 / -1;
       background: var(--bg-card);
       border: 1px dashed rgba(255, 209, 102, 0.35);
       border-radius: 16px;
@@ -283,8 +283,7 @@
       align-items: center;
       justify-content: space-between;
       backdrop-filter: blur(8px);
-      opacity: 0.78;
-      cursor: not-allowed;
+      opacity: 0.82;
       gap: 20px;
     }
 
@@ -296,6 +295,7 @@
 
     .calc-icon {
       font-size: 2.2rem;
+      line-height: 1;
     }
 
     .calc-row-title {
@@ -326,10 +326,11 @@
       white-space: nowrap;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 620px) {
       .calc-row-card {
         flex-direction: column;
         align-items: flex-start;
+        padding: 18px;
       }
       .calc-row-badge {
         width: 100%;
@@ -366,7 +367,7 @@
       <p class="hero-subtitle">Official Community Hub & Survival Toolkit</p>
     </div>
 
-    <!-- 4 Active Navigation Cards -->
+    <!-- Symmetrical grid containing all 5 cards -->
     <main class="portal-grid">
       <!-- 1. Getting Started Guide -->
       <a href="guide.html" class="portal-card">
@@ -419,22 +420,22 @@
         </div>
         <div class="btn-portal">Join Server ➔</div>
       </a>
-    </main>
 
-    <!-- 5. WOS Calculator Coming Soon Bar -->
-    <div class="calc-row-card">
-      <div class="calc-row-info">
-        <span class="calc-icon">🧮</span>
-        <div>
-          <h3 class="calc-row-title">
-            WOS Calculator
-            <span class="status-badge wip">In Development</span>
-          </h3>
-          <p class="calc-row-desc">Chief gear, charm progression, Fire Crystals, widgets, and troop training speedup planners.</p>
+      <!-- 5. WOS Calculator (Integrated inside the grid, spanning column 1 to end) -->
+      <div class="calc-row-card">
+        <div class="calc-row-info">
+          <span class="calc-icon">🧮</span>
+          <div>
+            <h3 class="calc-row-title">
+              WOS Calculator
+              <span class="status-badge wip">In Development</span>
+            </h3>
+            <p class="calc-row-desc">Chief gear, charm progression, Fire Crystals, widgets, and troop training speedup planners.</p>
+          </div>
         </div>
+        <div class="calc-row-badge">Coming Soon</div>
       </div>
-      <div class="calc-row-badge">Coming Soon</div>
-    </div>
+    </main>
 
     <footer class="portal-footer">
       EU1 BETA SERVER • SURVIVOR TOOLKIT
