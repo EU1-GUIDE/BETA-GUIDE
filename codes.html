@@ -137,7 +137,6 @@
       margin-top: 6px;
     }
 
-    /* Aligned Search & Control Card */
     .filter-card {
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
@@ -216,7 +215,6 @@
       color: var(--accent-frost);
     }
 
-    /* Codes List */
     .codes-container {
       display: flex;
       flex-direction: column;
@@ -296,7 +294,6 @@
       color: var(--text-muted);
     }
 
-    /* Toast Alert */
     .toast-popup {
       position: fixed;
       bottom: 24px;
@@ -355,14 +352,13 @@
       <p class="hero-subtitle">Official Community Supply Cache • Standalone Beta Tool</p>
     </div>
 
-    <!-- Search & Control Box -->
     <div class="filter-card">
       <div class="search-row">
         <input 
           type="text" 
           id="searchInput" 
           class="search-input" 
-          placeholder="Search codes (e.g., FROST, GIFT)..." 
+          placeholder="Search codes (e.g., FROST, CHIEF)..." 
           oninput="filterCodes()"
         >
         <button class="btn-copy-all" onclick="copyAllVisibleCodes()">
@@ -375,7 +371,7 @@
       </div>
     </div>
 
-    <!-- Hardcoded Static Code Cards: Guaranteed to Render on Load -->
+    <!-- Verified 36 Gift Codes: Rendered Directly in DOM -->
     <main class="codes-container" id="codesList">
       <div class="code-card" data-code="KEUNULFW">
         <div class="card-meta-tag">Gift Code</div>
@@ -389,208 +385,208 @@
         <button class="btn-copy-code" onclick="copyCode('WLRCRJMR')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="E2MUD6">
+      <div class="code-card" data-code="EUC6GDSQ">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">E2MUD6</div>
-        <button class="btn-copy-code" onclick="copyCode('E2MUD6')"><span>📋</span> Copy Code</button>
+        <div class="code-title">EUC6GDSQ</div>
+        <button class="btn-copy-code" onclick="copyCode('EUC6GDSQ')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="WOS1024">
+      <div class="code-card" data-code="N5CS4D9C">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">WOS1024</div>
-        <button class="btn-copy-code" onclick="copyCode('WOS1024')"><span>📋</span> Copy Code</button>
+        <div class="code-title">N5CS4D9C</div>
+        <button class="btn-copy-code" onclick="copyCode('N5CS4D9C')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="HALLOWEEN2024">
+      <div class="code-card" data-code="HWWKPGF6">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">Halloween2024</div>
-        <button class="btn-copy-code" onclick="copyCode('Halloween2024')"><span>📋</span> Copy Code</button>
+        <div class="code-title">HWWKPGF6</div>
+        <button class="btn-copy-code" onclick="copyCode('HWWKPGF6')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="FROSTFALL">
+      <div class="code-card" data-code="BIGCHIEFKEYS">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">FrostFall</div>
-        <button class="btn-copy-code" onclick="copyCode('FrostFall')"><span>📋</span> Copy Code</button>
+        <div class="code-title">BigChiefKeys</div>
+        <button class="btn-copy-code" onclick="copyCode('BigChiefKeys')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="WOSBETA1">
+      <div class="code-card" data-code="HEROGEAR1000">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">WOSBETA1</div>
-        <button class="btn-copy-code" onclick="copyCode('WOSBETA1')"><span>📋</span> Copy Code</button>
+        <div class="code-title">HEROGEAR1000</div>
+        <button class="btn-copy-code" onclick="copyCode('HEROGEAR1000')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="COMMUNITY10K">
+      <div class="code-card" data-code="FROST500K">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">COMMUNITY10K</div>
-        <button class="btn-copy-code" onclick="copyCode('COMMUNITY10K')"><span>📋</span> Copy Code</button>
+        <div class="code-title">FROST500K</div>
+        <button class="btn-copy-code" onclick="copyCode('FROST500K')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="CHIEF777">
+      <div class="code-card" data-code="FROST1MXD">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">CHIEF777</div>
-        <button class="btn-copy-code" onclick="copyCode('CHIEF777')"><span>📋</span> Copy Code</button>
+        <div class="code-title">FROST1MXD</div>
+        <button class="btn-copy-code" onclick="copyCode('FROST1MXD')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="ICEANDFIRE">
+      <div class="code-card" data-code="NEWVERSIONEV1">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">ICEANDFIRE</div>
-        <button class="btn-copy-code" onclick="copyCode('ICEANDFIRE')"><span>📋</span> Copy Code</button>
+        <div class="code-title">NEWVERSIONEV1</div>
+        <button class="btn-copy-code" onclick="copyCode('NEWVERSIONEV1')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="SURVIVOR2024">
+      <div class="code-card" data-code="HAPPYDAY15">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">SURVIVOR2024</div>
-        <button class="btn-copy-code" onclick="copyCode('SURVIVOR2024')"><span>📋</span> Copy Code</button>
+        <div class="code-title">HAPPYDAY15</div>
+        <button class="btn-copy-code" onclick="copyCode('HAPPYDAY15')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="TUNDRAHERO">
+      <div class="code-card" data-code="11120172">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">TUNDRAHERO</div>
-        <button class="btn-copy-code" onclick="copyCode('TUNDRAHERO')"><span>📋</span> Copy Code</button>
+        <div class="code-title">11120172</div>
+        <button class="btn-copy-code" onclick="copyCode('11120172')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="BLIZZARDPACK">
+      <div class="code-card" data-code="438ZBHYA">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">BLIZZARDPACK</div>
-        <button class="btn-copy-code" onclick="copyCode('BLIZZARDPACK')"><span>📋</span> Copy Code</button>
+        <div class="code-title">438ZBHYA</div>
+        <button class="btn-copy-code" onclick="copyCode('438ZBHYA')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="FROSTSTAR99">
+      <div class="code-card" data-code="5NVXR8X6">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">FROSTSTAR99</div>
-        <button class="btn-copy-code" onclick="copyCode('FROSTSTAR99')"><span>📋</span> Copy Code</button>
+        <div class="code-title">5NVXR8X6</div>
+        <button class="btn-copy-code" onclick="copyCode('5NVXR8X6')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="STAMINAUP">
+      <div class="code-card" data-code="JZHDQ3LD">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">STAMINAUP</div>
-        <button class="btn-copy-code" onclick="copyCode('STAMINAUP')"><span>📋</span> Copy Code</button>
+        <div class="code-title">JZHDQ3LD</div>
+        <button class="btn-copy-code" onclick="copyCode('JZHDQ3LD')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="WOSVIP888">
+      <div class="code-card" data-code="FROST200K">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">WOSVIP888</div>
-        <button class="btn-copy-code" onclick="copyCode('WOSVIP888')"><span>📋</span> Copy Code</button>
+        <div class="code-title">FROST200K</div>
+        <button class="btn-copy-code" onclick="copyCode('FROST200K')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="BEARTICKETS">
+      <div class="code-card" data-code="5CMG6L4C">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">BEARTICKETS</div>
-        <button class="btn-copy-code" onclick="copyCode('BEARTICKETS')"><span>📋</span> Copy Code</button>
+        <div class="code-title">5CMG6L4C</div>
+        <button class="btn-copy-code" onclick="copyCode('5CMG6L4C')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="ARENAPASS">
+      <div class="code-card" data-code="NQVVBPDK">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">ARENAPASS</div>
-        <button class="btn-copy-code" onclick="copyCode('ARENAPASS')"><span>📋</span> Copy Code</button>
+        <div class="code-title">NQVVBPDK</div>
+        <button class="btn-copy-code" onclick="copyCode('NQVVBPDK')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="CHIEFGIFT1">
+      <div class="code-card" data-code="2WLQSRT7">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">CHIEFGIFT1</div>
-        <button class="btn-copy-code" onclick="copyCode('CHIEFGIFT1')"><span>📋</span> Copy Code</button>
+        <div class="code-title">2WLQSRT7</div>
+        <button class="btn-copy-code" onclick="copyCode('2WLQSRT7')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="BETAHEROES">
+      <div class="code-card" data-code="QMJHTWCQ">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">BETAHEROES</div>
-        <button class="btn-copy-code" onclick="copyCode('BETAHEROES')"><span>📋</span> Copy Code</button>
+        <div class="code-title">QMJHTWCQ</div>
+        <button class="btn-copy-code" onclick="copyCode('QMJHTWCQ')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="WOSLAUNCH">
+      <div class="code-card" data-code="CFXWMGZX">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">WOSLAUNCH</div>
-        <button class="btn-copy-code" onclick="copyCode('WOSLAUNCH')"><span>📋</span> Copy Code</button>
+        <div class="code-title">CFXWMGZX</div>
+        <button class="btn-copy-code" onclick="copyCode('CFXWMGZX')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="WOSDISCORD">
+      <div class="code-card" data-code="VALJNWRC">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">WOSDISCORD</div>
-        <button class="btn-copy-code" onclick="copyCode('WOSDISCORD')"><span>📋</span> Copy Code</button>
+        <div class="code-title">VALJNWRC</div>
+        <button class="btn-copy-code" onclick="copyCode('VALJNWRC')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="CHIEFLEVELUP">
+      <div class="code-card" data-code="NQYBSZRU">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">CHIEFLEVELUP</div>
-        <button class="btn-copy-code" onclick="copyCode('CHIEFLEVELUP')"><span>📋</span> Copy Code</button>
+        <div class="code-title">NQYBSZRU</div>
+        <button class="btn-copy-code" onclick="copyCode('NQYBSZRU')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="RESOURCES666">
+      <div class="code-card" data-code="ZTUJTNFX">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">RESOURCES666</div>
-        <button class="btn-copy-code" onclick="copyCode('RESOURCES666')"><span>📋</span> Copy Code</button>
+        <div class="code-title">ZTUJTNFX</div>
+        <button class="btn-copy-code" onclick="copyCode('ZTUJTNFX')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="DIAMONDCACH">
+      <div class="code-card" data-code="LKELPEVD">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">DIAMONDCACH</div>
-        <button class="btn-copy-code" onclick="copyCode('DIAMONDCACH')"><span>📋</span> Copy Code</button>
+        <div class="code-title">LKELPEVD</div>
+        <button class="btn-copy-code" onclick="copyCode('LKELPEVD')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="SNOWSTORM24">
+      <div class="code-card" data-code="JLSHYTCA">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">SNOWSTORM24</div>
-        <button class="btn-copy-code" onclick="copyCode('SNOWSTORM24')"><span>📋</span> Copy Code</button>
+        <div class="code-title">JLSHYTCA</div>
+        <button class="btn-copy-code" onclick="copyCode('JLSHYTCA')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="EU1EXCLUSIVE">
+      <div class="code-card" data-code="WCAHNEXZ">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">EU1EXCLUSIVE</div>
-        <button class="btn-copy-code" onclick="copyCode('EU1EXCLUSIVE')"><span>📋</span> Copy Code</button>
+        <div class="code-title">WCAHNEXZ</div>
+        <button class="btn-copy-code" onclick="copyCode('WCAHNEXZ')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="OCTOBERSURPRISE">
+      <div class="code-card" data-code="WLZBJLPX">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">OCTOBERSURPRISE</div>
-        <button class="btn-copy-code" onclick="copyCode('OCTOBERSURPRISE')"><span>📋</span> Copy Code</button>
+        <div class="code-title">WLZBJLPX</div>
+        <button class="btn-copy-code" onclick="copyCode('WLZBJLPX')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="WARRIORPACK">
+      <div class="code-card" data-code="SERPENT10">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">WARRIORPACK</div>
-        <button class="btn-copy-code" onclick="copyCode('WARRIORPACK')"><span>📋</span> Copy Code</button>
+        <div class="code-title">SERPENT10</div>
+        <button class="btn-copy-code" onclick="copyCode('SERPENT10')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="SURVIVE100">
+      <div class="code-card" data-code="HWRGTWZE">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">SURVIVE100</div>
-        <button class="btn-copy-code" onclick="copyCode('SURVIVE100')"><span>📋</span> Copy Code</button>
+        <div class="code-title">HWRGTWZE</div>
+        <button class="btn-copy-code" onclick="copyCode('HWRGTWZE')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="WOSMODTEAM">
+      <div class="code-card" data-code="GAMQQLPQ">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">WOSMODTEAM</div>
-        <button class="btn-copy-code" onclick="copyCode('WOSMODTEAM')"><span>📋</span> Copy Code</button>
+        <div class="code-title">GAMQQLPQ</div>
+        <button class="btn-copy-code" onclick="copyCode('GAMQQLPQ')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="ALPHAWARS">
+      <div class="code-card" data-code="DMGNDZEXMV">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">ALPHAWARS</div>
-        <button class="btn-copy-code" onclick="copyCode('ALPHAWARS')"><span>📋</span> Copy Code</button>
+        <div class="code-title">DMGNDZEXMV</div>
+        <button class="btn-copy-code" onclick="copyCode('DMGNDZEXMV')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="FROSTGUARD">
+      <div class="code-card" data-code="EUZYMLTD">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">FROSTGUARD</div>
-        <button class="btn-copy-code" onclick="copyCode('FROSTGUARD')"><span>📋</span> Copy Code</button>
+        <div class="code-title">EUZYMLTD</div>
+        <button class="btn-copy-code" onclick="copyCode('EUZYMLTD')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="CHIEFSHIELD">
+      <div class="code-card" data-code="DVXQDREBUS">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">CHIEFSHIELD</div>
-        <button class="btn-copy-code" onclick="copyCode('CHIEFSHIELD')"><span>📋</span> Copy Code</button>
+        <div class="code-title">DVXQDREBUS</div>
+        <button class="btn-copy-code" onclick="copyCode('DVXQDREBUS')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="FREEGEMS2024">
+      <div class="code-card" data-code="LIONQUEEN">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">FREEGEMS2024</div>
-        <button class="btn-copy-code" onclick="copyCode('FREEGEMS2024')"><span>📋</span> Copy Code</button>
+        <div class="code-title">LIONQUEEN</div>
+        <button class="btn-copy-code" onclick="copyCode('LIONQUEEN')"><span>📋</span> Copy Code</button>
       </div>
 
-      <div class="code-card" data-code="EXPANDHORIZON">
+      <div class="code-card" data-code="EJGFULXG">
         <div class="card-meta-tag">Gift Code</div>
-        <div class="code-title">EXPANDHORIZON</div>
-        <button class="btn-copy-code" onclick="copyCode('EXPANDHORIZON')"><span>📋</span> Copy Code</button>
+        <div class="code-title">EJGFULXG</div>
+        <button class="btn-copy-code" onclick="copyCode('EJGFULXG')"><span>📋</span> Copy Code</button>
       </div>
 
       <div id="noResults" class="no-results-card">
@@ -607,7 +603,7 @@
   <div id="toast" class="toast-popup">Code Copied to Clipboard!</div>
 
   <script>
-    // Live Search Filter (shows/hides native DOM elements)
+    // Live Search Filter
     function filterCodes() {
       const query = document.getElementById('searchInput').value.trim().toUpperCase();
       const cards = document.querySelectorAll('.code-card');
@@ -637,7 +633,7 @@
       }, 2000);
     }
 
-    // Resilient Clipboard Copy with execCommand Fallback
+    // Clipboard Copy with execCommand fallback
     function copyTextToClipboard(text, successMsg) {
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text)
@@ -675,7 +671,7 @@
 
       if (visibleCards.length === 0) return;
 
-      const allCodes = visibleCards.map(c => c.getAttribute('data-code')).join('\n');
+      const allCodes = visibleCards.map(c => c.querySelector('.code-title').innerText.trim()).join('\n');
       copyTextToClipboard(allCodes, `Copied all ${visibleCards.length} codes!`);
     }
 
