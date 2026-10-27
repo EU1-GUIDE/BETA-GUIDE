@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EU1 BETA | FAQ & Community Help Desk</title>
+  <title>EU1 BETA | FAQ & Support Desk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -122,7 +122,7 @@
 
     .hero-title {
       font-family: 'Cinzel', serif;
-      font-size: 2.2rem;
+      font-size: 2.3rem;
       font-weight: 900;
       letter-spacing: 3px;
       color: #fff;
@@ -137,30 +137,18 @@
       margin-top: 6px;
     }
 
-    .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: 1.5px;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* Accordion Styles */
-    .faq-list {
+    /* FAQ Accordion */
+    .faq-section {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
 
     .faq-item {
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       backdrop-filter: blur(8px);
       transition: border-color 0.2s;
@@ -170,101 +158,111 @@
       border-color: var(--accent-frost);
     }
 
-    .faq-header {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
+    .faq-question {
       padding: 16px 20px;
-      color: #fff;
       font-family: 'Cinzel', serif;
-      font-size: 1.08rem;
+      font-size: 1.1rem;
       font-weight: 700;
+      color: #fff;
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      gap: 12px;
+      user-select: none;
     }
 
-    .faq-arrow {
+    .faq-icon {
       color: var(--accent-frost);
-      font-size: 0.95rem;
+      font-size: 1.2rem;
       transition: transform 0.25s ease;
-      flex-shrink: 0;
     }
 
-    .faq-item.open .faq-arrow {
+    .faq-item.open .faq-icon {
       transform: rotate(180deg);
     }
 
-    .faq-body {
+    .faq-answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
-      padding: 0 20px;
-      color: var(--text-main);
+      transition: max-height 0.3s ease-out, padding 0.3s ease;
+      color: var(--text-muted);
       font-size: 1rem;
-      line-height: 1.6;
+      line-height: 1.55;
+      padding: 0 20px;
+      border-top: 1px solid transparent;
     }
 
-    .faq-item.open .faq-body {
-      max-height: 800px;
-      transition: max-height 0.4s ease-in-out;
-      padding: 0 20px 18px 20px;
+    .faq-item.open .faq-answer {
+      max-height: 350px;
+      padding: 14px 20px 18px;
+      border-top-color: rgba(255, 255, 255, 0.05);
     }
 
-    .faq-body p {
-      margin-bottom: 8px;
-    }
-
-    .highlight-pill {
-      background: rgba(86, 212, 255, 0.12);
-      border: 1px solid rgba(86, 212, 255, 0.3);
-      color: var(--accent-frost);
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 0.92rem;
-      font-weight: 600;
-    }
-
-    /* Contact Form Section */
-    .form-card {
+    /* Support Desk Form Card */
+    .support-card {
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
       border-radius: 16px;
-      padding: 24px;
+      padding: 26px 22px;
       backdrop-filter: blur(8px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
     }
 
-    .form-desc {
+    .form-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .form-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .form-subtitle {
       color: var(--text-muted);
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       line-height: 1.5;
-      margin-bottom: 20px;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    .form-group {
-      margin-bottom: 16px;
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
-    .form-label {
-      display: block;
-      font-size: 0.92rem;
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 0.85rem;
       font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: 0.8px;
-      margin-bottom: 6px;
+      letter-spacing: 1px;
       text-transform: uppercase;
+      color: var(--text-muted);
     }
 
-    .form-input, .form-textarea {
-      width: 100%;
+    .field-label span.req {
+      color: var(--accent-frost);
+    }
+
+    .field-input, .field-textarea {
       background: rgba(4, 9, 16, 0.85);
       border: 1px solid var(--border-ice);
-      border-radius: 8px;
-      padding: 12px 14px;
+      border-radius: 10px;
+      padding: 12px 16px;
       color: #fff;
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.05rem;
@@ -272,68 +270,67 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .form-input:focus, .form-textarea:focus {
+    .field-input:focus, .field-textarea:focus {
       border-color: var(--accent-frost);
       box-shadow: 0 0 10px var(--accent-glow);
     }
 
-    .form-textarea {
-      min-height: 110px;
+    .field-textarea {
+      min-height: 120px;
       resize: vertical;
+      line-height: 1.45;
     }
 
     .btn-submit {
       width: 100%;
       padding: 14px;
       border-radius: 10px;
-      border: 1px solid var(--discord-blurple);
-      background: linear-gradient(135deg, rgba(88, 101, 242, 0.8), rgba(60, 71, 196, 0.9));
+      border: 1px solid rgba(88, 101, 242, 0.5);
+      background: var(--discord-blurple);
       color: #fff;
       font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       letter-spacing: 1.5px;
-      text-transform: uppercase;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: all 0.2s ease;
+      cursor: pointer;
+      transition: all 0.25s ease;
       box-shadow: 0 4px 16px rgba(88, 101, 242, 0.35);
+      margin-top: 8px;
     }
 
-    .btn-submit:hover:not(:disabled) {
-      background: var(--discord-blurple);
-      box-shadow: 0 0 20px rgba(88, 101, 242, 0.6);
+    .btn-submit:hover {
       transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(88, 101, 242, 0.55);
+      filter: brightness(1.1);
     }
 
-    .btn-submit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .status-alert {
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-top: 14px;
-      display: none;
-      text-align: center;
-    }
-
-    .status-alert.success {
-      background: rgba(0, 255, 136, 0.15);
-      border: 1px solid rgba(0, 255, 136, 0.4);
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(6, 11, 19, 0.95);
+      border: 1px solid var(--online-green);
       color: #00ff88;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      pointer-events: none;
     }
 
-    .status-alert.error {
-      background: rgba(255, 80, 80, 0.15);
-      border: 1px solid rgba(255, 80, 80, 0.4);
-      color: #ff6b6b;
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
 
     .portal-footer {
@@ -342,6 +339,27 @@
       color: var(--text-muted);
       font-size: 0.85rem;
       letter-spacing: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .visitor-badge-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 20px;
+      padding: 4px 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .visitor-badge-container img {
+      height: 20px;
+      border-radius: 4px;
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -358,229 +376,249 @@
     </header>
 
     <div class="hero-header">
-      <h1 class="hero-title">FAQ & SUPPORT</h1>
-      <p class="hero-subtitle">Private Server Knowledge Base & Direct Mod Inquiries</p>
+      <h1 class="hero-title">FAQ & SUPPORT DESK</h1>
+      <p class="hero-subtitle">Server Intel • Mod Support • Troubleshooting</p>
     </div>
 
-    <!-- Accordion Q&A Section -->
-    <div class="section-title">
-      <span>❓</span> FREQUENTLY ASKED QUESTIONS
-    </div>
-
-    <div class="faq-list">
-      <!-- Q1 -->
+    <!-- Frequently Asked Questions Accordion -->
+    <div class="faq-section">
       <div class="faq-item">
-        <button class="faq-header" onclick="toggleFaq(this)">
-          <span>Is this available for iOS?</span>
-          <span class="faq-arrow">▼</span>
-        </button>
-        <div class="faq-body">
-          <p>Not quite yet, but Apple iOS client support is actively in the works! For now, Android devices and PC Android emulators (such as BlueStacks or LDPlayer) are fully supported.</p>
+        <div class="faq-question" onclick="toggleAccordion(this)">
+          <span>Is my official Whiteout Survival account safe?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Yes. The EU1 BETA private server runs as a completely isolated application package (separate APK) on your Android device. It uses its own sandbox save data and does not overwrite or interfere with your live retail account.
         </div>
       </div>
 
-      <!-- Q2 -->
       <div class="faq-item">
-        <button class="faq-header" onclick="toggleFaq(this)">
-          <span>What is a private server?</span>
-          <span class="faq-arrow">▼</span>
-        </button>
-        <div class="faq-body">
-          <p>A private server is an independent, custom-configured version of Whiteout Survival. It offers the exact same core gameplay and visuals you know, but runs on dedicated community servers with boosted benefits that retail servers do not provide.</p>
-          <p>On EU1, you can earn <span class="highlight-pill">Frost Stars</span> for free through daily gameplay, Arena combat, Bear Trap rallies, 7-day events, and Intel missions.</p>
+        <div class="faq-question" onclick="toggleAccordion(this)">
+          <span>Will there be server progress wipes?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Because this is an active beta testing realm, database rollbacks or seasonal wipes may occur prior to major version patches. Full advance notice will always be posted in the official announcements channel on Discord.
         </div>
       </div>
 
-      <!-- Q3 -->
       <div class="faq-item">
-        <button class="faq-header" onclick="toggleFaq(this)">
-          <span>Does this interfere with my original WOS app?</span>
-          <span class="faq-arrow">▼</span>
-        </button>
-        <div class="faq-body">
-          <p><strong>No, not at all.</strong> EU1 BETA is installed as a completely separate standalone application with its own package name. It will not overwrite, conflict with, or affect your official Whiteout Survival game or your retail account progression in any way.</p>
+        <div class="faq-question" onclick="toggleAccordion(this)">
+          <span>Why is Android Auto Blocker stopping installation?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Samsung One UI and modern Android builds block third-party APKs downloaded outside Google Play by default. You must temporarily turn off "Auto Blocker" in your device's Security and Privacy settings to install the client.
         </div>
       </div>
 
-      <!-- Q4 -->
       <div class="faq-item">
-        <button class="faq-header" onclick="toggleFaq(this)">
-          <span>When will the beta end and EU1 officially launch?</span>
-          <span class="faq-arrow">▼</span>
-        </button>
-        <div class="faq-body">
-          <p>The current estimate for the full official launch is <strong>early November</strong>. Keep in mind that launch dates are subject to adjustment depending on beta test findings and server stability results. Check our Discord for official timing announcements.</p>
+        <div class="faq-question" onclick="toggleAccordion(this)">
+          <span>How do I redeem active gift codes?</span>
+          <span class="faq-icon">▼</span>
         </div>
-      </div>
-
-      <!-- Q5 -->
-      <div class="faq-item">
-        <button class="faq-header" onclick="toggleFaq(this)">
-          <span>What is a beta test?</span>
-          <span class="faq-arrow">▼</span>
-        </button>
-        <div class="faq-body">
-          <p>A beta test is an open sandbox testing environment designed to stress-test server load, verify custom event scripts, and fine-tune game mechanics prior to global release.</p>
-          <p>During the beta phase, testers are provided with generous resource packages and Frost Stars so everyone can experience late-game mechanics. <em>Please note: Once the beta concludes, all accounts will be wiped clean for a fair, synchronized official launch.</em></p>
+        <div class="faq-answer">
+          Visit the Gift Code Depot from our portal home, tap any code to copy it, then head into the game: Tap your Chief Avatar → Settings → Gift Code → Paste and confirm.
         </div>
       </div>
     </div>
 
-    <!-- Discord-Linked Inquiry Form -->
-    <section class="form-card">
-      <div class="section-title">
-        <span>💬</span> ASK A QUESTION OR REPORT AN ISSUE
+    <!-- Mod Contact Form -->
+    <div class="support-card">
+      <div class="form-header">
+        <h2 class="form-title">
+          <span>💬</span> ASK A QUESTION OR REPORT AN ISSUE
+        </h2>
+        <p class="form-subtitle">
+          Have a question not covered above? Fill out this quick form and your inquiry will be routed straight to the moderator private inbox on our Discord server.
+        </p>
       </div>
-      <p class="form-desc">
-        Have a question not covered above? Fill out this quick form and your inquiry will be routed straight to the moderator private inbox on our Discord server.
-      </p>
 
-      <form id="qaForm" onsubmit="submitQuestion(event)">
-        <div class="form-group">
-          <label class="form-label" for="discordName">Your Discord / In-Game Name *</label>
-          <input type="text" id="discordName" class="form-input" placeholder="e.g. SurvivorChief#1234" required>
+      <form class="contact-form" id="modForm" onsubmit="handleFormSubmit(event)">
+        <!-- 1. Discord Tag (Required) -->
+        <div class="field-group">
+          <label class="field-label" for="discordTag">
+            Discord Tag <span class="req">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="discordTag" 
+            class="field-input" 
+            placeholder="e.g. SurvivorChief#1234 or @username" 
+            required
+          >
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="chiefName">Furnace Level & Server (Optional)</label>
-          <input type="text" id="chiefName" class="form-input" placeholder="e.g. Furnace 30 • EU1 BETA">
+        <!-- 2. In-Game Name (Required) -->
+        <div class="field-group">
+          <label class="field-label" for="ign">
+            In-Game Name (IGN) <span class="req">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="ign" 
+            class="field-input" 
+            placeholder="e.g. ChiefFrost88" 
+            required
+          >
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="questionText">Your Question or Inquiry *</label>
-          <textarea id="questionText" class="form-textarea" placeholder="Type your question or feedback here..." required></textarea>
+        <!-- 3. Server (Optional) -->
+        <div class="field-group">
+          <label class="field-label" for="server">
+            Server / State (Optional)
+          </label>
+          <input 
+            type="text" 
+            id="server" 
+            class="field-input" 
+            placeholder="e.g. EU1 BETA, State 1042"
+          >
         </div>
 
-        <button type="submit" id="submitBtn" class="btn-submit">
-          <span>📨</span> Send to Discord Mod Team
+        <!-- 4. Alliance (Optional) -->
+        <div class="field-group">
+          <label class="field-label" for="alliance">
+            Alliance (Optional)
+          </label>
+          <input 
+            type="text" 
+            id="alliance" 
+            class="field-input" 
+            placeholder="e.g. [ICE] FrostVanguard"
+          >
+        </div>
+
+        <!-- 5. Your Question (Required) -->
+        <div class="field-group">
+          <label class="field-label" for="userQuestion">
+            Your Question or Inquiry <span class="req">*</span>
+          </label>
+          <textarea 
+            id="userQuestion" 
+            class="field-textarea" 
+            placeholder="Type your question or feedback here..." 
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span>📨</span> SEND TO DISCORD MOD TEAM
         </button>
-
-        <div id="statusAlert" class="status-alert"></div>
       </form>
-    </section>
+    </div>
 
     <footer class="portal-footer">
-      EU1 BETA SERVER • SURVIVOR TOOLKIT
+      <div class="visitor-badge-container">
+        <img 
+          src="https://hits.sh/eu1-beta-realm.github.io.svg?label=Survivors+Checked+In&extraCount=1280&color=56d4ff&labelColor=0e1a2b&style=flat" 
+          alt="Survivors Checked In"
+        />
+      </div>
+      <div>EU1 BETA SERVER • SURVIVOR TOOLKIT</div>
     </footer>
   </div>
 
+  <div id="toast" class="toast-popup">Inquiry Formatted & Copied! Opening Discord...</div>
+
   <script>
-    // Discord Webhook configuration
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1564517001249038416/N5vA3qXFX7XVVtvyINYgt36ajRr32I0DcJGd4-LSz2PAPrDWAFZnFsN-UfRpqD8C90ye";
-
-    // Accordion handler
-    function toggleFaq(btn) {
-      const item = btn.parentElement;
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
-      if (!isOpen) {
-        item.classList.add('open');
-      }
+    // Accordion Toggle
+    function toggleAccordion(element) {
+      const item = element.parentElement;
+      item.classList.toggle('open');
     }
 
-    // Question form submit handler
-    async function submitQuestion(e) {
+    // Form submission & Discord routing
+    function handleFormSubmit(e) {
       e.preventDefault();
-      const name = document.getElementById('discordName').value.trim();
-      const meta = document.getElementById('chiefName').value.trim() || 'Not specified';
-      const question = document.getElementById('questionText').value.trim();
-      const submitBtn = document.getElementById('submitBtn');
-      const alertBox = document.getElementById('statusAlert');
 
-      submitBtn.disabled = true;
-      submitBtn.innerText = "Transmitting to Discord...";
-      alertBox.style.display = 'none';
+      const discordTag = document.getElementById('discordTag').value.trim();
+      const ign = document.getElementById('ign').value.trim();
+      const server = document.getElementById('server').value.trim() || 'EU1 BETA';
+      const alliance = document.getElementById('alliance').value.trim() || 'None';
+      const question = document.getElementById('userQuestion').value.trim();
 
-      const payload = {
-        username: "EU1 Portal Help Desk",
-        avatar_url: "https://cdn-icons-png.flaticon.com/512/9187/9187604.png",
-        embeds: [{
-          title: "❄️ New Portal Question / Inquiry",
-          color: 0x56d4ff,
-          fields: [
-            { name: "👤 Survivor", value: name, inline: true },
-            { name: "🏰 In-Game Details", value: meta, inline: true },
-            { name: "❓ Question / Message", value: question, inline: false }
-          ],
-          footer: { text: "EU1 BETA Portal Help Desk" },
-          timestamp: new Date().toISOString()
-        }]
-      };
+      // Format clean inquiry ticket
+      const ticketText = `📩 **EU1 SUPPORT TICKET**\n` +
+                         `• **Discord:** ${discordTag}\n` +
+                         `• **IGN:** ${ign}\n` +
+                         `• **Server:** ${server}\n` +
+                         `• **Alliance:** ${alliance}\n` +
+                         `• **Inquiry:** ${question}`;
 
-      try {
-        const response = await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-          alertBox.className = "status-alert success";
-          alertBox.innerText = "Your question was successfully delivered to the moderators!";
-          alertBox.style.display = "block";
-          document.getElementById('qaForm').reset();
-        } else {
-          throw new Error("Discord rejected transmission");
-        }
-      } catch (err) {
-        alertBox.className = "status-alert error";
-        alertBox.innerText = "Submission failed. Please join our Discord directly and post in #general or #help!";
-        alertBox.style.display = "block";
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = "<span>📨</span> Send to Discord Mod Team";
+      // Copy formatted inquiry to clipboard
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(ticketText).catch(() => {});
       }
+
+      showToast("Ticket copied to clipboard! Opening Discord...");
+
+      // Redirect user to the official server support channel
+      setTimeout(() => {
+        window.open('https://discord.gg/pqEHcrqB3', '_blank');
+      }, 1200);
     }
 
-    // Snow animation & Spooky theme
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
       document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
       document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
+    // Snow animation
     const canvas = document.getElementById('snowCanvas');
-    const ctx = canvas.getContext('2d');
-    let flakes = [];
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let flakes = [];
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    for (let i = 0; i < 55; i++) {
-      flakes.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2 + 1,
-        d: Math.random() + 0.5
-      });
-    }
-
-    function drawSnow() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
-      ctx.beginPath();
-      for (let i = 0; i < flakes.length; i++) {
-        const f = flakes[i];
-        ctx.moveTo(f.x, f.y);
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       }
-      ctx.fill();
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
 
-      for (let i = 0; i < flakes.length; i++) {
-        const f = flakes[i];
-        f.y += f.d;
-        f.x += Math.sin(f.y / 20) * 0.5;
-        if (f.y > canvas.height) {
-          flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+      for (let i = 0; i < 50; i++) {
+        flakes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 2 + 1,
+          d: Math.random() + 0.5
+        });
+      }
+
+      function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
         }
+        ctx.fill();
+
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.y += f.d;
+          f.x += Math.sin(f.y / 20) * 0.5;
+          if (f.y > canvas.height) {
+            flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+          }
+        }
+        requestAnimationFrame(drawSnow);
       }
-      requestAnimationFrame(drawSnow);
+      drawSnow();
     }
-    drawSnow();
   </script>
 </body>
 </html>
