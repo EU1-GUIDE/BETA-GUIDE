@@ -175,19 +175,6 @@
       box-shadow: 0 8px 24px rgba(88, 101, 242, 0.4);
     }
 
-    .portal-card.disabled {
-      opacity: 0.72;
-      cursor: not-allowed;
-      border-style: dashed;
-      border-color: rgba(255, 209, 102, 0.35);
-    }
-
-    .portal-card.disabled:hover {
-      transform: none;
-      box-shadow: none;
-      border-color: rgba(255, 209, 102, 0.35);
-    }
-
     .card-top {
       display: flex;
       justify-content: space-between;
@@ -224,12 +211,6 @@
       background: rgba(88, 101, 242, 0.18);
       color: #7289da;
       border: 1px solid rgba(88, 101, 242, 0.35);
-    }
-
-    .status-badge.wip {
-      background: rgba(255, 209, 102, 0.15);
-      color: var(--gold-tag);
-      border: 1px solid rgba(255, 209, 102, 0.3);
     }
 
     .card-title {
@@ -285,13 +266,6 @@
       box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
     }
 
-    .portal-card.disabled .btn-portal {
-      background: rgba(255, 209, 102, 0.08);
-      border-color: rgba(255, 209, 102, 0.25);
-      color: var(--gold-tag);
-      cursor: not-allowed;
-    }
-
     .portal-footer {
       text-align: center;
       margin-top: 36px;
@@ -342,7 +316,6 @@
       <p class="hero-subtitle">Official Community Hub & Survival Toolkit</p>
     </div>
 
-    <!-- All 5 portal cards sharing the exact same responsive grid -->
     <main class="portal-grid">
       <!-- 1. Getting Started Guide -->
       <a href="guide.html" class="portal-card">
@@ -396,18 +369,18 @@
         <div class="btn-portal">Join Server ➔</div>
       </a>
 
-      <!-- 5. WOS Calculator (In Development) -->
-      <div class="portal-card disabled">
+      <!-- 5. WOS Calculator Suite (Activated) -->
+      <a href="calculator.html" class="portal-card">
         <div class="card-top">
           <span class="card-icon">🧮</span>
-          <span class="status-badge wip">In Development</span>
+          <span class="status-badge live">● Active Suite</span>
         </div>
         <div>
           <h2 class="card-title">WOS Calculator</h2>
-          <p class="card-desc">Chief gear, charm progression, Fire Crystals, widgets, and troop training speedup planners.</p>
+          <p class="card-desc">Fire Crystals, chief gear, charm progression, hero widgets, and troop training speedup planners.</p>
         </div>
-        <div class="btn-portal">Coming Soon</div>
-      </div>
+        <div class="btn-portal">Launch Suite ➔</div>
+      </a>
     </main>
 
     <footer class="portal-footer">
