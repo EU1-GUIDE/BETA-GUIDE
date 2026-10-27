@@ -16,9 +16,8 @@
       --accent-glow: rgba(86, 212, 255, 0.45);
       --text-main: #e8f5ff;
       --text-muted: #8ca3be;
-      --claimed-bg: rgba(8, 14, 23, 0.6);
       --gold-tag: #ffd166;
-      --ember-glow: #ff7b00;
+      --success-green: #00ff88;
     }
 
     body.halloween {
@@ -30,14 +29,13 @@
       --text-main: #fff2e0;
       --text-muted: #ad94a8;
       --gold-tag: #ffb703;
+      --success-green: #ffb703;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      user-select: none;
-      -webkit-user-select: none;
     }
 
     body {
@@ -50,7 +48,6 @@
       padding-bottom: 70px;
     }
 
-    /* Blizzard canvas background */
     #snowCanvas {
       position: fixed;
       top: 0;
@@ -64,12 +61,11 @@
     .container {
       position: relative;
       z-index: 2;
-      max-width: 900px;
+      width: min(94vw, 860px);
       margin: 0 auto;
-      padding: 16px;
+      padding: 16px 8px;
     }
 
-    /* Top Server Banner */
     .top-badge-banner {
       display: flex;
       justify-content: space-between;
@@ -84,7 +80,7 @@
 
     .server-tag {
       font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 900;
       letter-spacing: 2px;
       color: var(--accent-frost);
@@ -117,10 +113,9 @@
       transition: all 0.2s ease;
     }
 
-    /* Header Section */
     .hero-header {
       text-align: center;
-      padding: 20px 12px;
+      padding: 24px 12px;
       margin-bottom: 20px;
       border-radius: 16px;
       background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
@@ -144,7 +139,6 @@
       margin-top: 6px;
     }
 
-    /* Action Deck (Search + Merge Toggle) */
     .action-deck {
       display: flex;
       flex-direction: column;
@@ -197,73 +191,17 @@
       box-shadow: 0 0 14px var(--accent-glow);
     }
 
-    /* Filter Chips */
-    .filters-bar {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      scrollbar-width: none;
-    }
-    .filters-bar::-webkit-scrollbar { display: none; }
-
-    .filter-chip {
-      padding: 6px 14px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-ice);
-      border-radius: 20px;
+    .code-count-label {
       font-size: 0.9rem;
       font-weight: 700;
       color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
+      letter-spacing: 1px;
+      padding-left: 4px;
     }
 
-    .filter-chip.active {
-      background: var(--accent-frost);
-      color: #040910;
-      border-color: var(--accent-frost);
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
-
-    /* Progress Tracker Bar */
-    .progress-box {
-      background: rgba(6, 13, 22, 0.8);
-      border: 1px solid var(--border-ice);
-      border-radius: 10px;
-      padding: 10px 14px;
-      margin-bottom: 20px;
-    }
-
-    .progress-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text-muted);
-    }
-
-    .progress-track {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent-frost), #4ade80);
-      transition: width 0.3s ease;
-      box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
-    }
-
-    /* Code Cards Grid */
     .codes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 14px;
     }
 
@@ -286,12 +224,6 @@
       border-color: var(--accent-frost);
     }
 
-    .code-card.claimed {
-      opacity: 0.55;
-      background: var(--claimed-bg);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
     .code-card-header {
       display: flex;
       justify-content: space-between;
@@ -311,30 +243,6 @@
       border: 1px solid var(--border-ice);
     }
 
-    .card-badge.gold {
-      background: rgba(255, 209, 102, 0.15);
-      color: var(--gold-tag);
-      border-color: rgba(255, 209, 102, 0.3);
-    }
-
-    .claim-toggle-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 1.15rem;
-      padding: 4px;
-      transition: color 0.2s;
-    }
-
-    .claim-toggle-btn:hover {
-      color: #4ade80;
-    }
-
-    .code-card.claimed .claim-toggle-btn {
-      color: #4ade80;
-    }
-
     .code-value {
       font-family: 'Cinzel', serif;
       font-size: 1.25rem;
@@ -343,8 +251,8 @@
       color: #ffffff;
       margin-bottom: 12px;
       word-break: break-all;
-      user-select: text;
-      -webkit-user-select: text;
+      user-select: all;
+      -webkit-user-select: all;
     }
 
     .btn-copy {
@@ -362,77 +270,22 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .btn-copy:active {
-      background: var(--accent-frost);
-      color: #040910;
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
 
-    /* Embedded Mini-Game Drawer */
-    .minigame-container {
-      background: var(--bg-card);
-      border: 1px solid var(--border-ice);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 22px;
-      display: none;
+    /* Copied visual indicator state */
+    .btn-copy.copied {
+      background: var(--success-green) !important;
+      color: #040d16 !important;
+      border-color: var(--success-green) !important;
+      font-weight: 800;
+      box-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
     }
 
-    .minigame-container.open {
-      display: block;
-    }
-
-    .minigame-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .minigame-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
-      color: var(--accent-frost);
-      font-weight: 700;
-    }
-
-    .board-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      max-width: 320px;
-      margin: 0 auto 12px auto;
-    }
-
-    .merge-cell {
-      aspect-ratio: 1;
-      background: rgba(5, 11, 20, 0.8);
-      border: 1px solid var(--border-ice);
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      cursor: pointer;
-      transition: transform 0.15s;
-    }
-
-    .merge-cell:active {
-      transform: scale(0.92);
-    }
-
-    .cell-sub {
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    /* Toast Notification */
     .toast-pill {
       position: fixed;
       bottom: 24px;
@@ -459,11 +312,9 @@
 </head>
 <body>
 
-  <!-- Falling Snow Particle Canvas -->
   <canvas id="snowCanvas"></canvas>
 
   <div class="container">
-    <!-- Server Banner -->
     <header class="top-badge-banner">
       <div class="server-tag">
         <span class="pulse-dot"></span>
@@ -474,59 +325,25 @@
       </button>
     </header>
 
-    <!-- Hero Header -->
     <div class="hero-header">
       <h1 class="hero-title">GIFT CODE HUB</h1>
       <p class="hero-subtitle">Official Community Supply Cache • Standalone Beta Tool</p>
     </div>
 
-    <!-- Search & Quick Utilities -->
     <div class="action-deck">
       <div class="search-row">
         <input type="text" id="searchInput" class="search-input" placeholder="Search codes (e.g., FROST, GEAR)..." oninput="renderCards()">
-        <button class="btn-action" onclick="copyAllUnclaimed()">📋 Copy All</button>
-        <button class="btn-action" onclick="toggleMergeGame()">🔥 Merge Mini-Game</button>
+        <button class="btn-action" id="btnCopyAll" onclick="copyAllCodes()">📋 Copy All</button>
       </div>
-
-      <!-- Filter Chips -->
-      <div class="filters-bar">
-        <div class="filter-chip active" onclick="setFilter('all', this)">All Codes (<span id="countAll">0</span>)</div>
-        <div class="filter-chip" onclick="setFilter('unclaimed', this)">Unclaimed (<span id="countUnclaimed">0</span>)</div>
-        <div class="filter-chip" onclick="setFilter('claimed', this)">Claimed (<span id="countClaimed">0</span>)</div>
-        <div class="filter-chip" onclick="setFilter('special', this)">Special Drops (<span id="countSpecial">0</span>)</div>
-      </div>
+      <div class="code-count-label" id="countDisplay">Available Codes: 0</div>
     </div>
 
-    <!-- Progress Meter -->
-    <div class="progress-box">
-      <div class="progress-label-row">
-        <span>Claimed Progress</span>
-        <span id="progressText">0 / 0</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-    </div>
-
-    <!-- Optional Merge Minigame Drawer -->
-    <div class="minigame-container" id="minigameDrawer">
-      <div class="minigame-header">
-        <span class="minigame-title">🔥 Campfire Fuel Merge</span>
-        <button class="theme-toggle-btn" onclick="spawnResource()">+ Gather Wood</button>
-      </div>
-      <div class="board-grid" id="mergeBoard"></div>
-      <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted);">Tap matching materials to merge: 🪵 Wood ➔ 🌿 Twigs ➔ ⛏️ Coal ➔ 🕯️ Torch ➔ ⛺ Campfire ➔ 🏰 Great Furnace</p>
-    </div>
-
-    <!-- Codes Grid -->
     <main class="codes-grid" id="codesGrid"></main>
   </div>
 
-  <!-- Copied Toast Banner -->
   <div class="toast-pill" id="toastPill">Code Copied!</div>
 
   <script>
-    // List of provided codes
     const RAW_CODES = [
       "KEUNULFW", "WLRCRJMR", "EUC6GDSQ", "N5CS4D9C", "HWWKPGF6",
       "BigChiefKeys", "HEROGEAR1000", "FROST500K", "FROST1MXD", "NEWVERSIONEV1",
@@ -537,50 +354,8 @@
       "GAMQQLPQ", "DMGNDZEXMV", "EUZYMLTD", "DVXQDREBUS", "LIONQUEEN", "EJGFULXG"
     ];
 
-    // Remove duplicates
     const UNIQUE_CODES = [...new Set(RAW_CODES)];
 
-    let currentFilter = 'all';
-
-    // LocalStorage helper for claimed status
-    function getClaimedSet() {
-      try {
-        const stored = localStorage.getItem('eu1_claimed_codes');
-        return stored ? new Set(JSON.parse(stored)) : new Set();
-      } catch (e) {
-        return new Set();
-      }
-    }
-
-    function saveClaimedSet(set) {
-      localStorage.setItem('eu1_claimed_codes', JSON.stringify([...set]));
-    }
-
-    function toggleClaim(code, event) {
-      if (event) event.stopPropagation();
-      const claimed = getClaimedSet();
-      if (claimed.has(code)) {
-        claimed.delete(code);
-      } else {
-        claimed.add(code);
-      }
-      saveClaimedSet(claimed);
-      renderCards();
-    }
-
-    function isSpecial(code) {
-      return code.includes("FROST") || code.includes("GEAR") || code.includes("Keys") || code.includes("QUEEN") || code.includes("SERPENT");
-    }
-
-    function getTag(code) {
-      if (code.includes("FROST")) return "Milestone";
-      if (code.includes("GEAR")) return "Hero Gear";
-      if (code.includes("Keys")) return "Chief Keys";
-      if (code.includes("QUEEN") || code.includes("SERPENT") || code.includes("HAPPY")) return "Special";
-      return "Supply Cache";
-    }
-
-    // Sound effect for copying
     function playBeep() {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -603,105 +378,90 @@
       toast.innerText = msg;
       toast.classList.add('show');
       playBeep();
+      if (navigator.vibrate) navigator.vibrate(40);
       setTimeout(() => {
         toast.classList.remove('show');
-      }, 1500);
+      }, 1600);
     }
 
-    function copyToClipboard(text, event) {
-      if (event) event.stopPropagation();
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => showToast(`Copied: ${text}`));
+    function executeCopy(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
       } else {
-        const temp = document.createElement("input");
-        temp.value = text;
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        document.body.removeChild(temp);
-        showToast(`Copied: ${text}`);
+        return new Promise((resolve, reject) => {
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          textArea.style.position = "fixed";
+          textArea.style.left = "-999999px";
+          textArea.style.top = "-999999px";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            textArea.remove();
+            resolve();
+          } catch (err) {
+            textArea.remove();
+            reject(err);
+          }
+        });
       }
     }
 
-    function copyAllUnclaimed() {
-      const claimed = getClaimedSet();
-      const unclaimed = UNIQUE_CODES.filter(c => !claimed.has(c));
-      if (unclaimed.length === 0) {
-        showToast("All codes are already claimed!");
-        return;
-      }
-      const text = unclaimed.join("\n");
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => showToast(`Copied ${unclaimed.length} Unclaimed Codes!`));
-      }
+    function copySingleCode(code, btn) {
+      executeCopy(code).then(() => {
+        showToast(`Copied: ${code}`);
+        const originalText = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = `✓ COPIED!`;
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = originalText;
+        }, 1800);
+      }).catch(() => {
+        showToast(`Error copying ${code}`);
+      });
     }
 
-    function setFilter(filter, el) {
-      currentFilter = filter;
-      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-      el.classList.add('active');
-      renderCards();
+    function copyAllCodes() {
+      const btn = document.getElementById('btnCopyAll');
+      const text = UNIQUE_CODES.join("\n");
+      executeCopy(text).then(() => {
+        showToast(`Copied All ${UNIQUE_CODES.length} Codes!`);
+        btn.innerHTML = `✓ Copied All!`;
+        setTimeout(() => {
+          btn.innerHTML = `📋 Copy All`;
+        }, 1800);
+      });
     }
 
     function renderCards() {
       const query = document.getElementById('searchInput').value.trim().toUpperCase();
-      const claimed = getClaimedSet();
       const grid = document.getElementById('codesGrid');
 
-      let visible = UNIQUE_CODES.filter(code => {
-        const matchesQuery = code.toUpperCase().includes(query);
-        const isClm = claimed.has(code);
-        const isSpc = isSpecial(code);
+      const visible = UNIQUE_CODES.filter(code => code.toUpperCase().includes(query));
+      document.getElementById('countDisplay').innerText = `Available Codes: ${visible.length}`;
 
-        if (!matchesQuery) return false;
-        if (currentFilter === 'unclaimed') return !isClm;
-        if (currentFilter === 'claimed') return isClm;
-        if (currentFilter === 'special') return isSpc;
-        return true;
-      });
-
-      // Update counters
-      document.getElementById('countAll').innerText = UNIQUE_CODES.length;
-      document.getElementById('countUnclaimed').innerText = UNIQUE_CODES.filter(c => !claimed.has(c)).length;
-      document.getElementById('countClaimed').innerText = claimed.size;
-      document.getElementById('countSpecial').innerText = UNIQUE_CODES.filter(isSpecial).length;
-
-      // Progress bar
-      const pct = Math.round((claimed.size / UNIQUE_CODES.length) * 100);
-      document.getElementById('progressFill').style.width = `${pct}%`;
-      document.getElementById('progressText').innerText = `${claimed.size} / ${UNIQUE_CODES.length} (${pct}%)`;
-
-      // Render items
-      grid.innerHTML = visible.map(code => {
-        const isClm = claimed.has(code);
-        const tag = getTag(code);
-        const isGold = tag !== "Supply Cache";
-
-        return `
-          <div class="code-card ${isClm ? 'claimed' : ''}">
-            <div class="code-card-header">
-              <span class="card-badge ${isGold ? 'gold' : ''}">${tag}</span>
-              <button class="claim-toggle-btn" title="Toggle Claimed" onclick="toggleClaim('${code}', event)">
-                ${isClm ? '✓ Claimed' : '○ Mark'}
-              </button>
-            </div>
-            <div class="code-value">${code}</div>
-            <button class="btn-copy" onclick="copyToClipboard('${code}', event)">
-              📋 Copy Code
-            </button>
+      grid.innerHTML = visible.map(code => `
+        <div class="code-card">
+          <div class="code-card-header">
+            <span class="card-badge">GIFT CODE</span>
           </div>
-        `;
-      }).join('');
+          <div class="code-value">${code}</div>
+          <button class="btn-copy" onclick="copySingleCode('${code}', this)">
+            📋 Copy Code
+          </button>
+        </div>
+      `).join('');
     }
 
-    // Halloween Toggle
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
       document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
       document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
-    // Falling Snow Effect
     const canvas = document.getElementById('snowCanvas');
     const ctx = canvas.getContext('2d');
     let flakes = [];
@@ -745,87 +505,7 @@
     }
     drawSnow();
 
-    // Campfire Merge Mini Game
-    const MERGE_ITEMS = [
-      { level: 1, name: "Wood", icon: "🪵" },
-      { level: 2, name: "Twigs", icon: "🌿" },
-      { level: 3, name: "Coal", icon: "⛏️" },
-      { level: 4, name: "Torch", icon: "🕯️" },
-      { level: 5, name: "Campfire", icon: "⛺" },
-      { level: 6, name: "Furnace", icon: "🏰" }
-    ];
-
-    let board = Array(12).fill(null);
-    let selectedCell = null;
-
-    function toggleMergeGame() {
-      const drawer = document.getElementById('minigameDrawer');
-      drawer.classList.toggle('open');
-      if (drawer.classList.contains('open') && board.every(x => x === null)) {
-        spawnResource();
-        spawnResource();
-      }
-    }
-
-    function renderBoard() {
-      const container = document.getElementById('mergeBoard');
-      container.innerHTML = board.map((item, idx) => {
-        if (!item) return `<div class="merge-cell" onclick="handleCellClick(${idx})"></div>`;
-        const meta = MERGE_ITEMS[item - 1];
-        const isSel = selectedCell === idx;
-        return `
-          <div class="merge-cell" style="${isSel ? 'border-color: #ffd166; background: rgba(255,209,102,0.15)' : ''}" onclick="handleCellClick(${idx})">
-            <div>${meta.icon}</div>
-            <span class="cell-sub">${meta.name}</span>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function spawnResource() {
-      const emptyIdxs = board.map((val, idx) => val === null ? idx : null).filter(val => val !== null);
-      if (emptyIdxs.length === 0) {
-        showToast("Storage Full! Merge items first.");
-        return;
-      }
-      const target = emptyIdxs[Math.floor(Math.random() * emptyIdxs.length)];
-      board[target] = 1;
-      renderBoard();
-    }
-
-    function handleCellClick(idx) {
-      if (selectedCell === null) {
-        if (board[idx] !== null) {
-          selectedCell = idx;
-          renderBoard();
-        }
-      } else {
-        if (selectedCell === idx) {
-          selectedCell = null;
-          renderBoard();
-        } else if (board[selectedCell] === board[idx] && board[idx] !== null) {
-          // Merge
-          const currLevel = board[idx];
-          if (currLevel < MERGE_ITEMS.length) {
-            board[idx] = currLevel + 1;
-            board[selectedCell] = null;
-            selectedCell = null;
-            showToast(`Merged into ${MERGE_ITEMS[currLevel].name}!`);
-          } else {
-            showToast("Maximum level reached (Great Furnace)!");
-            selectedCell = null;
-          }
-          renderBoard();
-        } else {
-          selectedCell = board[idx] !== null ? idx : null;
-          renderBoard();
-        }
-      }
-    }
-
-    // Initial render
     renderCards();
-    renderBoard();
   </script>
 </body>
 </html>
