@@ -366,13 +366,19 @@
         </button>
       </div>
       <div class="filter-meta-bar">
-        <span>Available Codes: <span id="codeCount" class="count-badge">36</span></span>
+        <span>Available Codes: <span id="codeCount" class="count-badge">37</span></span>
         <span>Tap to Copy</span>
       </div>
     </div>
 
-    <!-- Verified 36 Gift Codes: Rendered Directly in DOM -->
+    <!-- Verified 37 Gift Codes: Rendered Directly in DOM -->
     <main class="codes-container" id="codesList">
+      <div class="code-card" data-code="37D7652B5C">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">37D7652B5C</div>
+        <button class="btn-copy-code" onclick="copyCode('37D7652B5C')"><span>📋</span> Copy Code</button>
+      </div>
+
       <div class="code-card" data-code="KEUNULFW">
         <div class="card-meta-tag">Gift Code</div>
         <div class="code-title">KEUNULFW</div>
@@ -603,7 +609,6 @@
   <div id="toast" class="toast-popup">Code Copied to Clipboard!</div>
 
   <script>
-    // Live Search Filter
     function filterCodes() {
       const query = document.getElementById('searchInput').value.trim().toUpperCase();
       const cards = document.querySelectorAll('.code-card');
@@ -633,7 +638,6 @@
       }, 2000);
     }
 
-    // Clipboard Copy with execCommand fallback
     function copyTextToClipboard(text, successMsg) {
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text)
@@ -675,7 +679,6 @@
       copyTextToClipboard(allCodes, `Copied all ${visibleCards.length} codes!`);
     }
 
-    // Snow animation & Spooky theme
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
       document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
