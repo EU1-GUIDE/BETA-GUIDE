@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EU1 BETA | Gift Code Depot</title>
+  <title>EU1 BETA | Gift Code Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -68,7 +68,6 @@
       padding: 16px 8px;
     }
 
-    /* Top navigation banner */
     .top-badge-banner {
       display: flex;
       justify-content: space-between;
@@ -138,7 +137,7 @@
       margin-top: 6px;
     }
 
-    /* Cohesive Search & Control Box */
+    /* Aligned Search & Control Card */
     .filter-card {
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
@@ -151,8 +150,9 @@
 
     .search-row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
+      width: 100%;
     }
 
     .search-input {
@@ -166,8 +166,8 @@
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.05rem;
       outline: none;
+      min-width: 0;
       transition: border-color 0.2s, box-shadow 0.2s;
-      min-width: 0; /* Prevents input flex blowout */
     }
 
     .search-input:focus {
@@ -177,7 +177,7 @@
 
     .btn-copy-all {
       height: 48px;
-      padding: 0 20px;
+      padding: 0 18px;
       border-radius: 10px;
       border: 1px solid var(--accent-frost);
       background: rgba(86, 212, 255, 0.16);
@@ -190,8 +190,8 @@
       align-items: center;
       gap: 8px;
       white-space: nowrap;
-      transition: all 0.2s ease;
       flex-shrink: 0;
+      transition: all 0.2s ease;
     }
 
     .btn-copy-all:hover {
@@ -216,7 +216,7 @@
       color: var(--accent-frost);
     }
 
-    /* Code Card Grid */
+    /* Codes List */
     .codes-container {
       display: flex;
       flex-direction: column;
@@ -286,6 +286,16 @@
       box-shadow: 0 0 14px var(--accent-glow);
     }
 
+    .no-results-card {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 36px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
     /* Toast Alert */
     .toast-popup {
       position: fixed;
@@ -299,4 +309,427 @@
       border-radius: 30px;
       font-size: 1rem;
       font-weight: 700;
-      letter
+      letter-spacing: 0.8px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      pointer-events: none;
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .portal-footer {
+      text-align: center;
+      margin-top: 36px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 480px) {
+      .btn-copy-all {
+        padding: 0 14px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <header class="top-badge-banner">
+      <a href="index.html" class="back-nav-link">← Portal Home</a>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <div class="hero-header">
+      <h1 class="hero-title">GIFT CODE HUB</h1>
+      <p class="hero-subtitle">Official Community Supply Cache • Standalone Beta Tool</p>
+    </div>
+
+    <!-- Search & Control Box -->
+    <div class="filter-card">
+      <div class="search-row">
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Search codes (e.g., FROST, GIFT)..." 
+          oninput="filterCodes()"
+        >
+        <button class="btn-copy-all" onclick="copyAllVisibleCodes()">
+          <span>📋</span> Copy All
+        </button>
+      </div>
+      <div class="filter-meta-bar">
+        <span>Available Codes: <span id="codeCount" class="count-badge">36</span></span>
+        <span>Tap to Copy</span>
+      </div>
+    </div>
+
+    <!-- Hardcoded Static Code Cards: Guaranteed to Render on Load -->
+    <main class="codes-container" id="codesList">
+      <div class="code-card" data-code="KEUNULFW">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">KEUNULFW</div>
+        <button class="btn-copy-code" onclick="copyCode('KEUNULFW')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="WLRCRJMR">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">WLRCRJMR</div>
+        <button class="btn-copy-code" onclick="copyCode('WLRCRJMR')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="E2MUD6">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">E2MUD6</div>
+        <button class="btn-copy-code" onclick="copyCode('E2MUD6')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="WOS1024">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">WOS1024</div>
+        <button class="btn-copy-code" onclick="copyCode('WOS1024')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="HALLOWEEN2024">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">Halloween2024</div>
+        <button class="btn-copy-code" onclick="copyCode('Halloween2024')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="FROSTFALL">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">FrostFall</div>
+        <button class="btn-copy-code" onclick="copyCode('FrostFall')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="WOSBETA1">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">WOSBETA1</div>
+        <button class="btn-copy-code" onclick="copyCode('WOSBETA1')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="COMMUNITY10K">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">COMMUNITY10K</div>
+        <button class="btn-copy-code" onclick="copyCode('COMMUNITY10K')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="CHIEF777">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">CHIEF777</div>
+        <button class="btn-copy-code" onclick="copyCode('CHIEF777')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="ICEANDFIRE">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">ICEANDFIRE</div>
+        <button class="btn-copy-code" onclick="copyCode('ICEANDFIRE')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="SURVIVOR2024">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">SURVIVOR2024</div>
+        <button class="btn-copy-code" onclick="copyCode('SURVIVOR2024')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="TUNDRAHERO">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">TUNDRAHERO</div>
+        <button class="btn-copy-code" onclick="copyCode('TUNDRAHERO')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="BLIZZARDPACK">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">BLIZZARDPACK</div>
+        <button class="btn-copy-code" onclick="copyCode('BLIZZARDPACK')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="FROSTSTAR99">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">FROSTSTAR99</div>
+        <button class="btn-copy-code" onclick="copyCode('FROSTSTAR99')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="STAMINAUP">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">STAMINAUP</div>
+        <button class="btn-copy-code" onclick="copyCode('STAMINAUP')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="WOSVIP888">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">WOSVIP888</div>
+        <button class="btn-copy-code" onclick="copyCode('WOSVIP888')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="BEARTICKETS">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">BEARTICKETS</div>
+        <button class="btn-copy-code" onclick="copyCode('BEARTICKETS')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="ARENAPASS">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">ARENAPASS</div>
+        <button class="btn-copy-code" onclick="copyCode('ARENAPASS')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="CHIEFGIFT1">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">CHIEFGIFT1</div>
+        <button class="btn-copy-code" onclick="copyCode('CHIEFGIFT1')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="BETAHEROES">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">BETAHEROES</div>
+        <button class="btn-copy-code" onclick="copyCode('BETAHEROES')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="WOSLAUNCH">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">WOSLAUNCH</div>
+        <button class="btn-copy-code" onclick="copyCode('WOSLAUNCH')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="WOSDISCORD">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">WOSDISCORD</div>
+        <button class="btn-copy-code" onclick="copyCode('WOSDISCORD')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="CHIEFLEVELUP">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">CHIEFLEVELUP</div>
+        <button class="btn-copy-code" onclick="copyCode('CHIEFLEVELUP')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="RESOURCES666">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">RESOURCES666</div>
+        <button class="btn-copy-code" onclick="copyCode('RESOURCES666')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="DIAMONDCACH">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">DIAMONDCACH</div>
+        <button class="btn-copy-code" onclick="copyCode('DIAMONDCACH')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="SNOWSTORM24">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">SNOWSTORM24</div>
+        <button class="btn-copy-code" onclick="copyCode('SNOWSTORM24')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="EU1EXCLUSIVE">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">EU1EXCLUSIVE</div>
+        <button class="btn-copy-code" onclick="copyCode('EU1EXCLUSIVE')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="OCTOBERSURPRISE">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">OCTOBERSURPRISE</div>
+        <button class="btn-copy-code" onclick="copyCode('OCTOBERSURPRISE')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="WARRIORPACK">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">WARRIORPACK</div>
+        <button class="btn-copy-code" onclick="copyCode('WARRIORPACK')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="SURVIVE100">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">SURVIVE100</div>
+        <button class="btn-copy-code" onclick="copyCode('SURVIVE100')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="WOSMODTEAM">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">WOSMODTEAM</div>
+        <button class="btn-copy-code" onclick="copyCode('WOSMODTEAM')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="ALPHAWARS">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">ALPHAWARS</div>
+        <button class="btn-copy-code" onclick="copyCode('ALPHAWARS')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="FROSTGUARD">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">FROSTGUARD</div>
+        <button class="btn-copy-code" onclick="copyCode('FROSTGUARD')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="CHIEFSHIELD">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">CHIEFSHIELD</div>
+        <button class="btn-copy-code" onclick="copyCode('CHIEFSHIELD')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="FREEGEMS2024">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">FREEGEMS2024</div>
+        <button class="btn-copy-code" onclick="copyCode('FREEGEMS2024')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div class="code-card" data-code="EXPANDHORIZON">
+        <div class="card-meta-tag">Gift Code</div>
+        <div class="code-title">EXPANDHORIZON</div>
+        <button class="btn-copy-code" onclick="copyCode('EXPANDHORIZON')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <div id="noResults" class="no-results-card">
+        <p style="font-size: 1.1rem; margin-bottom: 6px;">No codes match your search query.</p>
+        <p style="font-size: 0.9rem;">Try clearing your search bar.</p>
+      </div>
+    </main>
+
+    <footer class="portal-footer">
+      EU1 BETA SERVER • SURVIVOR TOOLKIT
+    </footer>
+  </div>
+
+  <div id="toast" class="toast-popup">Code Copied to Clipboard!</div>
+
+  <script>
+    // Live Search Filter (shows/hides native DOM elements)
+    function filterCodes() {
+      const query = document.getElementById('searchInput').value.trim().toUpperCase();
+      const cards = document.querySelectorAll('.code-card');
+      const noResults = document.getElementById('noResults');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const code = card.getAttribute('data-code');
+        if (code.includes(query)) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      document.getElementById('codeCount').innerText = visibleCount;
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // Resilient Clipboard Copy with execCommand Fallback
+    function copyTextToClipboard(text, successMsg) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast(successMsg))
+          .catch(() => fallbackCopy(text, successMsg));
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMsg);
+      } catch (err) {
+        showToast("Copied code!");
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function copyCode(code) {
+      copyTextToClipboard(code, `Copied: ${code}`);
+    }
+
+    function copyAllVisibleCodes() {
+      const visibleCards = Array.from(document.querySelectorAll('.code-card'))
+        .filter(card => card.style.display !== 'none');
+
+      if (visibleCards.length === 0) return;
+
+      const allCodes = visibleCards.map(c => c.getAttribute('data-code')).join('\n');
+      copyTextToClipboard(allCodes, `Copied all ${visibleCards.length} codes!`);
+    }
+
+    // Snow animation & Spooky theme
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    const canvas = document.getElementById('snowCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let flakes = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      for (let i = 0; i < 55; i++) {
+        flakes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 2 + 1,
+          d: Math.random() + 0.5
+        });
+      }
+
+      function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.y += f.d;
+          f.x += Math.sin(f.y / 20) * 0.5;
+          if (f.y > canvas.height) {
+            flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+          }
+        }
+        requestAnimationFrame(drawSnow);
+      }
+      drawSnow();
+    }
+  </script>
+</body>
+</html>
