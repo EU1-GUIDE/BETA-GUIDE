@@ -66,7 +66,6 @@
       padding: 16px 8px;
     }
 
-    /* Top Badge Banner */
     .top-badge-banner {
       display: flex;
       justify-content: space-between;
@@ -114,7 +113,6 @@
       transition: all 0.2s ease;
     }
 
-    /* Hero */
     .hero-header {
       text-align: center;
       padding: 28px 14px;
@@ -141,7 +139,6 @@
       margin-top: 6px;
     }
 
-    /* Hub Grid */
     .portal-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -261,7 +258,6 @@
       cursor: not-allowed;
     }
 
-    /* Footer */
     .portal-footer {
       text-align: center;
       margin-top: 36px;
@@ -306,16 +302,16 @@
         <div class="btn-portal">Launch Depot ➔</div>
       </a>
 
-      <!-- 2. Getting Started Guide (NEXT) -->
-      <div class="portal-card disabled">
+      <!-- 2. Getting Started Guide (ACTIVE) -->
+      <a href="guide.html" class="portal-card">
         <div class="card-top">
           <span class="card-icon">📜</span>
-          <span class="status-badge wip">Building Next</span>
+          <span class="status-badge live">● Active Guide</span>
         </div>
         <h2 class="card-title">Getting Started</h2>
-        <p class="card-desc">Essential beginner survival checklist, server setup, early-game hero picks, and furnace priority.</p>
-        <div class="btn-portal">Under Construction</div>
-      </div>
+        <p class="card-desc">Full APK download link, Android Auto Blocker setup, account registration, and initial login steps.</p>
+        <div class="btn-portal">Open Guide ➔</div>
+      </a>
 
       <!-- 3. Calculator (COMING SOON) -->
       <div class="portal-card disabled">
@@ -335,14 +331,12 @@
   </div>
 
   <script>
-    // Theme toggle
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
       document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
       document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
-    // Snow canvas
     const canvas = document.getElementById('snowCanvas');
     const ctx = canvas.getContext('2d');
     let flakes = [];
