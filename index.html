@@ -18,6 +18,7 @@
       --text-muted: #8ca3be;
       --gold-tag: #ffd166;
       --online-green: #00ff88;
+      --discord-blurple: #5865f2;
     }
 
     body.halloween {
@@ -30,6 +31,7 @@
       --text-muted: #ad94a8;
       --gold-tag: #ffb703;
       --online-green: #ffb703;
+      --discord-blurple: #ff7700;
     }
 
     * {
@@ -76,6 +78,7 @@
       border-radius: 12px;
       backdrop-filter: blur(8px);
       margin-bottom: 24px;
+      gap: 10px;
     }
 
     .server-tag {
@@ -96,6 +99,32 @@
       border-radius: 50%;
       background: var(--online-green);
       box-shadow: 0 0 8px var(--online-green);
+    }
+
+    .banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quick-discord-btn {
+      background: rgba(88, 101, 242, 0.15);
+      border: 1px solid var(--discord-blurple);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .quick-discord-btn:hover {
+      background: var(--discord-blurple);
+      box-shadow: 0 0 12px rgba(88, 101, 242, 0.6);
     }
 
     .theme-toggle-btn {
@@ -167,6 +196,11 @@
       box-shadow: 0 8px 24px var(--accent-glow);
     }
 
+    .portal-card.discord-card:hover {
+      border-color: var(--discord-blurple);
+      box-shadow: 0 8px 24px rgba(88, 101, 242, 0.35);
+    }
+
     .portal-card.disabled {
       opacity: 0.65;
       cursor: not-allowed;
@@ -203,6 +237,12 @@
       background: rgba(0, 255, 136, 0.15);
       color: #00ff88;
       border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    .status-badge.discord {
+      background: rgba(88, 101, 242, 0.18);
+      color: #7289da;
+      border: 1px solid rgba(88, 101, 242, 0.35);
     }
 
     .status-badge.wip {
@@ -251,6 +291,18 @@
       box-shadow: 0 0 14px var(--accent-glow);
     }
 
+    .portal-card.discord-card .btn-portal {
+      background: rgba(88, 101, 242, 0.2);
+      border-color: rgba(88, 101, 242, 0.4);
+      color: #e0e4ff;
+    }
+
+    .portal-card.discord-card:hover .btn-portal {
+      background: var(--discord-blurple);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
+    }
+
     .portal-card.disabled .btn-portal {
       background: rgba(255, 255, 255, 0.05);
       color: var(--text-muted);
@@ -278,9 +330,14 @@
         <span class="pulse-dot"></span>
         EU1 BETA REALM
       </div>
-      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
-        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
-      </button>
+      <div class="banner-actions">
+        <a href="https://discord.gg/pqEHcrqB3" target="_blank" rel="noopener noreferrer" class="quick-discord-btn">
+          <span>💬</span> Discord
+        </a>
+        <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+          <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+        </button>
+      </div>
     </header>
 
     <!-- Hero Header -->
@@ -291,94 +348,6 @@
 
     <!-- Navigation Hub Grid -->
     <main class="portal-grid">
-      <!-- 1. Gift Codes (ACTIVE) -->
-      <a href="codes.html" class="portal-card">
-        <div class="card-top">
-          <span class="card-icon">🎁</span>
-          <span class="status-badge live">● Active Tool</span>
-        </div>
-        <h2 class="card-title">Gift Code Depot</h2>
-        <p class="card-desc">All verified active gift codes, instant one-tap copy, search filters, and batch copy utilities.</p>
-        <div class="btn-portal">Launch Depot ➔</div>
-      </a>
-
-      <!-- 2. Getting Started Guide (ACTIVE) -->
+      <!-- 1. Getting Started Guide (TOP PRIORITY) -->
       <a href="guide.html" class="portal-card">
-        <div class="card-top">
-          <span class="card-icon">📜</span>
-          <span class="status-badge live">● Active Guide</span>
-        </div>
-        <h2 class="card-title">Getting Started</h2>
-        <p class="card-desc">Full APK download link, Android Auto Blocker setup, account registration, and initial login steps.</p>
-        <div class="btn-portal">Open Guide ➔</div>
-      </a>
-
-      <!-- 3. Calculator (COMING SOON) -->
-      <div class="portal-card disabled">
-        <div class="card-top">
-          <span class="card-icon">🧮</span>
-          <span class="status-badge wip">Planned</span>
-        </div>
-        <h2 class="card-title">WOS Calculator</h2>
-        <p class="card-desc">Troop training speeds, upgrade cost planners, furnace fuel math, and event point calculators.</p>
-        <div class="btn-portal">Coming Soon</div>
-      </div>
-    </main>
-
-    <footer class="portal-footer">
-      EU1 BETA SERVER • SURVIVOR TOOLKIT
-    </footer>
-  </div>
-
-  <script>
-    function toggleSpookyTheme() {
-      const isHalloween = document.body.classList.toggle('halloween');
-      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
-      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
-    }
-
-    const canvas = document.getElementById('snowCanvas');
-    const ctx = canvas.getContext('2d');
-    let flakes = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    for (let i = 0; i < 55; i++) {
-      flakes.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2 + 1,
-        d: Math.random() + 0.5
-      });
-    }
-
-    function drawSnow() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
-      ctx.beginPath();
-      for (let i = 0; i < flakes.length; i++) {
-        const f = flakes[i];
-        ctx.moveTo(f.x, f.y);
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
-      }
-      ctx.fill();
-
-      for (let i = 0; i < flakes.length; i++) {
-        const f = flakes[i];
-        f.y += f.d;
-        f.x += Math.sin(f.y / 20) * 0.5;
-        if (f.y > canvas.height) {
-          flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
-        }
-      }
-      requestAnimationFrame(drawSnow);
-    }
-    drawSnow();
-  </script>
-</body>
-</html>
+        <div class
