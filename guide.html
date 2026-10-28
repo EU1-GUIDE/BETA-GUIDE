@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EU1 BETA | Survivor Guide & Meta Hub</title>
+  <title>EU1 BETA | Getting Started & Installation Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <script>
     if (localStorage.getItem('wos_theme') === 'halloween') {
       document.documentElement.classList.add('halloween');
@@ -15,19 +15,14 @@
   <style>
     :root {
       --bg-deep: #060b13;
-      --bg-card: rgba(14, 26, 43, 0.88);
+      --bg-card: rgba(14, 26, 43, 0.85);
       --border-ice: rgba(120, 210, 255, 0.28);
       --accent-frost: #56d4ff;
       --accent-glow: rgba(86, 212, 255, 0.45);
       --text-main: #e8f5ff;
       --text-muted: #8ca3be;
-      --gold-tag: #ffd166;
-      --online-green: #00ff88;
-      --fire-crystal: #ff5e36;
-      --tag-bear: #ef4444;
-      --tag-svs: #a855f7;
-      --tag-combat: #38bdf8;
-      --tag-f2p: #10b981;
+      --alert-warn: #ffd166;
+      --success-green: #00ff88;
     }
 
     body.halloween, html.halloween body {
@@ -38,16 +33,16 @@
       --accent-glow: rgba(255, 132, 0, 0.5);
       --text-main: #fff2e0;
       --text-muted: #ad94a8;
-      --gold-tag: #ffb703;
-      --online-green: #ffb703;
-      --fire-crystal: #ff7700;
-      --tag-bear: #f43f5e;
-      --tag-svs: #d946ef;
-      --tag-combat: #fb923c;
-      --tag-f2p: #34d399;
+      --alert-warn: #ffb703;
+      --success-green: #ffb703;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background: var(--bg-deep);
       color: var(--text-main);
@@ -71,7 +66,7 @@
     .container {
       position: relative;
       z-index: 2;
-      width: min(94vw, 880px);
+      width: min(94vw, 860px);
       margin: 0 auto;
       padding: 16px 8px;
     }
@@ -85,7 +80,7 @@
       padding: 10px 16px;
       border-radius: 12px;
       backdrop-filter: blur(8px);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .back-nav-link {
@@ -96,6 +91,11 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-nav-link:hover {
+      text-shadow: 0 0 10px var(--accent-glow);
     }
 
     .theme-toggle-btn {
@@ -116,7 +116,7 @@
 
     .hero-header {
       text-align: center;
-      padding: 24px 14px;
+      padding: 24px 12px;
       margin-bottom: 24px;
       border-radius: 16px;
       background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
@@ -125,9 +125,9 @@
 
     .hero-title {
       font-family: 'Cinzel', serif;
-      font-size: 2.3rem;
+      font-size: 2.2rem;
       font-weight: 900;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       color: #fff;
       text-transform: uppercase;
       text-shadow: 0 0 16px var(--accent-glow);
@@ -136,105 +136,131 @@
     .hero-subtitle {
       color: var(--text-muted);
       font-size: 1.05rem;
+      letter-spacing: 1.2px;
       margin-top: 6px;
     }
 
-    /* Tabs */
-    .tab-nav {
+    .guide-flow {
       display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 12px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-ice);
-      border-radius: 12px;
-      color: var(--text-muted);
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.25s ease;
-    }
-    .tab-btn:hover { border-color: var(--accent-frost); color: #fff; }
-    .tab-btn.active {
-      background: rgba(86, 212, 255, 0.18);
-      color: var(--accent-frost);
-      border-color: var(--accent-frost);
-      box-shadow: 0 0 14px var(--accent-glow);
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 24px;
     }
 
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-
-    /* Step Cards */
     .step-card {
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 20px;
-      margin-bottom: 16px;
       backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .step-header {
+    .step-badge-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 12px;
     }
 
     .step-num {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(86, 212, 255, 0.2);
-      border: 1px solid var(--accent-frost);
-      color: var(--accent-frost);
+      background: var(--accent-frost);
+      color: #040910;
       font-weight: 900;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      font-size: 0.85rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      letter-spacing: 1px;
     }
 
-    .step-title {
+    .step-heading {
       font-family: 'Cinzel', serif;
       font-size: 1.25rem;
       font-weight: 800;
       color: #fff;
+      letter-spacing: 1px;
     }
 
-    .step-body {
-      color: #d0e2f2;
-      font-size: 1rem;
-      line-height: 1.6;
+    .step-desc {
+      color: var(--text-main);
+      font-size: 1.02rem;
+      line-height: 1.5;
+      margin-bottom: 14px;
     }
-    .step-body p { margin-bottom: 8px; }
-    .step-body ul { margin-left: 20px; margin-bottom: 10px; }
-    .step-body li { margin-bottom: 4px; }
 
-    .highlight-tip {
-      background: rgba(86, 212, 255, 0.1);
-      border-left: 3px solid var(--accent-frost);
-      padding: 10px 14px;
-      border-radius: 6px;
+    .btn-download-big {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #103254, #1a4d7d);
+      border: 1px solid var(--accent-frost);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      padding: 14px 20px;
+      border-radius: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px var(--accent-glow);
+      transition: all 0.2s ease;
+      margin-bottom: 14px;
+    }
+
+    .btn-download-big:active, .btn-download-big:hover {
+      background: var(--accent-frost);
+      color: #040910;
+      box-shadow: 0 0 24px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .screenshot-frame {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-ice);
+      background: #03060b;
       margin-top: 10px;
-      font-size: 0.92rem;
     }
 
-    .portal-footer {
+    .guide-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      max-height: 520px;
+    }
+
+    .warn-callout {
+      background: rgba(255, 209, 102, 0.12);
+      border: 1px solid rgba(255, 209, 102, 0.35);
+      border-radius: 10px;
+      padding: 14px;
+      color: var(--alert-warn);
+      margin-top: 8px;
+    }
+
+    .warn-callout strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .ios-notice-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed var(--border-ice);
+      border-radius: 14px;
+      padding: 16px;
       text-align: center;
-      margin-top: 36px;
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .ios-notice-box strong {
+      color: var(--accent-frost);
     }
   </style>
 </head>
@@ -251,148 +277,65 @@
     </header>
 
     <div class="hero-header">
-      <h1 class="hero-title">SURVIVOR GUIDEBOOK</h1>
-      <p class="hero-subtitle">Installation Instructions • Account Setup • Strategic Combat Meta</p>
+      <h1 class="hero-title">GETTING STARTED</h1>
+      <p class="hero-subtitle">EU1 BETA Client Download & Setup Instructions</p>
     </div>
 
-    <!-- Navigation Tabs -->
-    <nav class="tab-nav">
-      <button class="tab-btn active" id="btnTabSetup" onclick="switchTab('setup')">
-        <span>📲</span> Getting Started (APK Setup)
-      </button>
-      <button class="tab-btn" id="btnTabMeta" onclick="switchTab('meta')">
-        <span>⚔️</span> Strategy & Meta Guides
-      </button>
-    </nav>
+    <main class="guide-flow">
+      <!-- Step 1: Download APK -->
+      <section class="step-card">
+        <div class="step-badge-row">
+          <span class="step-num">STEP 1</span>
+          <h2 class="step-heading">Download WOS APK Client</h2>
+        </div>
+        <p class="step-desc">
+          Tap the button below to download the official EU1 BETA game client APK directly to your phone:
+        </p>
+        <a href="https://europa.176.9.65.91.nip.io/" target="_blank" rel="noopener noreferrer" class="btn-download-big">
+          ⬇️ Download EU1 BETA APK
+        </a>
+        <div class="screenshot-frame">
+          <img src="download.jpg" alt="Download APK confirmation screenshot" class="guide-img">
+        </div>
+      </section>
 
-    <!-- TAB 1: GETTING STARTED / APK SETUP -->
-    <section id="tabSetup" class="tab-content active">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num">1</div>
-          <h2 class="step-title">Download the EU1 Private Server Client</h2>
+      <!-- Step 2: Auto Blocker Settings -->
+      <section class="step-card">
+        <div class="step-badge-row">
+          <span class="step-num">STEP 2</span>
+          <h2 class="step-heading">Phone Security Settings (Auto Blocker)</h2>
         </div>
-        <div class="step-body">
-          <p>Obtain the latest official APK package from our verified Discord release channel. This custom client connects directly to the EU1 European server infrastructure.</p>
-          <div class="highlight-tip">
-            <strong>Safe & Independent:</strong> The EU1 client uses a distinct package identifier. Installing it will <strong>never overwrite or conflict</strong> with your official Google Play Whiteout Survival application. Both apps run side-by-side.
-          </div>
+        <p class="step-desc">
+          On modern Android/Samsung devices, external installations are prevented by default. Before opening the installer:
+        </p>
+        <div class="warn-callout">
+          <strong>⚠️ Required Setting Adjustment:</strong>
+          Go to your device's <b>Settings</b> ➔ tap <b>Security & Privacy</b> (or Security) ➔ locate <b>Auto Blocker</b> and switch it <b>OFF</b> while installing the client.
         </div>
+      </section>
+
+      <!-- Step 3: Registration & Login -->
+      <section class="step-card">
+        <div class="step-badge-row">
+          <span class="step-num">STEP 3</span>
+          <h2 class="step-heading">Launch & Create Account</h2>
+        </div>
+        <p class="step-desc">
+          Once the APK finishes installing, open the game. At the login portal screen, tap <b>Sign Up</b> at the <b>bottom left</b> to create your account credentials and enter the server.
+        </p>
+        <div class="screenshot-frame">
+          <img src="logineu1.jpg" alt="EU1 Login screen showing Sign Up button at bottom left" class="guide-img">
+        </div>
+      </section>
+
+      <!-- iOS Notice -->
+      <div class="ios-notice-box">
+        🍎 <strong>iOS Players:</strong> Apple iOS client support is currently in development and will be available soon!
       </div>
-
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num">2</div>
-          <h2 class="step-title">Android Auto Blocker & Permissions</h2>
-        </div>
-        <div class="step-body">
-          <p>On modern Android operating systems (Samsung One UI 6+, Android 14+), sideloaded APKs are restricted by default:</p>
-          <ul>
-            <li>Go to <strong>Settings</strong> ➔ <strong>Security and Privacy</strong>.</li>
-            <li>Locate <strong>Auto Blocker</strong> and temporarily turn it <strong>OFF</strong>.</li>
-            <li>Tap the downloaded <code>.apk</code> file in your files folder or browser to install.</li>
-            <li>Once installed, you can freely turn Auto Blocker back on.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num">3</div>
-          <h2 class="step-title">Account Creation & Character Bind</h2>
-        </div>
-        <div class="step-body">
-          <p>Upon launching EU1 for the first time:</p>
-          <ul>
-            <li>Select <strong>Register Account</strong> at the start screen.</li>
-            <li>Set your Chief username and password (keep these saved safely).</li>
-            <li>Complete the initial tutorial to unlock full settlement functionality, alliance access, and the Gift Code redemption window.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num">4</div>
-          <h2 class="step-title">PC Emulator Setup (Optional)</h2>
-        </div>
-        <div class="step-body">
-          <p>If you prefer playing on a computer, EU1 runs smoothly on 64-bit Android emulators:</p>
-          <ul>
-            <li><strong>Recommended:</strong> LDPlayer 9 or BlueStacks 5 (Pie 64-bit instance).</li>
-            <li>Simply drag and drop the <code>.apk</code> into your emulator desktop to start playing.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 2: COMBAT META & STRATEGY -->
-    <section id="tabMeta" class="tab-content">
-      <div class="step-card">
-        <div class="step-header">
-          <span style="font-size:1.6rem;">🐻</span>
-          <h2 class="step-title">Bear Trap: The 4 Joiner Multiplier Rule</h2>
-        </div>
-        <div class="step-body">
-          <p>Bear damage multiplies massively when rally joiners deploy proper passive skills. In any Bear Trap rally, only the <strong>first skill of the first hero</strong> of each of the first four joiners applies to the whole rally!</p>
-          <ul>
-            <li><strong>Jessie (1st Hero):</strong> Up to +25% total squad damage dealt for every rally participant.</li>
-            <li><strong>Jasser (1st Hero):</strong> Another +25% total squad damage at skill cap.</li>
-            <li><strong>Seo-yoon (1st Hero):</strong> +20% raw attack buff to all troops in the march.</li>
-            <li><strong>Philly / Ling (1st Hero):</strong> Additional damage and attack amplification.</li>
-          </ul>
-          <div class="highlight-tip">
-            <strong>Bear Rule:</strong> Never lead a join march with Gina, Patrick, or Sergey. Send Jessie, Jasser, or Seo-yoon as your lead joiner to buff the entire alliance rally!
-          </div>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-header">
-          <span style="font-size:1.6rem;">🏆</span>
-          <h2 class="step-title">State vs. State (SvS) Prep Roadmap</h2>
-        </div>
-        <div class="step-body">
-          <p>Hoarding materials outside of SvS is critical to hitting Phase 9 milestone crates without wasting speedups:</p>
-          <ul>
-            <li><strong>Day 1 (Chief & Hero Gear):</strong> Spend Hardened Alloy, Polishing Solutions, Design Plans, and Essence Stones.</li>
-            <li><strong>Day 2 (Troop Training & Promotions):</strong> Prioritize <em>promoting</em> existing lower-tier units to T10/T11/T12 for optimal points per speedup minute.</li>
-            <li><strong>Day 3 (Beast Sanctuary):</strong> Feed your Sanctuary pets, use Beast Marks, and upgrade Breakthrough levels.</li>
-            <li><strong>Day 4 (Heroes & Widgets):</strong> Pop your accumulated Mythic Shards, Exclusive Weapon Widgets, and Gold Keys.</li>
-            <li><strong>Day 5 (Fire Crystal Buildings):</strong> Complete Furnace sub-nodes, War Academy research, and construction sprints.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-header">
-          <span style="font-size:1.6rem;">⚔️</span>
-          <h2 class="step-title">PvP Combat Ratios: The 50/20/30 Doctrine</h2>
-        </div>
-        <div class="step-body">
-          <p>Infantry absorb all frontal damage. If your front line drops, your Lancers and Marksmen receive direct undefended damage and wipe out in seconds.</p>
-          <ul>
-            <li><strong>Open Field Battles:</strong> 50% Infantry / 20% Lancer / 30% Marksman.</li>
-            <li><strong>Sunfire Castle Defense:</strong> 60% Infantry / 15% Lancer / 25% Marksman.</li>
-            <li><strong>Bear Trap (Zero Incoming Damage):</strong> 10% Infantry / 20% Lancer / 70% Marksman.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <footer class="portal-footer">
-      EU1 BETA SERVER • SURVIVOR TOOLKIT
-    </footer>
+    </main>
   </div>
 
   <script>
-    function switchTab(tab) {
-      document.getElementById('tabSetup').classList.toggle('active', tab === 'setup');
-      document.getElementById('tabMeta').classList.toggle('active', tab === 'meta');
-      document.getElementById('btnTabSetup').classList.toggle('active', tab === 'setup');
-      document.getElementById('btnTabMeta').classList.toggle('active', tab === 'meta');
-    }
-
     // Unified Persistent Theme Engine
     function applySavedTheme() {
       const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
@@ -427,7 +370,7 @@
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 25; i++) {
         flakes.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -438,7 +381,7 @@
 
       function drawSnow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.35)' : 'rgba(255, 255, 255, 0.4)';
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.45)';
         ctx.beginPath();
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
@@ -450,7 +393,7 @@
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
           f.y += f.d;
-          f.x += Math.sin(f.y / 25) * 0.3;
+          f.x += Math.sin(f.y / 25) * 0.4;
           if (f.y > canvas.height) {
             flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
           }
