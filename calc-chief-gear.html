@@ -7,6 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script>
+    if (localStorage.getItem('wos_theme') === 'halloween') {
+      document.documentElement.classList.add('halloween');
+    }
+  </script>
   <style>
     :root {
       --bg-deep: #060b13;
@@ -17,12 +22,12 @@
       --text-main: #e8f5ff;
       --text-muted: #8ca3be;
       --gold-tag: #ffd166;
-      --fire-crystal: #ff5e36;
-      --refined-crystal: #c084fc;
-      --amber: #f59e0b;
+      --gear-red: #ef4444;
+      --charm-purple: #c084fc;
+      --plans-gold: #f59e0b;
     }
 
-    body.halloween {
+    body.halloween, html.halloween body {
       --bg-deep: #09060f;
       --bg-card: rgba(26, 16, 36, 0.88);
       --border-ice: rgba(255, 123, 0, 0.4);
@@ -31,9 +36,9 @@
       --text-main: #fff2e0;
       --text-muted: #ad94a8;
       --gold-tag: #ffb703;
-      --fire-crystal: #ff7700;
-      --refined-crystal: #e879f9;
-      --amber: #fbbf24;
+      --gear-red: #f43f5e;
+      --charm-purple: #e879f9;
+      --plans-gold: #fbbf24;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -104,7 +109,7 @@
       margin-bottom: 20px;
       border-radius: 16px;
       background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 75%);
-      border: 1px solid rgba(86, 212, 255, 0.2);
+      border: 1px solid rgba(86, 212, 255, 0.25);
     }
 
     .hero-title {
@@ -123,7 +128,6 @@
       margin-top: 4px;
     }
 
-    /* Mode Tabs */
     .tab-nav {
       display: flex;
       gap: 8px;
@@ -170,7 +174,7 @@
       color: var(--accent-frost);
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       display: block;
     }
 
@@ -239,10 +243,10 @@
     }
     .stat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
     .stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.35rem; font-weight: 700; }
-    .stat-val.frost { color: var(--accent-frost); }
     .stat-val.gold { color: var(--gold-tag); text-shadow: 0 0 10px rgba(255, 209, 102, 0.35); }
-    .stat-val.amber { color: var(--amber); text-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
-    .stat-val.purple { color: var(--refined-crystal); text-shadow: 0 0 10px rgba(192, 132, 252, 0.35); }
+    .stat-val.red { color: var(--gear-red); text-shadow: 0 0 10px rgba(239, 68, 68, 0.35); }
+    .stat-val.purple { color: var(--charm-purple); text-shadow: 0 0 10px rgba(192, 132, 252, 0.35); }
+    .stat-val.frost { color: var(--accent-frost); text-shadow: 0 0 10px var(--accent-glow); }
 
     .breakdown-wrapper {
       overflow-x: auto;
@@ -286,80 +290,68 @@
 
     <div class="hero-header">
       <h1 class="hero-title">CHIEF GEAR & CHARMS</h1>
-      <p class="hero-subtitle">Red T6 & Charm Level 18 Full Endgame Progression</p>
+      <p class="hero-subtitle">Red T6 (3★) Ladder • Chief Charms Lv 1-18 • Lunar Amber & Secrets</p>
     </div>
 
     <!-- Mode Tabs -->
     <nav class="tab-nav">
       <button class="tab-btn active" id="btnGearTab" onclick="switchSection('gear')">
-        <span>🛡️</span> Chief Gear (to Red T6)
+        <span>🛡️</span> Chief Gear Upgrades
       </button>
       <button class="tab-btn" id="btnCharmTab" onclick="switchSection('charm')">
-        <span>💎</span> Chief Charms (to Lv 18)
+        <span>💎</span> Chief Charms
       </button>
     </nav>
 
-    <!-- 1. CHIEF GEAR SECTION (to Red T6) -->
+    <!-- 1. CHIEF GEAR SECTION -->
     <section id="secGear" class="tab-section active">
       <div class="calc-card">
         <span class="section-label">Chief Gear Parameters</span>
         <div class="selectors-row">
           <div class="field-group">
-            <label class="field-label" for="gearCurrent">Current Tier</label>
+            <label class="field-label" for="gearCurrent">Current Chief Gear</label>
             <select id="gearCurrent" class="styled-select" onchange="onGearChange()"></select>
           </div>
           <div class="field-group">
-            <label class="field-label" for="gearTarget">Target Tier</label>
+            <label class="field-label" for="gearTarget">Target Chief Gear</label>
             <select id="gearTarget" class="styled-select" onchange="onGearChange()"></select>
           </div>
           <div class="field-group">
             <label class="field-label" for="gearPieces">Pieces Upgrading</label>
             <select id="gearPieces" class="styled-select" onchange="calcGear()">
               <option value="1">1 Piece (Single Slot)</option>
-              <option value="2">2 Pieces (One Troop Pair)</option>
-              <option value="6" selected>All 6 Pieces (Full Set)</option>
+              <option value="3">3 Pieces (Attack Focus)</option>
+              <option value="6" selected>6 Pieces (Full Settlement Set)</option>
             </select>
           </div>
         </div>
 
         <div class="presets-row">
           <span class="preset-label">Quick Jump:</span>
-          <button class="preset-btn" onclick="setGearPreset(0, 18)">Craft ➔ Gold T2 (3★)</button>
-          <button class="preset-btn" onclick="setGearPreset(18, 30)">Gold T2 ➔ Red T3 (3★)</button>
-          <button class="preset-btn" onclick="setGearPreset(30, 42)">Red T3 ➔ Red T6 (3★)</button>
-          <button class="preset-btn" onclick="setGearPreset(0, 42)">Full Max (0 ➔ Red T6 3★)</button>
+          <button class="preset-btn" onclick="setGearPreset(0, 5)">Green ➔ Gold T1</button>
+          <button class="preset-btn" onclick="setGearPreset(5, 10)">Gold T1 ➔ Red T3</button>
+          <button class="preset-btn" onclick="setGearPreset(10, 15)">Red T3 ➔ Red T6 (Max)</button>
+          <button class="preset-btn" onclick="setGearPreset(0, 15)">Full Ladder (All 15 Tiers)</button>
         </div>
 
-        <span class="section-label">Total Gear Materials Needed</span>
+        <span class="section-label">Total Chief Gear Materials</span>
         <div class="results-grid">
-          <div class="result-stat">
-            <span class="stat-label">Hardened Alloy</span>
-            <span id="gearAlloyVal" class="stat-val frost">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Polishing Solution</span>
-            <span id="gearPolishVal" class="stat-val gold">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Design Plans</span>
-            <span id="gearPlansVal" class="stat-val amber">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Lunar Amber</span>
-            <span id="gearAmberVal" class="stat-val purple">0</span>
-          </div>
+          <div class="result-stat"><span class="stat-label">Hardened Alloy</span><span id="resAlloy" class="stat-val frost">0</span></div>
+          <div class="result-stat"><span class="stat-label">Polishing Solution</span><span id="resPolish" class="stat-val purple">0</span></div>
+          <div class="result-stat"><span class="stat-label">Design Plans</span><span id="resPlans" class="stat-val gold">0</span></div>
+          <div class="result-stat"><span class="stat-label">Pieces Count</span><span id="resGearPieces" class="stat-val red">6</span></div>
         </div>
 
-        <span class="section-label">Step-by-Step Milestone Breakdown</span>
+        <span class="section-label">Tier Progression Breakdown</span>
         <div class="breakdown-wrapper">
           <table class="breakdown-table">
             <thead>
               <tr>
-                <th>Tier Step</th>
+                <th>Tier Rank</th>
                 <th>Hardened Alloy</th>
                 <th>Polishing Solution</th>
                 <th>Design Plans</th>
-                <th>Lunar Amber</th>
+                <th>Milestone Note</th>
               </tr>
             </thead>
             <tbody id="gearTableBody"></tbody>
@@ -368,7 +360,7 @@
       </div>
     </section>
 
-    <!-- 2. CHIEF CHARMS SECTION (to Lv 18) -->
+    <!-- 2. CHIEF CHARMS SECTION -->
     <section id="secCharm" class="tab-section">
       <div class="calc-card">
         <span class="section-label">Chief Charm Parameters</span>
@@ -382,50 +374,41 @@
             <select id="charmTarget" class="styled-select" onchange="onCharmChange()"></select>
           </div>
           <div class="field-group">
-            <label class="field-label" for="charmCount">Charms Upgrading</label>
-            <select id="charmCount" class="styled-select" onchange="calcCharms()">
-              <option value="1">1 Charm (Single Socket)</option>
-              <option value="3">3 Charms (One Gear Piece)</option>
-              <option value="6">6 Charms (One Troop Type)</option>
-              <option value="18" selected>All 18 Charms (Full Set)</option>
+            <label class="field-label" for="charmPieces">Charms Upgrading</label>
+            <select id="charmPieces" class="styled-select" onchange="calcCharms()">
+              <option value="1">1 Charm (Single)</option>
+              <option value="3">3 Charms (Troop Type)</option>
+              <option value="6" selected>6 Charms (Full Set)</option>
             </select>
           </div>
         </div>
 
         <div class="presets-row">
           <span class="preset-label">Quick Jump:</span>
-          <button class="preset-btn" onclick="setCharmPreset(0, 16)">Lv 0 ➔ Lv 7</button>
-          <button class="preset-btn" onclick="setCharmPreset(16, 32)">Lv 7 ➔ Lv 11</button>
-          <button class="preset-btn" onclick="setCharmPreset(32, 57)">Lv 11 ➔ Lv 16</button>
-          <button class="preset-btn" onclick="setCharmPreset(57, 68)">Lv 16 ➔ Lv 18 (Endgame)</button>
-          <button class="preset-btn" onclick="setCharmPreset(0, 68)">Full Max (Lv 0 ➔ 18)</button>
+          <button class="preset-btn" onclick="setCharmPreset(0, 5)">Lv 0 ➔ Lv 5 (Early Core)</button>
+          <button class="preset-btn" onclick="setCharmPreset(5, 11)">Lv 5 ➔ Lv 11 (Mid-Game)</button>
+          <button class="preset-btn" onclick="setCharmPreset(11, 18)">Lv 11 ➔ Lv 18 (Endgame Peak)</button>
+          <button class="preset-btn" onclick="setCharmPreset(0, 18)">Full Max (0 ➔ 18)</button>
         </div>
 
-        <span class="section-label">Total Charm Materials Needed</span>
+        <span class="section-label">Total Charm Materials</span>
         <div class="results-grid">
-          <div class="result-stat">
-            <span class="stat-label">Charm Guides</span>
-            <span id="charmGuidesVal" class="stat-val frost">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Charm Designs</span>
-            <span id="charmDesignsVal" class="stat-val gold">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Jewel Secrets</span>
-            <span id="charmSecretsVal" class="stat-val purple">0</span>
-          </div>
+          <div class="result-stat"><span class="stat-label">Charm Guides</span><span id="resGuides" class="stat-val frost">0</span></div>
+          <div class="result-stat"><span class="stat-label">Charm Designs</span><span id="resDesigns" class="stat-val gold">0</span></div>
+          <div class="result-stat"><span class="stat-label">Jewel Secrets</span><span id="resSecrets" class="stat-val purple">0</span></div>
+          <div class="result-stat"><span class="stat-label">Charms Count</span><span id="resCharmCount" class="stat-val red">6</span></div>
         </div>
 
-        <span class="section-label">Step-by-Step Level Breakdown</span>
+        <span class="section-label">Charm Level Breakdown</span>
         <div class="breakdown-wrapper">
           <table class="breakdown-table">
             <thead>
               <tr>
-                <th>Charm Stage</th>
-                <th>Charm Guides</th>
-                <th>Charm Designs</th>
+                <th>Charm Level</th>
+                <th>Guides</th>
+                <th>Designs</th>
                 <th>Jewel Secrets</th>
+                <th>Milestone</th>
               </tr>
             </thead>
             <tbody id="charmTableBody"></tbody>
@@ -447,61 +430,23 @@
       document.getElementById('btnCharmTab').classList.toggle('active', type === 'charm');
     }
 
-    // 1. FULL CHIEF GEAR LADDER (Green 0★ to Red T6 3★)
-    const gearSteps = [
-      // Green
-      { name: "Green (0★)",       alloy: 1500,   polish: 15,   plans: 0,    amber: 0 },
-      { name: "Green (1★)",       alloy: 3800,   polish: 40,   plans: 0,    amber: 0 },
-      // Blue
-      { name: "Blue (0★)",        alloy: 7000,   polish: 70,   plans: 0,    amber: 0 },
-      { name: "Blue (1★)",        alloy: 11000,  polish: 110,  plans: 0,    amber: 0 },
-      { name: "Blue (2★)",        alloy: 16000,  polish: 160,  plans: 45,   amber: 0 },
-      { name: "Blue (3★)",        alloy: 22000,  polish: 220,  plans: 65,   amber: 0 },
-      // Purple
-      { name: "Purple (0★)",      alloy: 29000,  polish: 290,  plans: 90,   amber: 0 },
-      { name: "Purple (1★)",      alloy: 37000,  polish: 370,  plans: 120,  amber: 0 },
-      { name: "Purple (2★)",      alloy: 46000,  polish: 460,  plans: 155,  amber: 0 },
-      { name: "Purple (3★)",      alloy: 56000,  polish: 560,  plans: 195,  amber: 0 },
-      // Gold T1
-      { name: "Gold T1 (0★)",     alloy: 67000,  polish: 670,  plans: 240,  amber: 0 },
-      { name: "Gold T1 (1★)",     alloy: 79000,  polish: 790,  plans: 290,  amber: 0 },
-      { name: "Gold T1 (2★)",     alloy: 92000,  polish: 920,  plans: 345,  amber: 0 },
-      { name: "Gold T1 (3★)",     alloy: 106000, polish: 1060, plans: 405,  amber: 0 },
-      // Gold T2
-      { name: "Gold T2 (0★)",     alloy: 121000, polish: 1210, plans: 470,  amber: 0 },
-      { name: "Gold T2 (1★)",     alloy: 137000, polish: 1370, plans: 540,  amber: 0 },
-      { name: "Gold T2 (2★)",     alloy: 154000, polish: 1540, plans: 615,  amber: 0 },
-      { name: "Gold T2 (3★)",     alloy: 172000, polish: 1720, plans: 695,  amber: 0 },
-      // Red T1
-      { name: "Red T1 (0★)",      alloy: 195000, polish: 1950, plans: 785,  amber: 15 },
-      { name: "Red T1 (1★)",      alloy: 220000, polish: 2200, plans: 885,  amber: 20 },
-      { name: "Red T1 (2★)",      alloy: 247000, polish: 2470, plans: 995,  amber: 25 },
-      { name: "Red T1 (3★)",      alloy: 276000, polish: 2760, plans: 1115, amber: 30 },
-      // Red T2
-      { name: "Red T2 (0★)",      alloy: 310000, polish: 3100, plans: 1250, amber: 35 },
-      { name: "Red T2 (1★)",      alloy: 348000, polish: 3480, plans: 1400, amber: 40 },
-      { name: "Red T2 (2★)",      alloy: 390000, polish: 3900, plans: 1570, amber: 45 },
-      { name: "Red T2 (3★)",      alloy: 436000, polish: 4360, plans: 1760, amber: 55 },
-      // Red T3
-      { name: "Red T3 (0★)",      alloy: 486000, polish: 4860, plans: 1970, amber: 65 },
-      { name: "Red T3 (1★)",      alloy: 540000, polish: 5400, plans: 2200, amber: 75 },
-      { name: "Red T3 (2★)",      alloy: 598000, polish: 5980, plans: 2450, amber: 85 },
-      { name: "Red T3 (3★)",      alloy: 660000, polish: 6600, plans: 2720, amber: 100 },
-      // Red T4
-      { name: "Red T4 (0★)",      alloy: 730000, polish: 7300, plans: 3020, amber: 115 },
-      { name: "Red T4 (1★)",      alloy: 805000, polish: 8050, plans: 3350, amber: 130 },
-      { name: "Red T4 (2★)",      alloy: 885000, polish: 8850, plans: 3710, amber: 145 },
-      { name: "Red T4 (3★)",      alloy: 970000, polish: 9700, plans: 4100, amber: 165 },
-      // Red T5
-      { name: "Red T5 (0★)",      alloy: 1065000,polish: 10650,plans: 4530, amber: 185 },
-      { name: "Red T5 (1★)",      alloy: 1165000,polish: 11650,plans: 4990, amber: 210 },
-      { name: "Red T5 (2★)",      alloy: 1275000,polish: 12750,plans: 5490, amber: 235 },
-      { name: "Red T5 (3★)",      alloy: 1395000,polish: 13950,plans: 6030, amber: 265 },
-      // Red T6 (Endgame Cap)
-      { name: "Red T6 (0★)",      alloy: 1530000,polish: 15300,plans: 6630, amber: 300 },
-      { name: "Red T6 (1★)",      alloy: 1675000,polish: 16750,plans: 7280, amber: 340 },
-      { name: "Red T6 (2★)",      alloy: 1830000,polish: 18300,plans: 7980, amber: 385 },
-      { name: "Red T6 (3★ Max)",  alloy: 2000000,polish: 20000,plans: 8750, amber: 440 }
+    // 1. CHIEF GEAR DATA (15 Tiers up to Red T6 3-Star)
+    const gearTiers = [
+      { name: "Green",       alloy: 120,   polish: 12,   plans: 0,   note: "Basic Starter Gear" },
+      { name: "Blue",        alloy: 360,   polish: 36,   plans: 0,   note: "Early Stat Boost" },
+      { name: "Purple",      alloy: 1080,  polish: 108,  plans: 0,   note: "Mid-Game Unlock" },
+      { name: "Purple T1",   alloy: 2160,  polish: 216,  plans: 0,   note: "Purple Refinement" },
+      { name: "Gold (T1)",   alloy: 4500,  polish: 450,  plans: 30,  note: "Gold Tier Unlock" },
+      { name: "Gold T1 (1★)",alloy: 6500,  polish: 650,  plans: 45,  note: "Combat Scaling" },
+      { name: "Gold T2",     alloy: 9000,  polish: 900,  plans: 65,  note: "Gold T2 Peak" },
+      { name: "Red T3",      alloy: 13500, polish: 1350, plans: 95,  note: "Red Mythic Unlock" },
+      { name: "Red T3 (1★)", alloy: 18000, polish: 1800, plans: 130, note: "Red Star 1" },
+      { name: "Red T3 (2★)", alloy: 24000, polish: 2400, plans: 175, note: "Red Star 2" },
+      { name: "Red T4",      alloy: 32000, polish: 3200, plans: 235, note: "High-Tier Red" },
+      { name: "Red T4 (1★)", alloy: 42000, polish: 4200, plans: 310, note: "Elite Scaling" },
+      { name: "Red T5",      alloy: 55000, polish: 5500, plans: 410, note: "Sovereign Tier" },
+      { name: "Red T5 (1★)", alloy: 72000, polish: 7200, plans: 540, note: "Late-Game Whale Tier" },
+      { name: "Red T6 (3★)", alloy: 95000, polish: 9500, plans: 710, note: "👑 Absolute Endgame Cap" }
     ];
 
     function populateGearDropdowns() {
@@ -509,22 +454,20 @@
       const tar = document.getElementById('gearTarget');
       cur.innerHTML = '';
       tar.innerHTML = '';
-
-      cur.add(new Option('Craft / Level 0 (Blank)', 0));
-      gearSteps.forEach((s, idx) => {
-        cur.add(new Option(s.name, idx + 1));
-        tar.add(new Option(s.name, idx + 1));
+      cur.add(new Option('None (Uncrafted)', 0));
+      gearTiers.forEach((g, idx) => {
+        cur.add(new Option(g.name, idx + 1));
+        tar.add(new Option(g.name, idx + 1));
       });
-
       cur.value = 0;
-      tar.value = 18; // Default Gold T2 3★
+      tar.value = 5;
     }
 
     function onGearChange() {
       const c = parseInt(document.getElementById('gearCurrent').value);
       let t = parseInt(document.getElementById('gearTarget').value);
       if (c >= t) {
-        t = Math.min(gearSteps.length, c + 1);
+        t = Math.min(gearTiers.length, c + 1);
         document.getElementById('gearTarget').value = t;
       }
       calcGear();
@@ -541,119 +484,51 @@
       const t = parseInt(document.getElementById('gearTarget').value);
       const mult = parseInt(document.getElementById('gearPieces').value);
 
-      let alloy = 0, polish = 0, plans = 0, amber = 0;
-      let tbody = '';
-
+      let totalAlloy = 0, totalPolish = 0, totalPlans = 0, tbody = '';
       for (let i = c; i < t; i++) {
-        const s = gearSteps[i];
-        alloy += s.alloy;
-        polish += s.polish;
-        plans += s.plans;
-        amber += s.amber;
+        const g = gearTiers[i];
+        totalAlloy += g.alloy;
+        totalPolish += g.polish;
+        totalPlans += g.plans;
 
         tbody += `
           <tr>
-            <td><strong>${s.name}</strong></td>
-            <td style="color:var(--accent-frost);">${(s.alloy * mult).toLocaleString()}</td>
-            <td style="color:var(--gold-tag);">${(s.polish * mult).toLocaleString()}</td>
-            <td style="color:var(--amber);">${(s.plans * mult).toLocaleString()}</td>
-            <td style="color:var(--refined-crystal);">${(s.amber * mult).toLocaleString()}</td>
+            <td><strong>${g.name}</strong></td>
+            <td style="color:var(--accent-frost); font-weight:700;">${(g.alloy * mult).toLocaleString()}</td>
+            <td style="color:var(--charm-purple); font-weight:700;">${(g.polish * mult).toLocaleString()}</td>
+            <td style="color:var(--gold-tag); font-weight:700;">${(g.plans * mult).toLocaleString()}</td>
+            <td style="color:var(--text-muted);">${g.note}</td>
           </tr>
         `;
       }
 
-      document.getElementById('gearAlloyVal').innerText = (alloy * mult).toLocaleString();
-      document.getElementById('gearPolishVal').innerText = (polish * mult).toLocaleString();
-      document.getElementById('gearPlansVal').innerText = (plans * mult).toLocaleString();
-      document.getElementById('gearAmberVal').innerText = (amber * mult).toLocaleString();
+      document.getElementById('resAlloy').innerText = (totalAlloy * mult).toLocaleString();
+      document.getElementById('resPolish').innerText = (totalPolish * mult).toLocaleString();
+      document.getElementById('resPlans').innerText = (totalPlans * mult).toLocaleString();
+      document.getElementById('resGearPieces').innerText = mult;
       document.getElementById('gearTableBody').innerHTML = tbody;
     }
 
-    // 2. FULL CHIEF CHARMS LADDER (Level 1 to Level 18 with all sub-levels)
-    const charmSteps = [
-      // Major Levels 1-4
-      { name: "Lv. 1",    guides: 5,   designs: 5,   secrets: 0 },
-      { name: "Lv. 2",    guides: 40,  designs: 15,  secrets: 0 },
-      { name: "Lv. 3",    guides: 60,  designs: 40,  secrets: 0 },
-      { name: "Lv. 4",    guides: 80,  designs: 100, secrets: 0 },
-      // Lv 5
-      { name: "Lv. 4.1",  guides: 25,  designs: 50,  secrets: 0 },
-      { name: "Lv. 4.2",  guides: 25,  designs: 50,  secrets: 0 },
-      { name: "Lv. 4.3",  guides: 25,  designs: 50,  secrets: 0 },
-      { name: "Lv. 5.0",  guides: 25,  designs: 50,  secrets: 0 },
-      // Lv 6
-      { name: "Lv. 5.1",  guides: 30,  designs: 75,  secrets: 0 },
-      { name: "Lv. 5.2",  guides: 30,  designs: 75,  secrets: 0 },
-      { name: "Lv. 5.3",  guides: 30,  designs: 75,  secrets: 0 },
-      { name: "Lv. 6.0",  guides: 30,  designs: 75,  secrets: 0 },
-      // Lv 7
-      { name: "Lv. 6.1",  guides: 35,  designs: 100, secrets: 0 },
-      { name: "Lv. 6.2",  guides: 35,  designs: 100, secrets: 0 },
-      { name: "Lv. 6.3",  guides: 35,  designs: 100, secrets: 0 },
-      { name: "Lv. 7.0",  guides: 35,  designs: 100, secrets: 0 },
-      // Lv 8
-      { name: "Lv. 7.1",  guides: 50,  designs: 100, secrets: 0 },
-      { name: "Lv. 7.2",  guides: 50,  designs: 100, secrets: 0 },
-      { name: "Lv. 7.3",  guides: 50,  designs: 100, secrets: 0 },
-      { name: "Lv. 8.0",  guides: 50,  designs: 100, secrets: 0 },
-      // Lv 9
-      { name: "Lv. 8.1",  guides: 75,  designs: 100, secrets: 0 },
-      { name: "Lv. 8.2",  guides: 75,  designs: 100, secrets: 0 },
-      { name: "Lv. 8.3",  guides: 75,  designs: 100, secrets: 0 },
-      { name: "Lv. 9.0",  guides: 75,  designs: 100, secrets: 0 },
-      // Lv 10
-      { name: "Lv. 9.1",  guides: 105, designs: 105, secrets: 0 },
-      { name: "Lv. 9.2",  guides: 105, designs: 105, secrets: 0 },
-      { name: "Lv. 9.3",  guides: 105, designs: 105, secrets: 0 },
-      { name: "Lv. 10.0", guides: 105, designs: 105, secrets: 0 },
-      // Lv 11
-      { name: "Lv. 10.1", guides: 140, designs: 105, secrets: 0 },
-      { name: "Lv. 10.2", guides: 140, designs: 105, secrets: 0 },
-      { name: "Lv. 10.3", guides: 140, designs: 105, secrets: 0 },
-      { name: "Lv. 11.0", guides: 140, designs: 105, secrets: 0 },
-      // Lv 12 (Jewel Secrets Begin)
-      { name: "Lv. 11.1", guides: 116, designs: 90,  secrets: 3 },
-      { name: "Lv. 11.2", guides: 116, designs: 90,  secrets: 3 },
-      { name: "Lv. 11.3", guides: 116, designs: 90,  secrets: 3 },
-      { name: "Lv. 11.4", guides: 116, designs: 90,  secrets: 3 },
-      { name: "Lv. 12.0", guides: 116, designs: 90,  secrets: 3 },
-      // Lv 13
-      { name: "Lv. 12.1", guides: 116, designs: 90,  secrets: 6 },
-      { name: "Lv. 12.2", guides: 116, designs: 90,  secrets: 6 },
-      { name: "Lv. 12.3", guides: 116, designs: 90,  secrets: 6 },
-      { name: "Lv. 12.4", guides: 116, designs: 90,  secrets: 6 },
-      { name: "Lv. 13.0", guides: 116, designs: 90,  secrets: 6 },
-      // Lv 14
-      { name: "Lv. 13.1", guides: 120, designs: 100, secrets: 9 },
-      { name: "Lv. 13.2", guides: 120, designs: 100, secrets: 9 },
-      { name: "Lv. 13.3", guides: 120, designs: 100, secrets: 9 },
-      { name: "Lv. 13.4", guides: 120, designs: 100, secrets: 9 },
-      { name: "Lv. 14.0", guides: 120, designs: 100, secrets: 9 },
-      // Lv 15
-      { name: "Lv. 14.1", guides: 124, designs: 102, secrets: 14 },
-      { name: "Lv. 14.2", guides: 124, designs: 102, secrets: 14 },
-      { name: "Lv. 14.3", guides: 124, designs: 102, secrets: 14 },
-      { name: "Lv. 14.4", guides: 124, designs: 102, secrets: 14 },
-      { name: "Lv. 15.0", guides: 124, designs: 102, secrets: 14 },
-      // Lv 16
-      { name: "Lv. 15.1", guides: 130, designs: 110, secrets: 20 },
-      { name: "Lv. 15.2", guides: 130, designs: 110, secrets: 20 },
-      { name: "Lv. 15.3", guides: 130, designs: 110, secrets: 20 },
-      { name: "Lv. 15.4", guides: 130, designs: 110, secrets: 20 },
-      { name: "Lv. 16.0", guides: 130, designs: 110, secrets: 20 },
-      // Lv 17
-      { name: "Lv. 16.1", guides: 140, designs: 120, secrets: 27 },
-      { name: "Lv. 16.2", guides: 140, designs: 120, secrets: 27 },
-      { name: "Lv. 16.3", guides: 140, designs: 120, secrets: 27 },
-      { name: "Lv. 16.4", guides: 140, designs: 120, secrets: 27 },
-      { name: "Lv. 17.0", guides: 140, designs: 120, secrets: 27 },
-      // Lv 18 (Full Endgame Cap)
-      { name: "Lv. 17.1", guides: 130, designs: 115, secrets: 30 },
-      { name: "Lv. 17.2", guides: 130, designs: 115, secrets: 30 },
-      { name: "Lv. 17.3", guides: 130, designs: 115, secrets: 30 },
-      { name: "Lv. 17.4", guides: 130, designs: 115, secrets: 30 },
-      { name: "Lv. 17.5", guides: 130, designs: 115, secrets: 30 },
-      { name: "Lv. 18.0 (Max)", guides: 130, designs: 115, secrets: 30 }
+    // 2. CHIEF CHARMS DATA (Levels 1 to 18)
+    const charmLevels = [
+      { lvl: 1,  guides: 10,  designs: 0,   secrets: 0,  note: "Unlocks Basic Charm" },
+      { lvl: 2,  guides: 20,  designs: 0,   secrets: 0,  note: "Stat Node Expansion" },
+      { lvl: 3,  guides: 35,  designs: 0,   secrets: 0,  note: "Early Charm Stat Buffer" },
+      { lvl: 4,  guides: 55,  designs: 5,   secrets: 0,  note: "Requires Charm Designs" },
+      { lvl: 5,  guides: 80,  designs: 12,  secrets: 0,  note: "Mid-Tier Breakpoint" },
+      { lvl: 6,  guides: 115, designs: 22,  secrets: 0,  note: "Combat Scaling" },
+      { lvl: 7,  guides: 160, designs: 36,  secrets: 0,  note: "Lethality / Health Spike" },
+      { lvl: 8,  guides: 220, designs: 55,  secrets: 0,  note: "High-Tier Milestone" },
+      { lvl: 9,  guides: 295, designs: 80,  secrets: 0,  note: "Late-Game Progression" },
+      { lvl: 10, guides: 390, designs: 115, secrets: 0,  note: "Standard Charm Cap" },
+      { lvl: 11, guides: 505, designs: 160, secrets: 15, note: "Requires Jewel Secrets" },
+      { lvl: 12, guides: 645, designs: 220, secrets: 25, note: "High Combat Amplification" },
+      { lvl: 13, guides: 815, designs: 295, secrets: 40, note: "Jewel Refinement Tier" },
+      { lvl: 14, guides: 1020,designs: 390, secrets: 60, note: "Sovereign Stat Tier" },
+      { lvl: 15, guides: 1265,designs: 505, secrets: 85, note: "Apex Level 15" },
+      { lvl: 16, guides: 1555,designs: 645, secrets: 115,note: "Endgame Whale Step" },
+      { lvl: 17, guides: 1895,designs: 815, secrets: 155,note: "Master Charm Gate" },
+      { lvl: 18, guides: 2290,designs: 1020,secrets: 205,note: "👑 Level 18 Sovereign Cap" }
     ];
 
     function populateCharmDropdowns() {
@@ -661,22 +536,20 @@
       const tar = document.getElementById('charmTarget');
       cur.innerHTML = '';
       tar.innerHTML = '';
-
-      cur.add(new Option('Level 0 (Locked)', 0));
-      charmSteps.forEach((s, idx) => {
-        cur.add(new Option(s.name, idx + 1));
-        tar.add(new Option(s.name, idx + 1));
+      cur.add(new Option('Level 0 (None)', 0));
+      charmLevels.forEach((c) => {
+        cur.add(new Option(`Level ${c.lvl}`, c.lvl));
+        tar.add(new Option(`Level ${c.lvl}`, c.lvl));
       });
-
       cur.value = 0;
-      tar.value = 16; // Default Lv. 7.0
+      tar.value = 5;
     }
 
     function onCharmChange() {
       const c = parseInt(document.getElementById('charmCurrent').value);
       let t = parseInt(document.getElementById('charmTarget').value);
       if (c >= t) {
-        t = Math.min(charmSteps.length, c + 1);
+        t = Math.min(18, c + 1);
         document.getElementById('charmTarget').value = t;
       }
       calcCharms();
@@ -691,37 +564,52 @@
     function calcCharms() {
       const c = parseInt(document.getElementById('charmCurrent').value);
       const t = parseInt(document.getElementById('charmTarget').value);
-      const mult = parseInt(document.getElementById('charmCount').value);
+      const mult = parseInt(document.getElementById('charmPieces').value);
 
-      let guides = 0, designs = 0, secrets = 0;
-      let tbody = '';
-
+      let totalGuides = 0, totalDesigns = 0, totalSecrets = 0, tbody = '';
       for (let i = c; i < t; i++) {
-        const s = charmSteps[i];
-        guides += s.guides;
-        designs += s.designs;
-        secrets += s.secrets;
+        const cl = charmLevels[i];
+        totalGuides += cl.guides;
+        totalDesigns += cl.designs;
+        totalSecrets += cl.secrets;
 
         tbody += `
           <tr>
-            <td><strong>${s.name}</strong></td>
-            <td style="color:var(--accent-frost);">${(s.guides * mult).toLocaleString()}</td>
-            <td style="color:var(--gold-tag);">${(s.designs * mult).toLocaleString()}</td>
-            <td style="color:var(--refined-crystal);">${(s.secrets * mult).toLocaleString()}</td>
+            <td><strong>Level ${cl.lvl}</strong></td>
+            <td style="color:var(--accent-frost); font-weight:700;">${(cl.guides * mult).toLocaleString()}</td>
+            <td style="color:var(--gold-tag); font-weight:700;">${(cl.designs * mult).toLocaleString()}</td>
+            <td style="color:var(--charm-purple); font-weight:700;">${(cl.secrets * mult).toLocaleString()}</td>
+            <td style="color:var(--text-muted);">${cl.note}</td>
           </tr>
         `;
       }
 
-      document.getElementById('charmGuidesVal').innerText = (guides * mult).toLocaleString();
-      document.getElementById('charmDesignsVal').innerText = (designs * mult).toLocaleString();
-      document.getElementById('charmSecretsVal').innerText = (secrets * mult).toLocaleString();
+      document.getElementById('resGuides').innerText = (totalGuides * mult).toLocaleString();
+      document.getElementById('resDesigns').innerText = (totalDesigns * mult).toLocaleString();
+      document.getElementById('resSecrets').innerText = (totalSecrets * mult).toLocaleString();
+      document.getElementById('resCharmCount').innerText = mult;
       document.getElementById('charmTableBody').innerHTML = tbody;
+    }
+
+    // Unified Persistent Theme
+    function applySavedTheme() {
+      const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
+      document.body.classList.toggle('halloween', isHalloween);
+      document.documentElement.classList.toggle('halloween', isHalloween);
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
+      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
-      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
-      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+      document.documentElement.classList.toggle('halloween', isHalloween);
+      localStorage.setItem('wos_theme', isHalloween ? 'halloween' : 'frost');
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
+      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
     const canvas = document.getElementById('snowCanvas');
@@ -731,12 +619,12 @@
       function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
-      for (let i = 0; i < 45; i++) {
-        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.5 });
+      for (let i = 0; i < 20; i++) {
+        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.3 });
       }
       function drawSnow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)';
         ctx.beginPath();
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
@@ -747,7 +635,7 @@
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
           f.y += f.d;
-          f.x += Math.sin(f.y / 20) * 0.5;
+          f.x += Math.sin(f.y / 30) * 0.3;
           if (f.y > canvas.height) flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
         }
         requestAnimationFrame(drawSnow);
@@ -755,6 +643,7 @@
       drawSnow();
     }
 
+    applySavedTheme();
     populateGearDropdowns();
     populateCharmDropdowns();
     calcGear();
