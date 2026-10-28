@@ -22,10 +22,11 @@
       --text-main: #e8f5ff;
       --text-muted: #8ca3be;
       --gold-tag: #ffd166;
-      --xp-green: #10b981;
-      --essence: #06b6d4;
-      --widget: #f59e0b;
-      --mythic: #ec4899;
+      --essence-purple: #c084fc;
+      --mithril-cyan: #67e8f9;
+      --gear-red: #f43f5e;
+      --widget-amber: #f59e0b;
+      --exp-green: #10b981;
     }
 
     body.halloween, html.halloween body {
@@ -37,10 +38,11 @@
       --text-main: #fff2e0;
       --text-muted: #ad94a8;
       --gold-tag: #ffb703;
-      --xp-green: #34d399;
-      --essence: #38bdf8;
-      --widget: #fbbf24;
-      --mythic: #f43f5e;
+      --essence-purple: #e879f9;
+      --mithril-cyan: #38bdf8;
+      --gear-red: #fb7185;
+      --widget-amber: #fbbf24;
+      --exp-green: #34d399;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,8 +112,8 @@
       padding: 20px 14px;
       margin-bottom: 20px;
       border-radius: 16px;
-      background: radial-gradient(circle at center, rgba(245, 158, 11, 0.12) 0%, transparent 75%);
-      border: 1px solid rgba(245, 158, 11, 0.25);
+      background: radial-gradient(circle at center, rgba(103, 232, 249, 0.12) 0%, transparent 75%);
+      border: 1px solid rgba(103, 232, 249, 0.25);
     }
 
     .hero-title {
@@ -130,7 +132,6 @@
       margin-top: 4px;
     }
 
-    /* 3 Mode Tabs */
     .tab-nav {
       display: flex;
       gap: 8px;
@@ -138,27 +139,27 @@
     }
     .tab-btn {
       flex: 1;
-      padding: 12px 6px;
+      padding: 12px;
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
       border-radius: 12px;
       color: var(--text-muted);
       font-family: 'Rajdhani', sans-serif;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.25s ease;
     }
     .tab-btn:hover { border-color: var(--accent-frost); color: #fff; }
     .tab-btn.active {
-      background: rgba(245, 158, 11, 0.18);
-      color: var(--widget);
-      border-color: var(--widget);
-      box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);
+      background: rgba(103, 232, 249, 0.18);
+      color: var(--mithril-cyan);
+      border-color: var(--mithril-cyan);
+      box-shadow: 0 0 14px rgba(103, 232, 249, 0.4);
     }
 
     .calc-card {
@@ -183,7 +184,7 @@
 
     .selectors-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 14px;
       margin-bottom: 14px;
     }
@@ -203,8 +204,8 @@
       outline: none;
     }
     .styled-select:focus {
-      border-color: var(--widget);
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+      border-color: var(--mithril-cyan);
+      box-shadow: 0 0 10px rgba(103, 232, 249, 0.4);
     }
 
     .presets-row {
@@ -226,11 +227,11 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .preset-btn:hover { border-color: var(--widget); color: var(--widget); }
+    .preset-btn:hover { border-color: var(--mithril-cyan); color: var(--mithril-cyan); }
 
     .results-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
       gap: 10px;
       margin-bottom: 20px;
     }
@@ -246,11 +247,11 @@
     }
     .stat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
     .stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.35rem; font-weight: 700; }
-    .stat-val.gold { color: var(--gold-tag); text-shadow: 0 0 10px rgba(255, 209, 102, 0.35); }
-    .stat-val.xp { color: var(--xp-green); text-shadow: 0 0 10px rgba(16, 185, 129, 0.35); }
-    .stat-val.essence { color: var(--essence); text-shadow: 0 0 10px rgba(6, 182, 212, 0.35); }
-    .stat-val.mythic { color: var(--mythic); text-shadow: 0 0 10px rgba(236, 72, 153, 0.35); }
-    .stat-val.widget { color: var(--widget); text-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
+    .stat-val.mithril { color: var(--mithril-cyan); text-shadow: 0 0 10px rgba(103, 232, 249, 0.4); }
+    .stat-val.essence { color: var(--essence-purple); text-shadow: 0 0 10px rgba(192, 132, 252, 0.35); }
+    .stat-val.sacrifice { color: var(--gear-red); text-shadow: 0 0 10px rgba(244, 63, 94, 0.4); }
+    .stat-val.exp { color: var(--exp-green); text-shadow: 0 0 10px rgba(16, 185, 129, 0.35); }
+    .stat-val.widgets { color: var(--widget-amber); text-shadow: 0 0 10px rgba(245, 158, 11, 0.35); }
 
     .breakdown-wrapper {
       overflow-x: auto;
@@ -294,142 +295,119 @@
 
     <div class="hero-header">
       <h1 class="hero-title">HERO GEAR & WIDGETS</h1>
-      <p class="hero-subtitle">Enhancement (Lv 0-100) • Mastery Forging (1-20) • Exclusive Widgets</p>
+      <p class="hero-subtitle">Mithril Costs • Mythic Gear Sacrifices • Mastery 1–20 & Apex Arena (15 Heroes)</p>
     </div>
 
     <!-- Mode Tabs -->
     <nav class="tab-nav">
-      <button class="tab-btn active" id="btnEnhanceTab" onclick="switchSection('enhance')">
-        <span>⚙️</span> Gear Enhancement (0-100)
-      </button>
-      <button class="tab-btn" id="btnMasteryTab" onclick="switchSection('mastery')">
-        <span>⚔️</span> Mastery Forging (1-20)
+      <button class="tab-btn active" id="btnGearTab" onclick="switchSection('gear')">
+        <span>⚔️</span> Hero Gear & Mastery Forging
       </button>
       <button class="tab-btn" id="btnWidgetTab" onclick="switchSection('widget')">
-        <span>🔮</span> Exclusive Widgets
+        <span>⭐</span> Exclusive Hero Widgets
       </button>
     </nav>
 
-    <!-- 1. HERO GEAR ENHANCEMENT (0 to 100) -->
-    <section id="secEnhance" class="tab-section active">
+    <!-- 1. HERO GEAR & MASTERY SECTION -->
+    <section id="secGear" class="tab-section active">
       <div class="calc-card">
-        <span class="section-label">Hero Gear Enhancement Parameters</span>
+        <span class="section-label">1. Hero Gear Scope & Enhancement</span>
         <div class="selectors-row">
           <div class="field-group">
-            <label class="field-label" for="enhCurrent">Current Gear Level</label>
+            <label class="field-label" for="gearScope">Pieces Upgrading</label>
+            <select id="gearScope" class="styled-select" onchange="calculateGear()">
+              <option value="1">1 Piece (Single Slot)</option>
+              <option value="4" selected>4 Pieces (1 Full Hero Set)</option>
+              <option value="12">12 Pieces (3 Arena Heroes)</option>
+              <option value="20">20 Pieces (5 March Squad)</option>
+              <option value="60">60 Pieces (15 Apex Arena Roster)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="enhCurrent">Current Enhancement Level</label>
             <select id="enhCurrent" class="styled-select" onchange="onEnhChange()"></select>
           </div>
           <div class="field-group">
-            <label class="field-label" for="enhTarget">Target Gear Level</label>
+            <label class="field-label" for="enhTarget">Target Enhancement Level</label>
             <select id="enhTarget" class="styled-select" onchange="onEnhChange()"></select>
           </div>
-          <div class="field-group">
-            <label class="field-label" for="enhSlots">Gear Slots Upgrading</label>
-            <select id="enhSlots" class="styled-select" onchange="calcEnhance()">
-              <option value="1">1 Piece (Single Slot)</option>
-              <option value="2">2 Pieces (Atk or Def Pair)</option>
-              <option value="4" selected>4 Pieces (1 Full Hero Set)</option>
-              <option value="12">12 Pieces (3 Rally Lead Heroes)</option>
-              <option value="20">20 Pieces (5 Main Heroes)</option>
-              <option value="60">60 Pieces (15 Heroes / Apex Arena)</option>
-            </select>
-          </div>
         </div>
 
         <div class="presets-row">
-          <span class="preset-label">Quick Jump:</span>
-          <button class="preset-btn" onclick="setEnhPreset(0, 20)">Lv 0 ➔ 20 (Mastery Unlock Gate)</button>
-          <button class="preset-btn" onclick="setEnhPreset(20, 60)">Lv 20 ➔ 60 (Mid-Game)</button>
-          <button class="preset-btn" onclick="setEnhPreset(60, 100)">Lv 60 ➔ 100 (Max Enhancement)</button>
-          <button class="preset-btn" onclick="setEnhPreset(0, 100)">Full Max (0 ➔ 100)</button>
+          <span class="preset-label">Enhancement Quick Jump:</span>
+          <button class="preset-btn" onclick="setEnhPreset(0, 40)">Lv 0 ➔ 40</button>
+          <button class="preset-btn" onclick="setEnhPreset(40, 70)">Lv 40 ➔ 70</button>
+          <button class="preset-btn" onclick="setEnhPreset(70, 100)">Lv 70 ➔ 100 (Unlocks Mastery)</button>
+          <button class="preset-btn" onclick="setEnhPreset(0, 100)">Full Max (Lv 0 ➔ 100)</button>
         </div>
 
-        <span class="section-label">Total Enhancement XP Required</span>
-        <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Total Enhancement XP</span><span id="resTotalXP" class="stat-val xp">0</span></div>
-          <div class="result-stat"><span class="stat-label">100-XP Manuals</span><span id="resComp100" class="stat-val gold">0</span></div>
-          <div class="result-stat"><span class="stat-label">Purple Gear Equiv.</span><span id="resPurpleGear" class="stat-val" style="color:#c084fc;">0</span></div>
-          <div class="result-stat"><span class="stat-label">Pieces Count</span><span id="resPiecesCount" class="stat-val">4</span></div>
-        </div>
-
-        <span class="section-label">Enhancement Tier Milestones</span>
-        <div class="breakdown-wrapper">
-          <table class="breakdown-table">
-            <thead>
-              <tr>
-                <th>Level Range</th>
-                <th>Enhancement XP</th>
-                <th>100-XP Items</th>
-                <th>Equivalent Sacrificed Gear</th>
-              </tr>
-            </thead>
-            <tbody id="enhTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. MASTERY FORGING (1 to 20) -->
-    <section id="secMastery" class="tab-section">
-      <div class="calc-card">
-        <span class="section-label">Mastery Forging Parameters</span>
+        <span class="section-label">2. Mastery Forging (Levels 1 to 20)</span>
         <div class="selectors-row">
           <div class="field-group">
-            <label class="field-label" for="masteryCurrent">Current Mastery</label>
-            <select id="masteryCurrent" class="styled-select" onchange="onMasteryChange()"></select>
+            <label class="field-label" for="mastCurrent">Current Mastery Level</label>
+            <select id="mastCurrent" class="styled-select" onchange="onMastChange()"></select>
           </div>
           <div class="field-group">
-            <label class="field-label" for="masteryTarget">Target Mastery</label>
-            <select id="masteryTarget" class="styled-select" onchange="onMasteryChange()"></select>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="gearSlots">Gear Slots Upgrading</label>
-            <select id="gearSlots" class="styled-select" onchange="calcMastery()">
-              <option value="1">1 Slot (Single Piece)</option>
-              <option value="2">2 Slots (Atk or Def Pair)</option>
-              <option value="4" selected>4 Slots (1 Full Hero Set)</option>
-              <option value="12">12 Slots (3 Rally Lead Heroes)</option>
-              <option value="20">20 Slots (5 Main Heroes)</option>
-              <option value="60">60 Slots (15 Heroes / Apex Arena)</option>
-            </select>
+            <label class="field-label" for="mastTarget">Target Mastery Level</label>
+            <select id="mastTarget" class="styled-select" onchange="onMastChange()"></select>
           </div>
         </div>
 
         <div class="presets-row">
-          <span class="preset-label">Quick Jump:</span>
-          <button class="preset-btn" onclick="setMasteryPreset(0, 10)">Lv 0 ➔ Lv 10 (Stones Only)</button>
-          <button class="preset-btn" onclick="setMasteryPreset(10, 20)">Lv 10 ➔ Lv 20 (Mythic Gear Sacrifices)</button>
-          <button class="preset-btn" onclick="setMasteryPreset(0, 20)">Full Mastery (Lv 0 ➔ 20)</button>
+          <span class="preset-label">Mastery Quick Jump:</span>
+          <button class="preset-btn" onclick="setMastPreset(0, 5)">Lv 0 ➔ 5 (Gate 1)</button>
+          <button class="preset-btn" onclick="setMastPreset(5, 10)">Lv 5 ➔ 10 (Gate 2)</button>
+          <button class="preset-btn" onclick="setMastPreset(10, 15)">Lv 10 ➔ 15 (Mithril Era)</button>
+          <button class="preset-btn" onclick="setMastPreset(15, 20)">Lv 15 ➔ 20 (Sovereign Cap)</button>
+          <button class="preset-btn" onclick="setMastPreset(0, 20)">Full Mastery (0 ➔ 20)</button>
         </div>
 
-        <span class="section-label">Total Mastery Forging Materials</span>
+        <span class="section-label">Total Hero Gear Materials</span>
         <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Essence Stones</span><span id="resEssence" class="stat-val essence">0</span></div>
-          <div class="result-stat"><span class="stat-label">Mythic Gear Sacrifices</span><span id="resMythicGears" class="stat-val mythic">0</span></div>
-          <div class="result-stat"><span class="stat-label">Total Slots</span><span id="resSlotCount" class="stat-val gold">4</span></div>
+          <div class="result-stat">
+            <span class="stat-label">Mithril</span>
+            <span id="resMithril" class="stat-val mithril">0</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Essence Stones</span>
+            <span id="resEssence" class="stat-val essence">0</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Mythic Sacrifices</span>
+            <span id="resSacrifice" class="stat-val sacrifice">0</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Enhancement EXP</span>
+            <span id="resEXP" class="stat-val exp">0</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Fodder Equiv.</span>
+            <span id="resFodder" class="stat-val" style="color:var(--text-main);">0 Gear</span>
+          </div>
         </div>
 
-        <span class="section-label">Mastery Level Breakdown</span>
+        <span class="section-label">Mastery & Sacrifice Milestone Breakdown</span>
         <div class="breakdown-wrapper">
           <table class="breakdown-table">
             <thead>
               <tr>
                 <th>Mastery Level</th>
+                <th>Mithril</th>
                 <th>Essence Stones</th>
-                <th>Mythic Gear Sacrifices</th>
-                <th>Requirement</th>
+                <th>Mythic Sacrifices</th>
+                <th>Milestone Perk</th>
               </tr>
             </thead>
-            <tbody id="masteryTableBody"></tbody>
+            <tbody id="gearTableBody"></tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- 3. EXCLUSIVE WEAPON WIDGETS -->
+    <!-- 2. EXCLUSIVE HERO WIDGETS SECTION -->
     <section id="secWidget" class="tab-section">
       <div class="calc-card">
-        <span class="section-label">Exclusive Weapon Widget Parameters</span>
+        <span class="section-label">Widget Progression & Scope</span>
         <div class="selectors-row">
           <div class="field-group">
             <label class="field-label" for="widgetCurrent">Current Widget Level</label>
@@ -440,39 +418,46 @@
             <select id="widgetTarget" class="styled-select" onchange="onWidgetChange()"></select>
           </div>
           <div class="field-group">
-            <label class="field-label" for="heroCount">Heroes Upgrading</label>
-            <select id="heroCount" class="styled-select" onchange="calcWidgets()">
-              <option value="1" selected>1 Hero (Single Main)</option>
-              <option value="3">3 Heroes (Rally Lead March)</option>
-              <option value="5">5 Heroes (1 Full Squad)</option>
-              <option value="15">15 Heroes (Apex Arena / 3 Full Squads)</option>
+            <label class="field-label" for="widgetCount">Heroes Upgrading</label>
+            <select id="widgetCount" class="styled-select" onchange="calcWidgets()">
+              <option value="1">1 Hero (Lead Captain)</option>
+              <option value="3">3 Heroes (Main Attack Lineup)</option>
+              <option value="5" selected>5 Heroes (Full March Team)</option>
+              <option value="15">15 Heroes (Apex Arena Master Roster)</option>
             </select>
           </div>
         </div>
 
         <div class="presets-row">
           <span class="preset-label">Quick Jump:</span>
-          <button class="preset-btn" onclick="setWidgetPreset(0, 2)">Lv 0 ➔ Lv 2 (Unlock Both Skills)</button>
-          <button class="preset-btn" onclick="setWidgetPreset(0, 5)">Lv 0 ➔ Lv 5 (Mid-Game Breakpoint)</button>
-          <button class="preset-btn" onclick="setWidgetPreset(5, 10)">Lv 5 ➔ Lv 10 (Stat Cap)</button>
-          <button class="preset-btn" onclick="setWidgetPreset(0, 10)">Full Max (0 ➔ Lv 10)</button>
+          <button class="preset-btn" onclick="setWidgetPreset(0, 5)">Lv 0 ➔ 5</button>
+          <button class="preset-btn" onclick="setWidgetPreset(5, 10)">Lv 5 ➔ 10 (Skill Upgrade)</button>
+          <button class="preset-btn" onclick="setWidgetPreset(10, 20)">Lv 10 ➔ 20</button>
+          <button class="preset-btn" onclick="setWidgetPreset(20, 30)">Lv 20 ➔ 30 (Apex Cap)</button>
+          <button class="preset-btn" onclick="setWidgetPreset(0, 30)">Full Max (0 ➔ 30)</button>
         </div>
 
-        <span class="section-label">Total Widgets Needed</span>
+        <span class="section-label">Total Widget Materials</span>
         <div class="results-grid">
-          <div class="result-stat"><span class="stat-label">Total Widgets</span><span id="resWidgets" class="stat-val widget">0</span></div>
-          <div class="result-stat"><span class="stat-label">Total Heroes</span><span id="resHeroCount" class="stat-val gold">1</span></div>
-          <div class="result-stat"><span class="stat-label">Skill Status</span><span id="resSkillStatus" class="stat-val" style="color:#00ff88; font-size:1.1rem;">Skills Active</span></div>
+          <div class="result-stat">
+            <span class="stat-label">Exclusive Widgets</span>
+            <span id="resWidgets" class="stat-val widgets">0</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Heroes Count</span>
+            <span id="resHeroes" class="stat-val" style="color:var(--text-main);">5</span>
+          </div>
         </div>
 
-        <span class="section-label">Widget Level Breakdown</span>
+        <span class="section-label">Widget Level Milestone Breakdown</span>
         <div class="breakdown-wrapper">
           <table class="breakdown-table">
             <thead>
               <tr>
-                <th>Widget Level</th>
-                <th>Widgets for Level</th>
-                <th>Milestone / Skill Unlocked</th>
+                <th>Level Range</th>
+                <th>Widgets Per Hero</th>
+                <th>Total Widgets</th>
+                <th>Milestone Unlocked</th>
               </tr>
             </thead>
             <tbody id="widgetTableBody"></tbody>
@@ -488,36 +473,35 @@
 
   <script>
     function switchSection(type) {
-      document.getElementById('secEnhance').classList.toggle('active', type === 'enhance');
-      document.getElementById('secMastery').classList.toggle('active', type === 'mastery');
+      document.getElementById('secGear').classList.toggle('active', type === 'gear');
       document.getElementById('secWidget').classList.toggle('active', type === 'widget');
-      document.getElementById('btnEnhanceTab').classList.toggle('active', type === 'enhance');
-      document.getElementById('btnMasteryTab').classList.toggle('active', type === 'mastery');
+      document.getElementById('btnGearTab').classList.toggle('active', type === 'gear');
       document.getElementById('btnWidgetTab').classList.toggle('active', type === 'widget');
     }
 
-    // 1. HERO GEAR ENHANCEMENT DATA (Levels 0 to 100)
-    const enhanceBlocks = [
-      { from: 0,  to: 10,  xp: 325,   note: "Early Gear Setup" },
-      { from: 10, to: 20,  xp: 825,   note: "Mastery Forging Unlock Threshold (Lv 20)" },
-      { from: 20, to: 30,  xp: 1375,  note: "Stat Expansion" },
-      { from: 30, to: 40,  xp: 2115,  note: "Mid-Game Gear Level" },
-      { from: 40, to: 50,  xp: 3850,  note: "Command Buff Expansion" },
-      { from: 50, to: 60,  xp: 5760,  note: "Competitive War Readiness" },
-      { from: 60, to: 70,  xp: 8720,  note: "High-Tier Stat Scaling" },
-      { from: 70, to: 80,  xp: 11850, note: "Late-Game Progression" },
-      { from: 80, to: 90,  xp: 16400, note: "Apex Enhancement Tier" },
-      { from: 90, to: 100, xp: 22800, note: "Level 100 Maximum Enhancement Cap" }
+    // 1. HERO GEAR ENHANCEMENT (0 to 100)
+    // Incremental EXP per 10-level tier (total ~125,000 EXP per piece)
+    const enhTiers = [
+      { from: 0,  to: 10,  exp: 3000 },
+      { from: 10, to: 20,  exp: 5500 },
+      { from: 20, to: 30,  exp: 8500 },
+      { from: 30, to: 40,  exp: 12000 },
+      { from: 40, to: 50,  exp: 16000 },
+      { from: 50, to: 60,  exp: 21000 },
+      { from: 60, to: 70,  exp: 26000 },
+      { from: 70, to: 80,  exp: 32000 },
+      { from: 80, to: 90,  exp: 38000 },
+      { from: 90, to: 100, exp: 45000 }
     ];
 
-    function populateEnhanceDropdowns() {
+    function populateEnhDropdowns() {
       const cur = document.getElementById('enhCurrent');
       const tar = document.getElementById('enhTarget');
       cur.innerHTML = '';
       tar.innerHTML = '';
-      for (let lvl = 0; lvl <= 100; lvl += 10) {
-        if (lvl < 100) cur.add(new Option(`Level ${lvl}`, lvl));
-        if (lvl > 0) tar.add(new Option(`Level ${lvl}`, lvl));
+      for (let i = 0; i <= 100; i += 10) {
+        if (i < 100) cur.add(new Option(`Lv. ${i}`, i));
+        if (i > 0) tar.add(new Option(`Lv. ${i}`, i));
       }
       cur.value = 0;
       tar.value = 100;
@@ -530,136 +514,153 @@
         t = Math.min(100, c + 10);
         document.getElementById('enhTarget').value = t;
       }
-      calcEnhance();
+      calculateGear();
     }
 
     function setEnhPreset(c, t) {
       document.getElementById('enhCurrent').value = c;
       document.getElementById('enhTarget').value = t;
-      calcEnhance();
+      calculateGear();
     }
 
-    function calcEnhance() {
-      const c = parseInt(document.getElementById('enhCurrent').value);
-      const t = parseInt(document.getElementById('enhTarget').value);
-      const mult = parseInt(document.getElementById('enhSlots').value);
-
-      let totalXP = 0;
-      let rows = '';
-
-      enhanceBlocks.forEach(b => {
-        if (b.from >= c && b.to <= t) {
-          const stepXP = b.xp * mult;
-          totalXP += stepXP;
-          rows += `
-            <tr>
-              <td><strong>Lv. ${b.from} ➔ Lv. ${b.to}</strong></td>
-              <td style="color:var(--xp-green); font-weight:700;">${stepXP.toLocaleString()} XP</td>
-              <td style="color:var(--gold-tag);">${Math.ceil(stepXP / 100).toLocaleString()}</td>
-              <td style="color:var(--text-muted);">${Math.ceil(stepXP / 150).toLocaleString()} Purples (${b.note})</td>
-            </tr>
-          `;
-        }
-      });
-
-      document.getElementById('resTotalXP').innerText = totalXP.toLocaleString() + ' XP';
-      document.getElementById('resComp100').innerText = Math.ceil(totalXP / 100).toLocaleString();
-      document.getElementById('resPurpleGear').innerText = Math.ceil(totalXP / 150).toLocaleString();
-      document.getElementById('resPiecesCount').innerText = mult;
-      document.getElementById('enhTableBody').innerHTML = rows;
-    }
-
-    // 2. MASTERY FORGING DATA (Lv 1 to Lv 20)
-    const masterySteps = [
-      { lvl: 1,  stones: 10,  gears: 0, note: "Furnace 20 + Gear Lv 20+" },
-      { lvl: 2,  stones: 20,  gears: 0, note: "+10% Gear Base Buffs" },
-      { lvl: 3,  stones: 30,  gears: 0, note: "+10% Gear Base Buffs" },
-      { lvl: 4,  stones: 40,  gears: 0, note: "+10% Gear Base Buffs" },
-      { lvl: 5,  stones: 50,  gears: 0, note: "+10% Gear Base Buffs" },
-      { lvl: 6,  stones: 60,  gears: 0, note: "+10% Gear Base Buffs" },
-      { lvl: 7,  stones: 70,  gears: 0, note: "+10% Gear Base Buffs" },
-      { lvl: 8,  stones: 80,  gears: 0, note: "+10% Gear Base Buffs" },
-      { lvl: 9,  stones: 90,  gears: 0, note: "+10% Gear Base Buffs" },
-      { lvl: 10, stones: 100, gears: 0, note: "Stones-Only Cap reached" },
-      { lvl: 11, stones: 110, gears: 1, note: "Requires 1 Mythic Gear Sacrifice" },
-      { lvl: 12, stones: 120, gears: 2, note: "Requires 2 Mythic Gear Sacrifices" },
-      { lvl: 13, stones: 130, gears: 3, note: "Requires 3 Mythic Gear Sacrifices" },
-      { lvl: 14, stones: 140, gears: 4, note: "Requires 4 Mythic Gear Sacrifices" },
-      { lvl: 15, stones: 150, gears: 5, note: "Requires 5 Mythic Gear Sacrifices" },
-      { lvl: 16, stones: 160, gears: 6, note: "Requires 6 Mythic Gear Sacrifices" },
-      { lvl: 17, stones: 170, gears: 7, note: "Requires 7 Mythic Gear Sacrifices" },
-      { lvl: 18, stones: 180, gears: 8, note: "Requires 8 Mythic Gear Sacrifices" },
-      { lvl: 19, stones: 190, gears: 9, note: "Requires 9 Mythic Gear Sacrifices" },
-      { lvl: 20, stones: 200, gears: 10, note: "Mastery Level 20 Maximum Cap" }
+    // 2. MASTERY FORGING (Levels 1 to 20) with Mithril & Mythic Sacrifices
+    const masteryData = [
+      { lvl: 1,  stones: 10,  mithril: 0,   sacrifice: 0, perk: "+1.5% Base Stat Boost" },
+      { lvl: 2,  stones: 15,  mithril: 0,   sacrifice: 0, perk: "Stat Expansion" },
+      { lvl: 3,  stones: 20,  mithril: 0,   sacrifice: 0, perk: "Stat Expansion" },
+      { lvl: 4,  stones: 25,  mithril: 0,   sacrifice: 0, perk: "Stat Expansion" },
+      { lvl: 5,  stones: 35,  mithril: 0,   sacrifice: 1, perk: "🔥 Gate 1: Requires 1x Mythic Gear Piece" },
+      { lvl: 6,  stones: 45,  mithril: 0,   sacrifice: 0, perk: "Attack / Defense Amplification" },
+      { lvl: 7,  stones: 60,  mithril: 0,   sacrifice: 0, perk: "Combat Scaling" },
+      { lvl: 8,  stones: 75,  mithril: 0,   sacrifice: 0, perk: "Combat Scaling" },
+      { lvl: 9,  stones: 95,  mithril: 0,   sacrifice: 0, perk: "Combat Scaling" },
+      { lvl: 10, stones: 120, mithril: 0,   sacrifice: 1, perk: "🔥 Gate 2: Requires 1x Mythic Gear Piece" },
+      { lvl: 11, stones: 150, mithril: 15,  sacrifice: 0, perk: "⚡ Unlocks Mithril Era Refinement" },
+      { lvl: 12, stones: 185, mithril: 20,  sacrifice: 0, perk: "Mithril Scaling Tier 2" },
+      { lvl: 13, stones: 225, mithril: 25,  sacrifice: 0, perk: "Mithril Scaling Tier 3" },
+      { lvl: 14, stones: 270, mithril: 35,  sacrifice: 0, perk: "Mithril Scaling Tier 4" },
+      { lvl: 15, stones: 320, mithril: 45,  sacrifice: 1, perk: "🔥 Gate 3: Requires 1x Mythic Gear Piece" },
+      { lvl: 16, stones: 380, mithril: 60,  sacrifice: 0, perk: "Sovereign Stat Tier" },
+      { lvl: 17, stones: 450, mithril: 75,  sacrifice: 0, perk: "Sovereign Stat Tier" },
+      { lvl: 18, stones: 530, mithril: 95,  sacrifice: 0, perk: "High-Tier Combat Lethality" },
+      { lvl: 19, stones: 620, mithril: 120, sacrifice: 0, perk: "Penultimate Mastery Step" },
+      { lvl: 20, stones: 720, mithril: 150, sacrifice: 1, perk: "👑 Gate 4 & Cap: 1x Mythic Gear Piece" }
     ];
 
-    function populateMasteryDropdowns() {
-      const cur = document.getElementById('masteryCurrent');
-      const tar = document.getElementById('masteryTarget');
+    function populateMastDropdowns() {
+      const cur = document.getElementById('mastCurrent');
+      const tar = document.getElementById('mastTarget');
       cur.innerHTML = '';
       tar.innerHTML = '';
-      cur.add(new Option('Mastery Level 0 (None)', 0));
-      masterySteps.forEach((s) => {
-        cur.add(new Option(`Mastery Level ${s.lvl}`, s.lvl));
-        tar.add(new Option(`Mastery Level ${s.lvl}`, s.lvl));
-      });
+      cur.add(new Option('Level 0 (None)', 0));
+      for (let i = 1; i <= 20; i++) {
+        cur.add(new Option(`Mastery Lv. ${i}`, i));
+        tar.add(new Option(`Mastery Lv. ${i}`, i));
+      }
       cur.value = 0;
       tar.value = 10;
     }
 
-    function onMasteryChange() {
-      const c = parseInt(document.getElementById('masteryCurrent').value);
-      let t = parseInt(document.getElementById('masteryTarget').value);
+    function onMastChange() {
+      const c = parseInt(document.getElementById('mastCurrent').value);
+      let t = parseInt(document.getElementById('mastTarget').value);
       if (c >= t) {
         t = Math.min(20, c + 1);
-        document.getElementById('masteryTarget').value = t;
+        document.getElementById('mastTarget').value = t;
       }
-      calcMastery();
+      calculateGear();
     }
 
-    function setMasteryPreset(c, t) {
-      document.getElementById('masteryCurrent').value = c;
-      document.getElementById('masteryTarget').value = t;
-      calcMastery();
+    function setMastPreset(c, t) {
+      document.getElementById('mastCurrent').value = c;
+      document.getElementById('mastTarget').value = t;
+      calculateGear();
     }
 
-    function calcMastery() {
-      const c = parseInt(document.getElementById('masteryCurrent').value);
-      const t = parseInt(document.getElementById('masteryTarget').value);
-      const mult = parseInt(document.getElementById('gearSlots').value);
+    function calculateGear() {
+      const pieces = parseInt(document.getElementById('gearScope').value);
+      const enhC = parseInt(document.getElementById('enhCurrent').value);
+      const enhT = parseInt(document.getElementById('enhTarget').value);
+      const mastC = parseInt(document.getElementById('mastCurrent').value);
+      const mastT = parseInt(document.getElementById('mastTarget').value);
 
-      let totalStones = 0, totalGears = 0, tbody = '';
-      for (let i = c; i < t; i++) {
-        const s = masterySteps[i];
-        totalStones += s.stones;
-        totalGears += s.gears;
+      // 1. Calculate Enhancement EXP
+      let totalEXP = 0;
+      enhTiers.forEach(tier => {
+        if (tier.from >= enhC && tier.to <= enhT) {
+          totalEXP += tier.exp;
+        }
+      });
+      totalEXP *= pieces;
+      const fodderEquiv = Math.round(totalEXP / 5000); // 1 Mythic piece = ~5,000 EXP if burned
+
+      // 2. Calculate Mastery (Mithril, Stones, Sacrifices)
+      let totalMithril = 0;
+      let totalEssence = 0;
+      let totalSacrifices = 0;
+      let tbody = '';
+
+      for (let i = mastC; i < mastT; i++) {
+        const step = masteryData[i];
+        const stepMithril = step.mithril * pieces;
+        const stepEssence = step.stones * pieces;
+        const stepSacrifice = step.sacrifice * pieces;
+
+        totalMithril += stepMithril;
+        totalEssence += stepEssence;
+        totalSacrifices += stepSacrifice;
+
         tbody += `
           <tr>
-            <td><strong>Level ${s.lvl}</strong></td>
-            <td style="color:var(--essence); font-weight:700;">${(s.stones * mult).toLocaleString()}</td>
-            <td style="color:var(--mythic); font-weight:700;">${(s.gears * mult).toLocaleString()}</td>
-            <td style="color:var(--text-muted);">${s.note}</td>
+            <td><strong>Mastery Lv. ${step.lvl}</strong></td>
+            <td style="color:var(--mithril-cyan); font-weight:700;">${stepMithril.toLocaleString()}</td>
+            <td style="color:var(--essence-purple); font-weight:700;">${stepEssence.toLocaleString()}</td>
+            <td style="color:var(--gear-red); font-weight:700;">${stepSacrifice > 0 ? stepSacrifice + 'x Gear' : '—'}</td>
+            <td style="color:var(--text-muted);">${step.perk}</td>
           </tr>
         `;
       }
-      document.getElementById('resEssence').innerText = (totalStones * mult).toLocaleString();
-      document.getElementById('resMythicGears').innerText = (totalGears * mult).toLocaleString();
-      document.getElementById('resSlotCount').innerText = mult;
-      document.getElementById('masteryTableBody').innerHTML = tbody;
+
+      document.getElementById('resMithril').innerText = totalMithril.toLocaleString();
+      document.getElementById('resEssence').innerText = totalEssence.toLocaleString();
+      document.getElementById('resSacrifice').innerText = totalSacrifices > 0 ? `${totalSacrifices}x Pieces` : '0';
+      document.getElementById('resEXP').innerText = totalEXP.toLocaleString();
+      document.getElementById('resFodder').innerText = `~${fodderEquiv} Pieces`;
+      document.getElementById('gearTableBody').innerHTML = tbody || '<tr><td colspan="5" style="text-align:center; padding:16px; color:var(--text-muted);">No Mastery level range selected.</td></tr>';
     }
 
-    // 3. EXCLUSIVE WIDGETS DATA (Lv 1 to Lv 10)
-    const widgetSteps = [
-      { lvl: 1,  widgets: 5,  note: "🔓 Unlocks Exclusive Skill 1" },
-      { lvl: 2,  widgets: 10, note: "🔓 Unlocks Exclusive Skill 2 (Both Active)" },
-      { lvl: 3,  widgets: 15, note: "Exploration & Expedition Stat Growth" },
-      { lvl: 4,  widgets: 20, note: "Exploration & Expedition Stat Growth" },
-      { lvl: 5,  widgets: 25, note: "⭐ Strategic Breakpoint (75 Total)" },
-      { lvl: 6,  widgets: 30, note: "Pure Stat Amplification" },
-      { lvl: 7,  widgets: 35, note: "Pure Stat Amplification" },
-      { lvl: 8,  widgets: 40, note: "Late-Game Stat Scaling" },
-      { lvl: 9,  widgets: 45, note: "Late-Game Stat Scaling" },
-      { lvl: 10, widgets: 50, note: "👑 Maximum Weapon Power Cap (275 Total)" }
+    // 3. EXCLUSIVE HERO WIDGETS (0 to 30)
+    const widgetLevels = [
+      { lvl: 1,  cost: 5,   note: "Unlocks Exclusive Weapon Skill" },
+      { lvl: 2,  cost: 5,   note: "Base Stat Boost" },
+      { lvl: 3,  cost: 10,  note: "Stat Scaling" },
+      { lvl: 4,  cost: 10,  note: "Stat Scaling" },
+      { lvl: 5,  cost: 15,  note: "Skill Tier 1 Enhancement" },
+      { lvl: 6,  cost: 15,  note: "Attack Buff" },
+      { lvl: 7,  cost: 20,  note: "Defense Buff" },
+      { lvl: 8,  cost: 20,  note: "Health Buff" },
+      { lvl: 9,  cost: 25,  note: "Lethality Buff" },
+      { lvl: 10, cost: 35,  note: "⭐ Core Skill Upgrade Milestone" },
+      { lvl: 11, cost: 40,  note: "Advanced Combat Scaling" },
+      { lvl: 12, cost: 45,  note: "Advanced Combat Scaling" },
+      { lvl: 13, cost: 50,  note: "Advanced Combat Scaling" },
+      { lvl: 14, cost: 55,  note: "Advanced Combat Scaling" },
+      { lvl: 15, cost: 65,  note: "Major Combat Amplification" },
+      { lvl: 16, cost: 70,  note: "High-Tier Stat Scaling" },
+      { lvl: 17, cost: 80,  note: "High-Tier Stat Scaling" },
+      { lvl: 18, cost: 90,  note: "High-Tier Stat Scaling" },
+      { lvl: 19, cost: 100, note: "High-Tier Stat Scaling" },
+      { lvl: 20, cost: 120, note: "⭐ Second Core Skill Upgrade" },
+      { lvl: 21, cost: 130, note: "Whale Tier Combat Buff" },
+      { lvl: 22, cost: 140, note: "Whale Tier Combat Buff" },
+      { lvl: 23, cost: 150, note: "Whale Tier Combat Buff" },
+      { lvl: 24, cost: 160, note: "Whale Tier Combat Buff" },
+      { lvl: 25, cost: 180, note: "Sovereign Combat Buff" },
+      { lvl: 26, cost: 190, note: "Sovereign Combat Buff" },
+      { lvl: 27, cost: 210, note: "Apex Level Refinement" },
+      { lvl: 28, cost: 230, note: "Apex Level Refinement" },
+      { lvl: 29, cost: 250, note: "Penultimate Milestone" },
+      { lvl: 30, cost: 300, note: "👑 Absolute Widget Cap" }
     ];
 
     function populateWidgetDropdowns() {
@@ -668,10 +669,10 @@
       cur.innerHTML = '';
       tar.innerHTML = '';
       cur.add(new Option('Level 0 (Locked)', 0));
-      widgetSteps.forEach((w) => {
-        cur.add(new Option(`Level ${w.lvl}`, w.lvl));
-        tar.add(new Option(`Level ${w.lvl}`, w.lvl));
-      });
+      for (let i = 1; i <= 30; i++) {
+        cur.add(new Option(`Level ${i}`, i));
+        tar.add(new Option(`Level ${i}`, i));
+      }
       cur.value = 0;
       tar.value = 10;
     }
@@ -680,7 +681,7 @@
       const c = parseInt(document.getElementById('widgetCurrent').value);
       let t = parseInt(document.getElementById('widgetTarget').value);
       if (c >= t) {
-        t = Math.min(10, c + 1);
+        t = Math.min(30, c + 1);
         document.getElementById('widgetTarget').value = t;
       }
       calcWidgets();
@@ -695,38 +696,32 @@
     function calcWidgets() {
       const c = parseInt(document.getElementById('widgetCurrent').value);
       const t = parseInt(document.getElementById('widgetTarget').value);
-      const mult = parseInt(document.getElementById('heroCount').value);
+      const mult = parseInt(document.getElementById('widgetCount').value);
 
-      let totalWidgets = 0, tbody = '';
+      let totalWidgets = 0;
+      let tbody = '';
+
       for (let i = c; i < t; i++) {
-        const w = widgetSteps[i];
-        totalWidgets += w.widgets;
+        const item = widgetLevels[i];
+        const stepCost = item.cost * mult;
+        totalWidgets += stepCost;
+
         tbody += `
           <tr>
-            <td><strong>Level ${w.lvl}</strong></td>
-            <td style="color:var(--widget); font-weight:700;">${(w.widgets * mult).toLocaleString()}</td>
-            <td style="color:var(--text-muted);">${w.note}</td>
+            <td><strong>Level ${item.lvl}</strong></td>
+            <td style="color:var(--text-main); font-weight:700;">${item.cost.toLocaleString()}</td>
+            <td style="color:var(--widget-amber); font-weight:700;">${stepCost.toLocaleString()}</td>
+            <td style="color:var(--text-muted);">${item.note}</td>
           </tr>
         `;
       }
-      document.getElementById('resWidgets').innerText = (totalWidgets * mult).toLocaleString();
-      document.getElementById('resHeroCount').innerText = mult;
 
-      const skillEl = document.getElementById('resSkillStatus');
-      if (t >= 2) {
-        skillEl.innerText = "Both Skills Active";
-        skillEl.style.color = "#00ff88";
-      } else if (t === 1) {
-        skillEl.innerText = "Skill 1 Active";
-        skillEl.style.color = "var(--gold-tag)";
-      } else {
-        skillEl.innerText = "Skills Locked";
-        skillEl.style.color = "#ff5e57";
-      }
+      document.getElementById('resWidgets').innerText = totalWidgets.toLocaleString();
+      document.getElementById('resHeroes').innerText = mult;
       document.getElementById('widgetTableBody').innerHTML = tbody;
     }
 
-    // Unified persistent theme
+    // Unified Persistent Theme Engine
     function applySavedTheme() {
       const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
       document.body.classList.toggle('halloween', isHalloween);
@@ -747,6 +742,7 @@
       if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
+    // High-performance snow canvas
     const canvas = document.getElementById('snowCanvas');
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -779,11 +775,10 @@
     }
 
     applySavedTheme();
-    populateEnhanceDropdowns();
-    populateMasteryDropdowns();
+    populateEnhDropdowns();
+    populateMastDropdowns();
     populateWidgetDropdowns();
-    calcEnhance();
-    calcMastery();
+    calculateGear();
     calcWidgets();
   </script>
 </body>
