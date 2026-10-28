@@ -3,19 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EU1 Portal | Whiteout Survival Private Server</title>
+  <title>EU1 BETA | Server Portal & Command Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <script>
-    if (localStorage.getItem('wos_theme') === 'halloween') {
-      document.documentElement.classList.add('halloween');
-    }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-deep: #060b13;
-      --bg-card: rgba(14, 26, 43, 0.88);
+      --bg-card: rgba(14, 26, 43, 0.82);
       --border-ice: rgba(120, 210, 255, 0.28);
       --accent-frost: #56d4ff;
       --accent-glow: rgba(86, 212, 255, 0.45);
@@ -23,11 +18,10 @@
       --text-muted: #8ca3be;
       --gold-tag: #ffd166;
       --online-green: #00ff88;
-      --fire-crystal: #ff5e36;
-      --discord-color: #5865f2;
+      --discord-blurple: #5865f2;
     }
 
-    body.halloween, html.halloween body {
+    body.halloween {
       --bg-deep: #09060f;
       --bg-card: rgba(26, 16, 36, 0.88);
       --border-ice: rgba(255, 123, 0, 0.4);
@@ -37,11 +31,15 @@
       --text-muted: #ad94a8;
       --gold-tag: #ffb703;
       --online-green: #ffb703;
-      --fire-crystal: #ff7700;
-      --discord-color: #7289da;
+      --discord-blurple: #ff7700;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background: var(--bg-deep);
       color: var(--text-main);
@@ -49,7 +47,7 @@
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
-      padding-bottom: 70px;
+      padding-bottom: 60px;
     }
 
     #snowCanvas {
@@ -65,7 +63,7 @@
     .container {
       position: relative;
       z-index: 2;
-      width: min(94vw, 880px);
+      width: min(94vw, 860px);
       margin: 0 auto;
       padding: 16px 8px;
     }
@@ -82,23 +80,24 @@
       margin-bottom: 24px;
     }
 
-    .server-status {
+    .server-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--accent-frost);
+      text-shadow: 0 0 10px var(--accent-glow);
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
     }
 
-    .status-dot {
-      width: 10px;
-      height: 10px;
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--online-green);
-      box-shadow: 0 0 10px var(--online-green);
-      display: inline-block;
+      box-shadow: 0 0 8px var(--online-green);
     }
 
     .theme-toggle-btn {
@@ -110,62 +109,50 @@
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
 
     .hero-header {
       text-align: center;
-      padding: 28px 14px;
+      padding: 24px 14px;
       margin-bottom: 24px;
       border-radius: 16px;
       background: radial-gradient(circle at center, rgba(86, 212, 255, 0.12) 0%, transparent 70%);
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .hero-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: rgba(86, 212, 255, 0.15);
-      border: 1px solid var(--border-ice);
-      color: var(--accent-frost);
-      margin-bottom: 12px;
-    }
-
     .hero-title {
       font-family: 'Cinzel', serif;
-      font-size: 2.5rem;
+      font-size: 2.3rem;
       font-weight: 900;
       letter-spacing: 3px;
       color: #fff;
       text-transform: uppercase;
       text-shadow: 0 0 16px var(--accent-glow);
-      line-height: 1.15;
     }
 
     .hero-subtitle {
       color: var(--text-muted);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       letter-spacing: 1.2px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .portal-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
-      margin-bottom: 24px;
     }
 
     .portal-card {
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
       border-radius: 16px;
-      padding: 24px 20px;
+      padding: 22px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -173,33 +160,31 @@
       text-decoration: none;
       color: inherit;
       transition: all 0.25s ease;
+      position: relative;
       min-height: 220px;
     }
 
     .portal-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px var(--accent-glow);
       border-color: var(--accent-frost);
-    }
-
-    .portal-card.calc-card:hover {
-      box-shadow: 0 8px 24px rgba(255, 94, 54, 0.45);
-      border-color: var(--fire-crystal);
+      box-shadow: 0 8px 24px var(--accent-glow);
     }
 
     .portal-card.discord-card:hover {
-      box-shadow: 0 8px 24px rgba(88, 101, 242, 0.45);
-      border-color: var(--discord-color);
+      border-color: var(--discord-blurple);
+      box-shadow: 0 8px 24px rgba(88, 101, 242, 0.4);
     }
 
     .card-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
-    .card-icon { font-size: 2.2rem; }
+    .card-icon {
+      font-size: 2rem;
+    }
 
     .status-badge {
       font-size: 0.72rem;
@@ -208,30 +193,40 @@
       text-transform: uppercase;
       padding: 4px 10px;
       border-radius: 20px;
+    }
+
+    .status-badge.live {
+      background: rgba(0, 255, 136, 0.15);
+      color: #00ff88;
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    .status-badge.faq {
       background: rgba(86, 212, 255, 0.15);
       color: var(--accent-frost);
       border: 1px solid rgba(86, 212, 255, 0.3);
     }
 
-    .status-badge.live {
-      background: rgba(0, 255, 136, 0.15);
-      color: var(--online-green);
-      border-color: rgba(0, 255, 136, 0.3);
+    .status-badge.discord {
+      background: rgba(88, 101, 242, 0.18);
+      color: #7289da;
+      border: 1px solid rgba(88, 101, 242, 0.35);
     }
 
     .card-title {
       font-family: 'Cinzel', serif;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 800;
       color: #fff;
       margin-bottom: 8px;
+      letter-spacing: 1px;
     }
 
     .card-desc {
       color: var(--text-muted);
       font-size: 0.95rem;
       line-height: 1.45;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
       flex-grow: 1;
     }
 
@@ -243,13 +238,14 @@
       background: rgba(18, 38, 62, 0.8);
       color: var(--accent-frost);
       font-family: 'Rajdhani', sans-serif;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       transition: all 0.2s ease;
+      cursor: pointer;
     }
 
     .portal-card:hover .btn-portal {
@@ -258,22 +254,16 @@
       box-shadow: 0 0 14px var(--accent-glow);
     }
 
-    .portal-card.calc-card:hover .btn-portal {
-      background: var(--fire-crystal);
-      color: #040910;
-      border-color: var(--fire-crystal);
-      box-shadow: 0 0 14px rgba(255, 94, 54, 0.6);
+    .portal-card.discord-card .btn-portal {
+      background: rgba(88, 101, 242, 0.22);
+      border-color: rgba(88, 101, 242, 0.45);
+      color: #e0e4ff;
     }
 
-    .portal-card.discord-card .btn-portal {
-      color: #c7d2fe;
-      border-color: rgba(88, 101, 242, 0.4);
-    }
     .portal-card.discord-card:hover .btn-portal {
-      background: var(--discord-color);
+      background: var(--discord-blurple);
       color: #fff;
-      border-color: var(--discord-color);
-      box-shadow: 0 0 14px rgba(88, 101, 242, 0.6);
+      box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
     }
 
     .portal-footer {
@@ -281,6 +271,28 @@
       margin-top: 36px;
       color: var(--text-muted);
       font-size: 0.85rem;
+      letter-spacing: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .visitor-badge-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 20px;
+      padding: 4px 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .visitor-badge-container img {
+      height: 20px;
+      border-radius: 4px;
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -290,9 +302,9 @@
 
   <div class="container">
     <header class="top-badge-banner">
-      <div class="server-status">
-        <span class="status-dot"></span>
-        <span>EU1 Server: Active</span>
+      <div class="server-tag">
+        <span class="pulse-dot"></span>
+        EU1 BETA REALM
       </div>
       <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
         <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
@@ -300,125 +312,137 @@
     </header>
 
     <div class="hero-header">
-      <span class="hero-tag">Official Community Portal</span>
-      <h1 class="hero-title">EU1 SURVIVOR NETWORK</h1>
-      <p class="hero-subtitle">Whiteout Survival Private Server • Resource Hub & Toolkits</p>
+      <h1 class="hero-title">COMMAND PORTAL</h1>
+      <p class="hero-subtitle">Official Community Hub & Survival Toolkit</p>
     </div>
 
     <main class="portal-grid">
-      <!-- 1. Calculator Suite -->
-      <a href="calculator.html" class="portal-card calc-card">
+      <!-- 1. Getting Started Guide -->
+      <a href="guide.html" class="portal-card">
         <div class="card-top">
-          <span class="card-icon">🧮</span>
-          <span class="status-badge live">● 6 Tools Active</span>
+          <span class="card-icon">📜</span>
+          <span class="status-badge live">● Active Guide</span>
         </div>
         <div>
-          <h2 class="card-title">Calculator Suite</h2>
-          <p class="card-desc">Fire Crystals (FC1–10+), City Growth (1–30), Chief Gear & Charms, Troops & Speedups, Hero Gear & Widgets, Beast Sanctuary, and Dawn Experts.</p>
+          <h2 class="card-title">Getting Started</h2>
+          <p class="card-desc">Direct APK download link, Android Auto Blocker setup, account registration, and initial login steps.</p>
         </div>
-        <div class="btn-portal">Launch Calculators ➔</div>
+        <div class="btn-portal">Open Guide ➔</div>
       </a>
 
-      <!-- 2. Survival Guides -->
-      <a href="guides.html" class="portal-card">
+      <!-- 2. Gift Codes -->
+      <a href="codes.html" class="portal-card">
         <div class="card-top">
-          <span class="card-icon">📚</span>
-          <span class="status-badge">Knowledge Base</span>
+          <span class="card-icon">🎁</span>
+          <span class="status-badge live">● Active Tool</span>
         </div>
         <div>
-          <h2 class="card-title">Guides & Meta</h2>
-          <p class="card-desc">In-depth strategies covering Bear Hunt march setups, SvS prep phase priorities, Foundry battle mechanics, and optimal progression routes.</p>
+          <h2 class="card-title">Gift Code Depot</h2>
+          <p class="card-desc">All verified active gift codes, instant one-tap copy, search filters, and batch copy utilities.</p>
         </div>
-        <div class="btn-portal">Explore Guides ➔</div>
+        <div class="btn-portal">Launch Depot ➔</div>
       </a>
 
-      <!-- 3. APK & FAQ -->
+      <!-- 3. FAQ & Support Desk -->
       <a href="faq.html" class="portal-card">
         <div class="card-top">
-          <span class="card-icon">⚙️</span>
-          <span class="status-badge">Setup & Help</span>
+          <span class="card-icon">❓</span>
+          <span class="status-badge faq">● Q&A / Support</span>
         </div>
         <div>
-          <h2 class="card-title">Download & FAQ</h2>
-          <p class="card-desc">Direct client download links, step-by-step Android installation instructions, Auto-Blocker workarounds, and common connection fixes.</p>
+          <h2 class="card-title">FAQ & Help Desk</h2>
+          <p class="card-desc">Frequently asked questions about private servers, safety, beta wipe details, and direct mod inquiry form.</p>
         </div>
-        <div class="btn-portal">Get Started ➔</div>
+        <div class="btn-portal">Visit FAQ ➔</div>
       </a>
 
-      <!-- 4. Discord Community -->
-      <a href="https://discord.gg/" target="_blank" rel="noopener noreferrer" class="portal-card discord-card">
+      <!-- 4. Official Discord -->
+      <a href="https://discord.gg/pqEHcrqB3" target="_blank" rel="noopener noreferrer" class="portal-card discord-card">
         <div class="card-top">
           <span class="card-icon">💬</span>
-          <span class="status-badge live">● Discord Live</span>
+          <span class="status-badge discord">● Official Server</span>
         </div>
         <div>
-          <h2 class="card-title">EU1 Discord</h2>
-          <p class="card-desc">Join hundreds of fellow survivors. Coordinate alliance rallies, participate in server events, claim redeem codes, and reach support.</p>
+          <h2 class="card-title">Join Discord</h2>
+          <p class="card-desc">Connect with the EU1 community, coordinate rallies, receive announcements, and chat with moderators.</p>
         </div>
-        <div class="btn-portal">Join Discord Server ➔</div>
+        <div class="btn-portal">Join Server ➔</div>
+      </a>
+
+      <!-- 5. WOS Calculator Suite (Activated) -->
+      <a href="calculator.html" class="portal-card">
+        <div class="card-top">
+          <span class="card-icon">🧮</span>
+          <span class="status-badge live">● Active Suite</span>
+        </div>
+        <div>
+          <h2 class="card-title">WOS Calculator</h2>
+          <p class="card-desc">Fire Crystals, chief gear, charm progression, hero widgets, and troop training speedup planners.</p>
+        </div>
+        <div class="btn-portal">Launch Suite ➔</div>
       </a>
     </main>
 
     <footer class="portal-footer">
-      EU1 BETA SERVER • SURVIVOR TOOLKIT
+      <div class="visitor-badge-container">
+        <img 
+          src="https://hits.sh/eu1-beta-realm.github.io.svg?label=Survivors+Checked+In&extraCount=1280&color=56d4ff&labelColor=0e1a2b&style=flat" 
+          alt="Survivors Checked In"
+        />
+      </div>
+      <div>EU1 BETA SERVER • SURVIVOR TOOLKIT</div>
     </footer>
   </div>
 
   <script>
-    // Unified Persistent Theme
-    function applySavedTheme() {
-      const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
-      document.body.classList.toggle('halloween', isHalloween);
-      document.documentElement.classList.toggle('halloween', isHalloween);
-      const themeIcon = document.getElementById('themeIcon');
-      const themeText = document.getElementById('themeText');
-      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
-      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
-    }
-
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
-      document.documentElement.classList.toggle('halloween', isHalloween);
-      localStorage.setItem('wos_theme', isHalloween ? 'halloween' : 'frost');
-      const themeIcon = document.getElementById('themeIcon');
-      const themeText = document.getElementById('themeText');
-      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
-      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
-    // Lightweight 15-particle snow canvas for high performance
     const canvas = document.getElementById('snowCanvas');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      let flakes = [];
-      function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
-      for (let i = 0; i < 15; i++) {
-        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.3 });
-      }
-      function drawSnow() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)';
-        ctx.beginPath();
-        for (let i = 0; i < flakes.length; i++) {
-          const f = flakes[i];
-          ctx.moveTo(f.x, f.y);
-          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
-        }
-        ctx.fill();
-        for (let i = 0; i < flakes.length; i++) {
-          const f = flakes[i];
-          f.y += f.d;
-          f.x += Math.sin(f.y / 30) * 0.3;
-          if (f.y > canvas.height) flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
-        }
-        requestAnimationFrame(drawSnow);
-      }
-      drawSnow();
+    const ctx = canvas.getContext('2d');
+    let flakes = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 55; i++) {
+      flakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        d: Math.random() + 0.5
+      });
     }
 
-    applySavedTheme();
+    function drawSnow() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+      ctx.beginPath();
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      }
+      ctx.fill();
+
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        f.y += f.d;
+        f.x += Math.sin(f.y / 20) * 0.5;
+        if (f.y > canvas.height) {
+          flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+        }
+      }
+      requestAnimationFrame(drawSnow);
+    }
+    drawSnow();
   </script>
 </body>
 </html>
