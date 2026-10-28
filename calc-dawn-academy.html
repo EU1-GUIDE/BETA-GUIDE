@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU1 BETA | Dawn Academy Experts Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060b13;
+      --bg-card: rgba(14, 26, 43, 0.88);
+      --border-ice: rgba(120, 210, 255, 0.28);
+      --accent-frost: #56d4ff;
+      --accent-glow: rgba(86, 212, 255, 0.45);
+      --text-main: #e8f5ff;
+      --text-muted: #8ca3be;
+      --gold-tag: #ffd166;
+      --sigil: #38bdf8;
+      --books: #f59e0b;
+      --affinity: #ec4899;
+    }
+
+    body.halloween {
+      --bg-deep: #09060f;
+      --bg-card: rgba(26, 16, 36, 0.88);
+      --border-ice: rgba(255, 123, 0, 0.4);
+      --accent-frost: #ff8400;
+      --accent-glow: rgba(255, 132, 0, 0.5);
+      --text-main: #fff2e0;
+      --text-muted: #ad94a8;
+      --gold-tag: #ffb703;
+      --sigil: #fb923c;
+      --books: #fbbf24;
+      --affinity: #f43f5e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(94vw, 940px);
+      margin: 0 auto;
+      padding: 16px 8px;
+    }
+
+    .top-badge-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      padding: 10px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+    }
+
+    .back-nav-link {
+      color: var(--accent-frost);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 20px 14px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      background: radial-gradient(circle at center, rgba(56, 189, 248, 0.12) 0%, transparent 75%);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+
+    .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 22px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      color: var(--accent-frost);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* 11 Experts Grid */
+    .expert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .expert-btn {
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 8px;
+      padding: 10px 6px;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .expert-btn:hover { border-color: var(--sigil); }
+
+    .expert-btn.active {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: var(--sigil);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+      color: #fff;
+    }
+
+    .expert-role {
+      font-size: 0.68rem;
+      color: var(--gold-tag);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .selectors-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .styled-select {
+      height: 44px;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.95rem;
+      padding: 0 12px;
+      font-weight: 700;
+      outline: none;
+    }
+    .styled-select:focus {
+      border-color: var(--sigil);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+
+    .presets-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    .preset-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .preset-btn:hover { border-color: var(--sigil); color: var(--sigil); }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .result-stat {
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      padding: 12px 6px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.35rem; font-weight: 700; }
+    .stat-val.sigil { color: var(--sigil); text-shadow: 0 0 10px rgba(56, 189, 248, 0.35); }
+    .stat-val.books { color: var(--books); text-shadow: 0 0 10px rgba(245, 158, 11, 0.35); }
+    .stat-val.affinity { color: var(--affinity); text-shadow: 0 0 10px rgba(236, 72, 153, 0.35); }
+
+    .breakdown-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      background: rgba(4, 9, 16, 0.7);
+    }
+    table.breakdown-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+    table.breakdown-table th {
+      background: rgba(86, 212, 255, 0.1);
+      color: var(--accent-frost);
+      padding: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-ice);
+      white-space: nowrap;
+    }
+    table.breakdown-table td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .portal-footer { text-align: center; margin-top: 36px; color: var(--text-muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <header class="top-badge-banner">
+      <a href="calculator.html" class="back-nav-link">← Calculators Hub</a>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <div class="hero-header">
+      <h1 class="hero-title">DAWN ACADEMY EXPERTS</h1>
+      <p class="hero-subtitle">Complete Official Roster (11 Experts) • Relationship Milestones & Book Budgets</p>
+    </div>
+
+    <div class="calc-card">
+      <span class="section-label">1. Select Target Dawn Expert</span>
+      <div class="expert-grid" id="expertButtonsContainer"></div>
+
+      <span class="section-label">2. Relationship Milestones & Scope</span>
+      <div class="selectors-row">
+        <div class="field-group">
+          <label class="field-label" for="expCurrent">Current Relationship</label>
+          <select id="expCurrent" class="styled-select" onchange="onExpChange()"></select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="expTarget">Target Relationship</label>
+          <select id="expTarget" class="styled-select" onchange="onExpChange()"></select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="expMultiplier">Experts Upgrading</label>
+          <select id="expMultiplier" class="styled-select" onchange="calculate()">
+            <option value="1" selected>1 Expert (Single Target)</option>
+            <option value="2">2 Core Advisors (Cyrille + Agnes)</option>
+            <option value="4">4 Gen 1 Experts</option>
+            <option value="11">All 11 Academy Experts</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="presets-row">
+        <span class="preset-label">Quick Jump:</span>
+        <button class="preset-btn" onclick="setPreset(0, 40)">Lv 0 ➔ 40 (Unlock 2nd Core Skill)</button>
+        <button class="preset-btn" onclick="setPreset(40, 60)">Lv 40 ➔ 60 (Mid-Tier Push)</button>
+        <button class="preset-btn" onclick="setPreset(60, 100)">Lv 60 ➔ 100 (Final Masteries)</button>
+        <button class="preset-btn" onclick="setPreset(0, 100)">Full Max (Lv 0 ➔ 100)</button>
+      </div>
+
+      <span class="section-label">Total Expert Materials & Time Needed</span>
+      <div class="results-grid">
+        <div class="result-stat">
+          <span class="stat-label">Expert Sigils</span>
+          <span id="resSigils" class="stat-val sigil">0</span>
+        </div>
+        <div class="result-stat">
+          <span class="stat-label">Books of Knowledge</span>
+          <span id="resBooks" class="stat-val books">0</span>
+        </div>
+        <div class="result-stat">
+          <span class="stat-label">Affinity Points</span>
+          <span id="resAffinity" class="stat-val affinity">0</span>
+        </div>
+        <div class="result-stat">
+          <span class="stat-label">Est. Learning Time</span>
+          <span id="resTime" class="stat-val" style="color:var(--text-main);">0d 0h</span>
+        </div>
+      </div>
+
+      <span class="section-label">Step-by-Step Level Breakdown</span>
+      <div class="breakdown-wrapper">
+        <table class="breakdown-table">
+          <thead>
+            <tr>
+              <th>Relationship Level</th>
+              <th>Expert Sigils</th>
+              <th>Books of Knowledge</th>
+              <th>Affinity XP</th>
+              <th>Skills / Benefits Unlocked</th>
+            </tr>
+          </thead>
+          <tbody id="breakdownBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="portal-footer">
+      EU1 BETA SERVER • SURVIVOR TOOLKIT
+    </footer>
+  </div>
+
+  <script>
+    // Complete 11-Expert Roster with calibrated Sigil & Book multipliers
+    const expertsRoster = [
+      { id: "cyrille", name: "Cyrille", role: "Bear Hunt",       sigilMult: 1.0,  bookMult: 1.0,  note: "Essential: extra Essence Stones on Bear" },
+      { id: "agnes",   name: "Agnes",   role: "City Economy",    sigilMult: 1.0,  bookMult: 1.0,  note: "Essential: free stamina & daily intel" },
+      { id: "holger",  name: "Holger",  role: "Arena Master",    sigilMult: 1.6,  bookMult: 3.8,  note: "Arena token bonus & combat attack" },
+      { id: "romulus", name: "Romulus", role: "Military Lead",   sigilMult: 6.6,  bookMult: 19.5, note: "Whale combat: massive rally cap & lethality" },
+      { id: "baldur",  name: "Baldur",  role: "Alliance Events", sigilMult: 1.2,  bookMult: 1.2,  note: "Alliance championship currency & rewards" },
+      { id: "fabian",  name: "Fabian",  role: "Foundry Battle",  sigilMult: 2.4,  bookMult: 7.4,  note: "Foundry battle healing & arsenal score" },
+      { id: "valeria", name: "Valeria", role: "SvS / Battle",    sigilMult: 4.0,  bookMult: 16.3, note: "SvS prep points & castle combat stats" },
+      { id: "ronne",   name: "Ronne",   role: "Trade Route",     sigilMult: 1.6,  bookMult: 5.1,  note: "Tundra caravan protection, speed & cargo" },
+      { id: "kathy",   name: "Kathy",   role: "Frostfire Mine",  sigilMult: 2.0,  bookMult: 6.0,  note: "Frostfire mine Orichalcum regeneration" },
+      { id: "gareth",  name: "Gareth",  role: "Troop Defense",   sigilMult: 7.0,  bookMult: 20.0, note: "Late Whale: troop health & training rewards" },
+      { id: "justus",  name: "Justus",  role: "Chests & Trek",   sigilMult: 1.1,  bookMult: 1.1,  note: "Top F2P: Exploration chests, Trek & Pet perks" }
+    ];
+
+    const baseMilestones = [
+      { from: 0,  to: 10,  sigils: 15,  books: 800,   affinity: 1000,  note: "Unlocks Active Skill 1" },
+      { from: 10, to: 20,  sigils: 20,  books: 1200,  affinity: 2200,  note: "Affinity Milestone 2" },
+      { from: 20, to: 30,  sigils: 25,  books: 1800,  affinity: 3800,  note: "Unlocks Skill 1 Upgrade" },
+      { from: 30, to: 40,  sigils: 30,  books: 2400,  affinity: 5800,  note: "Unlocks Active Skill 2" },
+      { from: 40, to: 50,  sigils: 35,  books: 3200,  affinity: 8200,  note: "Key Mid-Game Breakpoint" },
+      { from: 50, to: 60,  sigils: 40,  books: 4200,  affinity: 11000, note: "Unlocks Active Skill 3" },
+      { from: 60, to: 70,  sigils: 45,  books: 5400,  affinity: 14500, note: "Skill 2 & 3 Amplification" },
+      { from: 70, to: 80,  sigils: 50,  books: 6800,  affinity: 18500, note: "Unlocks Active Skill 4" },
+      { from: 80, to: 90,  sigils: 55,  books: 8500,  affinity: 23500, note: "High-Tier Passive Scaling" },
+      { from: 90, to: 100, sigils: 60,  books: 10500, affinity: 30000, note: "👑 Full Expert Master Cap" }
+    ];
+
+    let currentExpId = "cyrille";
+
+    function buildExpertButtons() {
+      const container = document.getElementById('expertButtonsContainer');
+      container.innerHTML = expertsRoster.map(e => `
+        <button class="expert-btn ${e.id === currentExpId ? 'active' : ''}" 
+                id="btn_${e.id}" 
+                onclick="selectExpert('${e.id}')">
+          <span class="expert-role">${e.role}</span>
+          <span>${e.name}</span>
+        </button>
+      `).join('');
+    }
+
+    function selectExpert(id) {
+      currentExpId = id;
+      document.querySelectorAll('.expert-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`btn_${id}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      calculate();
+    }
+
+    function populateDropdowns() {
+      const cur = document.getElementById('expCurrent');
+      const tar = document.getElementById('expTarget');
+      cur.innerHTML = '';
+      tar.innerHTML = '';
+
+      const milestones = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+      milestones.forEach(lvl => {
+        if (lvl < 100) cur.add(new Option(`Level ${lvl}`, lvl));
+        if (lvl > 0) tar.add(new Option(`Level ${lvl}`, lvl));
+      });
+
+      cur.value = 0;
+      tar.value = 100;
+    }
+
+    function onExpChange() {
+      const c = parseInt(document.getElementById('expCurrent').value);
+      let t = parseInt(document.getElementById('expTarget').value);
+      if (c >= t) {
+        t = Math.min(100, c + 10);
+        document.getElementById('expTarget').value = t;
+      }
+      calculate();
+    }
+
+    function setPreset(c, t) {
+      document.getElementById('expCurrent').value = c;
+      document.getElementById('expTarget').value = t;
+      calculate();
+    }
+
+    function calculate() {
+      const curLvl = parseInt(document.getElementById('expCurrent').value);
+      const tarLvl = parseInt(document.getElementById('expTarget').value);
+      const mult = parseInt(document.getElementById('expMultiplier').value);
+
+      const exp = expertsRoster.find(e => e.id === currentExpId);
+
+      let totalSigils = 0;
+      let totalBooks = 0;
+      let totalAffinity = 0;
+      let rowsHtml = '';
+
+      baseMilestones.forEach(m => {
+        if (m.from >= curLvl && m.to <= tarLvl) {
+          const stepSigils = Math.round(m.sigils * exp.sigilMult);
+          const stepBooks = Math.round(m.books * exp.bookMult);
+          const stepAffinity = m.affinity;
+
+          totalSigils += stepSigils;
+          totalBooks += stepBooks;
+          totalAffinity += stepAffinity;
+
+          rowsHtml += `
+            <tr>
+              <td><strong>Lv. ${m.from} ➔ Lv. ${m.to}</strong></td>
+              <td style="color:var(--sigil); font-weight:700;">${(stepSigils * mult).toLocaleString()}</td>
+              <td style="color:var(--books); font-weight:700;">${(stepBooks * mult).toLocaleString()}</td>
+              <td style="color:var(--affinity); font-weight:700;">${(stepAffinity * mult).toLocaleString()}</td>
+              <td style="color:var(--text-muted);">${m.note}</td>
+            </tr>
+          `;
+        }
+      });
+
+      const totalHours = (totalBooks * mult) * 0.018;
+      const days = Math.floor(totalHours / 24);
+      const hours = Math.round(totalHours % 24);
+
+      document.getElementById('resSigils').innerText = (totalSigils * mult).toLocaleString();
+      document.getElementById('resBooks').innerText = (totalBooks * mult).toLocaleString();
+      document.getElementById('resAffinity').innerText = (totalAffinity * mult).toLocaleString();
+      document.getElementById('resTime').innerText = `${days}d ${hours}h`;
+      document.getElementById('breakdownBody').innerHTML = rowsHtml;
+    }
+
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
+      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    // Lightweight 15-particle snow loop
+    const canvas = document.getElementById('snowCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let flakes = [];
+      function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      for (let i = 0; i < 15; i++) {
+        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.3 });
+      }
+      function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.y += f.d;
+          f.x += Math.sin(f.y / 30) * 0.3;
+          if (f.y > canvas.height) flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+        }
+        requestAnimationFrame(drawSnow);
+      }
+      drawSnow();
+    }
+
+    buildExpertButtons();
+    populateDropdowns();
+    calculate();
+  </script>
+</body>
+</html>
