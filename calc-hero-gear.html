@@ -7,6 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script>
+    if (localStorage.getItem('wos_theme') === 'halloween') {
+      document.documentElement.classList.add('halloween');
+    }
+  </script>
   <style>
     :root {
       --bg-deep: #060b13;
@@ -17,12 +22,13 @@
       --text-main: #e8f5ff;
       --text-muted: #8ca3be;
       --gold-tag: #ffd166;
-      --essence: #10b981;
+      --xp-green: #10b981;
+      --essence: #06b6d4;
       --widget: #f59e0b;
       --mythic: #ec4899;
     }
 
-    body.halloween {
+    body.halloween, html.halloween body {
       --bg-deep: #09060f;
       --bg-card: rgba(26, 16, 36, 0.88);
       --border-ice: rgba(255, 123, 0, 0.4);
@@ -31,7 +37,8 @@
       --text-main: #fff2e0;
       --text-muted: #ad94a8;
       --gold-tag: #ffb703;
-      --essence: #34d399;
+      --xp-green: #34d399;
+      --essence: #38bdf8;
       --widget: #fbbf24;
       --mythic: #f43f5e;
     }
@@ -123,7 +130,7 @@
       margin-top: 4px;
     }
 
-    /* Mode Tabs */
+    /* 3 Mode Tabs */
     .tab-nav {
       display: flex;
       gap: 8px;
@@ -131,19 +138,19 @@
     }
     .tab-btn {
       flex: 1;
-      padding: 12px;
+      padding: 12px 6px;
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
       border-radius: 12px;
       color: var(--text-muted);
       font-family: 'Rajdhani', sans-serif;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.25s ease;
     }
     .tab-btn:hover { border-color: var(--accent-frost); color: #fff; }
@@ -223,7 +230,7 @@
 
     .results-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 10px;
       margin-bottom: 20px;
     }
@@ -240,7 +247,8 @@
     .stat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
     .stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.35rem; font-weight: 700; }
     .stat-val.gold { color: var(--gold-tag); text-shadow: 0 0 10px rgba(255, 209, 102, 0.35); }
-    .stat-val.essence { color: var(--essence); text-shadow: 0 0 10px rgba(16, 185, 129, 0.35); }
+    .stat-val.xp { color: var(--xp-green); text-shadow: 0 0 10px rgba(16, 185, 129, 0.35); }
+    .stat-val.essence { color: var(--essence); text-shadow: 0 0 10px rgba(6, 182, 212, 0.35); }
     .stat-val.mythic { color: var(--mythic); text-shadow: 0 0 10px rgba(236, 72, 153, 0.35); }
     .stat-val.widget { color: var(--widget); text-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
 
@@ -286,21 +294,83 @@
 
     <div class="hero-header">
       <h1 class="hero-title">HERO GEAR & WIDGETS</h1>
-      <p class="hero-subtitle">Enhancement XP • Mastery Forging (Lv 1-20) • Exclusive Weapon Widgets</p>
+      <p class="hero-subtitle">Enhancement (Lv 0-100) • Mastery Forging (1-20) • Exclusive Widgets</p>
     </div>
 
     <!-- Mode Tabs -->
     <nav class="tab-nav">
-      <button class="tab-btn active" id="btnGearTab" onclick="switchSection('gear')">
-        <span>⚔️</span> Hero Gear & Mastery
+      <button class="tab-btn active" id="btnEnhanceTab" onclick="switchSection('enhance')">
+        <span>⚙️</span> Gear Enhancement (0-100)
+      </button>
+      <button class="tab-btn" id="btnMasteryTab" onclick="switchSection('mastery')">
+        <span>⚔️</span> Mastery Forging (1-20)
       </button>
       <button class="tab-btn" id="btnWidgetTab" onclick="switchSection('widget')">
         <span>🔮</span> Exclusive Widgets
       </button>
     </nav>
 
-    <!-- 1. HERO GEAR & MASTERY SECTION -->
-    <section id="secGear" class="tab-section active">
+    <!-- 1. HERO GEAR ENHANCEMENT (0 to 100) -->
+    <section id="secEnhance" class="tab-section active">
+      <div class="calc-card">
+        <span class="section-label">Hero Gear Enhancement Parameters</span>
+        <div class="selectors-row">
+          <div class="field-group">
+            <label class="field-label" for="enhCurrent">Current Gear Level</label>
+            <select id="enhCurrent" class="styled-select" onchange="onEnhChange()"></select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="enhTarget">Target Gear Level</label>
+            <select id="enhTarget" class="styled-select" onchange="onEnhChange()"></select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="enhSlots">Gear Slots Upgrading</label>
+            <select id="enhSlots" class="styled-select" onchange="calcEnhance()">
+              <option value="1">1 Piece (Single Slot)</option>
+              <option value="2">2 Pieces (Atk or Def Pair)</option>
+              <option value="4" selected>4 Pieces (1 Full Hero Set)</option>
+              <option value="12">12 Pieces (3 Rally Lead Heroes)</option>
+              <option value="20">20 Pieces (5 Main Heroes)</option>
+              <option value="60">60 Pieces (15 Heroes / Apex Arena)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="presets-row">
+          <span class="preset-label">Quick Jump:</span>
+          <button class="preset-btn" onclick="setEnhPreset(0, 20)">Lv 0 ➔ 20 (Mastery Unlock Gate)</button>
+          <button class="preset-btn" onclick="setEnhPreset(20, 60)">Lv 20 ➔ 60 (Mid-Game)</button>
+          <button class="preset-btn" onclick="setEnhPreset(60, 100)">Lv 60 ➔ 100 (Max Enhancement)</button>
+          <button class="preset-btn" onclick="setEnhPreset(0, 100)">Full Max (0 ➔ 100)</button>
+        </div>
+
+        <span class="section-label">Total Enhancement XP Required</span>
+        <div class="results-grid">
+          <div class="result-stat"><span class="stat-label">Total Enhancement XP</span><span id="resTotalXP" class="stat-val xp">0</span></div>
+          <div class="result-stat"><span class="stat-label">100-XP Manuals</span><span id="resComp100" class="stat-val gold">0</span></div>
+          <div class="result-stat"><span class="stat-label">Purple Gear Equiv.</span><span id="resPurpleGear" class="stat-val" style="color:#c084fc;">0</span></div>
+          <div class="result-stat"><span class="stat-label">Pieces Count</span><span id="resPiecesCount" class="stat-val">4</span></div>
+        </div>
+
+        <span class="section-label">Enhancement Tier Milestones</span>
+        <div class="breakdown-wrapper">
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th>Level Range</th>
+                <th>Enhancement XP</th>
+                <th>100-XP Items</th>
+                <th>Equivalent Sacrificed Gear</th>
+              </tr>
+            </thead>
+            <tbody id="enhTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. MASTERY FORGING (1 to 20) -->
+    <section id="secMastery" class="tab-section">
       <div class="calc-card">
         <span class="section-label">Mastery Forging Parameters</span>
         <div class="selectors-row">
@@ -319,7 +389,8 @@
               <option value="2">2 Slots (Atk or Def Pair)</option>
               <option value="4" selected>4 Slots (1 Full Hero Set)</option>
               <option value="12">12 Slots (3 Rally Lead Heroes)</option>
-              <option value="20">20 Slots (5 Arena Team Heroes)</option>
+              <option value="20">20 Slots (5 Main Heroes)</option>
+              <option value="60">60 Slots (15 Heroes / Apex Arena)</option>
             </select>
           </div>
         </div>
@@ -333,18 +404,9 @@
 
         <span class="section-label">Total Mastery Forging Materials</span>
         <div class="results-grid">
-          <div class="result-stat">
-            <span class="stat-label">Essence Stones</span>
-            <span id="resEssence" class="stat-val essence">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Mythic Gear Sacrifices</span>
-            <span id="resMythicGears" class="stat-val mythic">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Total Slots</span>
-            <span id="resSlotCount" class="stat-val gold">4</span>
-          </div>
+          <div class="result-stat"><span class="stat-label">Essence Stones</span><span id="resEssence" class="stat-val essence">0</span></div>
+          <div class="result-stat"><span class="stat-label">Mythic Gear Sacrifices</span><span id="resMythicGears" class="stat-val mythic">0</span></div>
+          <div class="result-stat"><span class="stat-label">Total Slots</span><span id="resSlotCount" class="stat-val gold">4</span></div>
         </div>
 
         <span class="section-label">Mastery Level Breakdown</span>
@@ -364,7 +426,7 @@
       </div>
     </section>
 
-    <!-- 2. EXCLUSIVE WEAPON WIDGETS SECTION -->
+    <!-- 3. EXCLUSIVE WEAPON WIDGETS -->
     <section id="secWidget" class="tab-section">
       <div class="calc-card">
         <span class="section-label">Exclusive Weapon Widget Parameters</span>
@@ -381,8 +443,9 @@
             <label class="field-label" for="heroCount">Heroes Upgrading</label>
             <select id="heroCount" class="styled-select" onchange="calcWidgets()">
               <option value="1" selected>1 Hero (Single Main)</option>
-              <option value="3">3 Heroes (Rally Lead Trio)</option>
-              <option value="5">5 Heroes (Full Arena Squad)</option>
+              <option value="3">3 Heroes (Rally Lead March)</option>
+              <option value="5">5 Heroes (1 Full Squad)</option>
+              <option value="15">15 Heroes (Apex Arena / 3 Full Squads)</option>
             </select>
           </div>
         </div>
@@ -397,18 +460,9 @@
 
         <span class="section-label">Total Widgets Needed</span>
         <div class="results-grid">
-          <div class="result-stat">
-            <span class="stat-label">Total Widgets</span>
-            <span id="resWidgets" class="stat-val widget">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Total Heroes</span>
-            <span id="resHeroCount" class="stat-val gold">1</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Skill Status</span>
-            <span id="resSkillStatus" class="stat-val" style="color:#00ff88; font-size:1.1rem;">Skills Active</span>
-          </div>
+          <div class="result-stat"><span class="stat-label">Total Widgets</span><span id="resWidgets" class="stat-val widget">0</span></div>
+          <div class="result-stat"><span class="stat-label">Total Heroes</span><span id="resHeroCount" class="stat-val gold">1</span></div>
+          <div class="result-stat"><span class="stat-label">Skill Status</span><span id="resSkillStatus" class="stat-val" style="color:#00ff88; font-size:1.1rem;">Skills Active</span></div>
         </div>
 
         <span class="section-label">Widget Level Breakdown</span>
@@ -434,15 +488,88 @@
 
   <script>
     function switchSection(type) {
-      document.getElementById('secGear').classList.toggle('active', type === 'gear');
+      document.getElementById('secEnhance').classList.toggle('active', type === 'enhance');
+      document.getElementById('secMastery').classList.toggle('active', type === 'mastery');
       document.getElementById('secWidget').classList.toggle('active', type === 'widget');
-      document.getElementById('btnGearTab').classList.toggle('active', type === 'gear');
+      document.getElementById('btnEnhanceTab').classList.toggle('active', type === 'enhance');
+      document.getElementById('btnMasteryTab').classList.toggle('active', type === 'mastery');
       document.getElementById('btnWidgetTab').classList.toggle('active', type === 'widget');
     }
 
-    // 1. MASTERY FORGING DATA (Lv 1 to Lv 20)
-    // Levels 1-10: 10 to 100 Essence Stones, 0 Mythic Gear
-    // Levels 11-20: 110 to 200 Essence Stones, 1 to 10 Mythic Gear
+    // 1. HERO GEAR ENHANCEMENT DATA (Levels 0 to 100)
+    const enhanceBlocks = [
+      { from: 0,  to: 10,  xp: 325,   note: "Early Gear Setup" },
+      { from: 10, to: 20,  xp: 825,   note: "Mastery Forging Unlock Threshold (Lv 20)" },
+      { from: 20, to: 30,  xp: 1375,  note: "Stat Expansion" },
+      { from: 30, to: 40,  xp: 2115,  note: "Mid-Game Gear Level" },
+      { from: 40, to: 50,  xp: 3850,  note: "Command Buff Expansion" },
+      { from: 50, to: 60,  xp: 5760,  note: "Competitive War Readiness" },
+      { from: 60, to: 70,  xp: 8720,  note: "High-Tier Stat Scaling" },
+      { from: 70, to: 80,  xp: 11850, note: "Late-Game Progression" },
+      { from: 80, to: 90,  xp: 16400, note: "Apex Enhancement Tier" },
+      { from: 90, to: 100, xp: 22800, note: "Level 100 Maximum Enhancement Cap" }
+    ];
+
+    function populateEnhanceDropdowns() {
+      const cur = document.getElementById('enhCurrent');
+      const tar = document.getElementById('enhTarget');
+      cur.innerHTML = '';
+      tar.innerHTML = '';
+      for (let lvl = 0; lvl <= 100; lvl += 10) {
+        if (lvl < 100) cur.add(new Option(`Level ${lvl}`, lvl));
+        if (lvl > 0) tar.add(new Option(`Level ${lvl}`, lvl));
+      }
+      cur.value = 0;
+      tar.value = 100;
+    }
+
+    function onEnhChange() {
+      const c = parseInt(document.getElementById('enhCurrent').value);
+      let t = parseInt(document.getElementById('enhTarget').value);
+      if (c >= t) {
+        t = Math.min(100, c + 10);
+        document.getElementById('enhTarget').value = t;
+      }
+      calcEnhance();
+    }
+
+    function setEnhPreset(c, t) {
+      document.getElementById('enhCurrent').value = c;
+      document.getElementById('enhTarget').value = t;
+      calcEnhance();
+    }
+
+    function calcEnhance() {
+      const c = parseInt(document.getElementById('enhCurrent').value);
+      const t = parseInt(document.getElementById('enhTarget').value);
+      const mult = parseInt(document.getElementById('enhSlots').value);
+
+      let totalXP = 0;
+      let rows = '';
+
+      enhanceBlocks.forEach(b => {
+        if (b.from >= c && b.to <= t) {
+          const stepXP = b.xp * mult;
+          totalXP += stepXP;
+          rows += `
+            <tr>
+              <td><strong>Lv. ${b.from} ➔ Lv. ${b.to}</strong></td>
+              <td style="color:var(--xp-green); font-weight:700;">${stepXP.toLocaleString()} XP</td>
+              <td style="color:var(--gold-tag);">${Math.ceil(stepXP / 100).toLocaleString()}</td>
+              <td style="color:var(--text-muted);">${Math.ceil(stepXP / 150).toLocaleString()} Purples (${b.note})</td>
+            </tr>
+          `;
+        }
+      });
+
+      document.getElementById('resTotalXP').innerText = totalXP.toLocaleString() + ' XP';
+      document.getElementById('resComp100').innerText = Math.ceil(totalXP / 100).toLocaleString();
+      document.getElementById('resPurpleGear').innerText = Math.ceil(totalXP / 150).toLocaleString();
+      document.getElementById('resPiecesCount').innerText = mult;
+      document.getElementById('enhTableBody').innerHTML = rows;
+    }
+
+    // 2. MASTERY FORGING DATA (Lv 1 to Lv 20)
     const masterySteps = [
       { lvl: 1,  stones: 10,  gears: 0, note: "Furnace 20 + Gear Lv 20+" },
       { lvl: 2,  stones: 20,  gears: 0, note: "+10% Gear Base Buffs" },
@@ -471,13 +598,11 @@
       const tar = document.getElementById('masteryTarget');
       cur.innerHTML = '';
       tar.innerHTML = '';
-
       cur.add(new Option('Mastery Level 0 (None)', 0));
       masterySteps.forEach((s) => {
         cur.add(new Option(`Mastery Level ${s.lvl}`, s.lvl));
         tar.add(new Option(`Mastery Level ${s.lvl}`, s.lvl));
       });
-
       cur.value = 0;
       tar.value = 10;
     }
@@ -503,15 +628,11 @@
       const t = parseInt(document.getElementById('masteryTarget').value);
       const mult = parseInt(document.getElementById('gearSlots').value);
 
-      let totalStones = 0;
-      let totalGears = 0;
-      let tbody = '';
-
+      let totalStones = 0, totalGears = 0, tbody = '';
       for (let i = c; i < t; i++) {
         const s = masterySteps[i];
         totalStones += s.stones;
         totalGears += s.gears;
-
         tbody += `
           <tr>
             <td><strong>Level ${s.lvl}</strong></td>
@@ -521,21 +642,19 @@
           </tr>
         `;
       }
-
       document.getElementById('resEssence').innerText = (totalStones * mult).toLocaleString();
       document.getElementById('resMythicGears').innerText = (totalGears * mult).toLocaleString();
       document.getElementById('resSlotCount').innerText = mult;
       document.getElementById('masteryTableBody').innerHTML = tbody;
     }
 
-    // 2. EXCLUSIVE WIDGETS DATA (Standard Retail: Lv 1 to Lv 10)
-    // 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 (Total 275)
+    // 3. EXCLUSIVE WIDGETS DATA (Lv 1 to Lv 10)
     const widgetSteps = [
       { lvl: 1,  widgets: 5,  note: "🔓 Unlocks Exclusive Skill 1" },
-      { lvl: 2,  widgets: 10, note: "🔓 Unlocks Exclusive Skill 2 (Both Skills Active)" },
+      { lvl: 2,  widgets: 10, note: "🔓 Unlocks Exclusive Skill 2 (Both Active)" },
       { lvl: 3,  widgets: 15, note: "Exploration & Expedition Stat Growth" },
       { lvl: 4,  widgets: 20, note: "Exploration & Expedition Stat Growth" },
-      { lvl: 5,  widgets: 25, note: "⭐ Mid-Game Strategic Breakpoint (75 Total)" },
+      { lvl: 5,  widgets: 25, note: "⭐ Strategic Breakpoint (75 Total)" },
       { lvl: 6,  widgets: 30, note: "Pure Stat Amplification" },
       { lvl: 7,  widgets: 35, note: "Pure Stat Amplification" },
       { lvl: 8,  widgets: 40, note: "Late-Game Stat Scaling" },
@@ -548,13 +667,11 @@
       const tar = document.getElementById('widgetTarget');
       cur.innerHTML = '';
       tar.innerHTML = '';
-
       cur.add(new Option('Level 0 (Locked)', 0));
       widgetSteps.forEach((w) => {
         cur.add(new Option(`Level ${w.lvl}`, w.lvl));
         tar.add(new Option(`Level ${w.lvl}`, w.lvl));
       });
-
       cur.value = 0;
       tar.value = 10;
     }
@@ -580,13 +697,10 @@
       const t = parseInt(document.getElementById('widgetTarget').value);
       const mult = parseInt(document.getElementById('heroCount').value);
 
-      let totalWidgets = 0;
-      let tbody = '';
-
+      let totalWidgets = 0, tbody = '';
       for (let i = c; i < t; i++) {
         const w = widgetSteps[i];
         totalWidgets += w.widgets;
-
         tbody += `
           <tr>
             <td><strong>Level ${w.lvl}</strong></td>
@@ -595,7 +709,6 @@
           </tr>
         `;
       }
-
       document.getElementById('resWidgets').innerText = (totalWidgets * mult).toLocaleString();
       document.getElementById('resHeroCount').innerText = mult;
 
@@ -610,14 +723,28 @@
         skillEl.innerText = "Skills Locked";
         skillEl.style.color = "#ff5e57";
       }
-
       document.getElementById('widgetTableBody').innerHTML = tbody;
+    }
+
+    // Unified persistent theme
+    function applySavedTheme() {
+      const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
+      document.body.classList.toggle('halloween', isHalloween);
+      document.documentElement.classList.toggle('halloween', isHalloween);
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
+      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
-      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
-      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+      document.documentElement.classList.toggle('halloween', isHalloween);
+      localStorage.setItem('wos_theme', isHalloween ? 'halloween' : 'frost');
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
+      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
     const canvas = document.getElementById('snowCanvas');
@@ -627,12 +754,12 @@
       function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
-      for (let i = 0; i < 45; i++) {
-        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.5 });
+      for (let i = 0; i < 20; i++) {
+        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.3 });
       }
       function drawSnow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)';
         ctx.beginPath();
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
@@ -643,7 +770,7 @@
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
           f.y += f.d;
-          f.x += Math.sin(f.y / 20) * 0.5;
+          f.x += Math.sin(f.y / 30) * 0.3;
           if (f.y > canvas.height) flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
         }
         requestAnimationFrame(drawSnow);
@@ -651,8 +778,11 @@
       drawSnow();
     }
 
+    applySavedTheme();
+    populateEnhanceDropdowns();
     populateMasteryDropdowns();
     populateWidgetDropdowns();
+    calcEnhance();
     calcMastery();
     calcWidgets();
   </script>
