@@ -7,6 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    if (localStorage.getItem('wos_theme') === 'halloween') {
+      document.documentElement.classList.add('halloween');
+    }
+  </script>
   <style>
     :root {
       --bg-deep: #060b13;
@@ -21,7 +26,7 @@
       --discord-blurple: #5865f2;
     }
 
-    body.halloween {
+    body.halloween, html.halloween body {
       --bg-deep: #09060f;
       --bg-card: rgba(26, 16, 36, 0.88);
       --border-ice: rgba(255, 123, 0, 0.4);
@@ -369,7 +374,7 @@
         <div class="btn-portal">Join Server ➔</div>
       </a>
 
-      <!-- 5. WOS Calculator Suite (Activated) -->
+      <!-- 5. WOS Calculator Suite -->
       <a href="calculator.html" class="portal-card">
         <div class="card-top">
           <span class="card-icon">🧮</span>
@@ -377,7 +382,7 @@
         </div>
         <div>
           <h2 class="card-title">WOS Calculator</h2>
-          <p class="card-desc">Fire Crystals, chief gear, charm progression, hero widgets, and troop training speedup planners.</p>
+          <p class="card-desc">Fire Crystals, city growth (1-30), chief gear, charms, hero widgets, beast sanctuary, and troop speedup planners.</p>
         </div>
         <div class="btn-portal">Launch Suite ➔</div>
       </a>
@@ -395,54 +400,74 @@
   </div>
 
   <script>
+    // Unified Persistent Theme Engine
+    function applySavedTheme() {
+      const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
+      document.body.classList.toggle('halloween', isHalloween);
+      document.documentElement.classList.toggle('halloween', isHalloween);
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
+      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
     function toggleSpookyTheme() {
       const isHalloween = document.body.classList.toggle('halloween');
-      document.getElementById('themeIcon').innerText = isHalloween ? '❄️' : '🎃';
-      document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+      document.documentElement.classList.toggle('halloween', isHalloween);
+      localStorage.setItem('wos_theme', isHalloween ? 'halloween' : 'frost');
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
+      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
+    // High performance snow canvas
     const canvas = document.getElementById('snowCanvas');
-    const ctx = canvas.getContext('2d');
-    let flakes = [];
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let flakes = [];
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    for (let i = 0; i < 55; i++) {
-      flakes.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2 + 1,
-        d: Math.random() + 0.5
-      });
-    }
-
-    function drawSnow() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
-      ctx.beginPath();
-      for (let i = 0; i < flakes.length; i++) {
-        const f = flakes[i];
-        ctx.moveTo(f.x, f.y);
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       }
-      ctx.fill();
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
 
-      for (let i = 0; i < flakes.length; i++) {
-        const f = flakes[i];
-        f.y += f.d;
-        f.x += Math.sin(f.y / 20) * 0.5;
-        if (f.y > canvas.height) {
-          flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+      for (let i = 0; i < 25; i++) {
+        flakes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 2 + 1,
+          d: Math.random() + 0.4
+        });
+      }
+
+      function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.45)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
         }
+        ctx.fill();
+
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.y += f.d;
+          f.x += Math.sin(f.y / 25) * 0.4;
+          if (f.y > canvas.height) {
+            flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+          }
+        }
+        requestAnimationFrame(drawSnow);
       }
-      requestAnimationFrame(drawSnow);
+      drawSnow();
     }
-    drawSnow();
+
+    applySavedTheme();
   </script>
 </body>
 </html>
