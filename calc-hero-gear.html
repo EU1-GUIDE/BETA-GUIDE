@@ -69,7 +69,7 @@
     .container {
       position: relative;
       z-index: 2;
-      width: min(94vw, 920px);
+      width: min(94vw, 940px);
       margin: 0 auto;
       padding: 16px 8px;
     }
@@ -231,7 +231,7 @@
 
     .results-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 10px;
       margin-bottom: 20px;
     }
@@ -246,11 +246,11 @@
       gap: 4px;
     }
     .stat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
-    .stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.35rem; font-weight: 700; }
+    .stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.3rem; font-weight: 700; }
+    .stat-val.total-sac { color: #ff3366; text-shadow: 0 0 12px rgba(255, 51, 102, 0.5); }
+    .stat-val.sub-sac { color: var(--gear-red); }
     .stat-val.mithril { color: var(--mithril-cyan); text-shadow: 0 0 10px rgba(103, 232, 249, 0.4); }
     .stat-val.essence { color: var(--essence-purple); text-shadow: 0 0 10px rgba(192, 132, 252, 0.35); }
-    .stat-val.sacrifice { color: var(--gear-red); text-shadow: 0 0 10px rgba(244, 63, 94, 0.4); }
-    .stat-val.exp { color: var(--exp-green); text-shadow: 0 0 10px rgba(16, 185, 129, 0.35); }
     .stat-val.widgets { color: var(--widget-amber); text-shadow: 0 0 10px rgba(245, 158, 11, 0.35); }
 
     .breakdown-wrapper {
@@ -295,23 +295,24 @@
 
     <div class="hero-header">
       <h1 class="hero-title">HERO GEAR & WIDGETS</h1>
-      <p class="hero-subtitle">Mithril Costs • Mythic Gear Sacrifices • Mastery 1–20 & Apex Arena (15 Heroes)</p>
+      <p class="hero-subtitle">Red Gear Ascension & Gates • Mastery 1–20 Incremental Sacrifices • Mithril Costs</p>
     </div>
 
     <!-- Mode Tabs -->
     <nav class="tab-nav">
       <button class="tab-btn active" id="btnGearTab" onclick="switchSection('gear')">
-        <span>⚔️</span> Hero Gear & Mastery Forging
+        <span>⚔️</span> Hero Gear, Ascending & Mastery
       </button>
       <button class="tab-btn" id="btnWidgetTab" onclick="switchSection('widget')">
         <span>⭐</span> Exclusive Hero Widgets
       </button>
     </nav>
 
-    <!-- 1. HERO GEAR & MASTERY SECTION -->
+    <!-- 1. HERO GEAR COMPLETE SECTION -->
     <section id="secGear" class="tab-section active">
       <div class="calc-card">
-        <span class="section-label">1. Hero Gear Scope & Enhancement</span>
+        <!-- Scope -->
+        <span class="section-label">1. Hero Gear Scope</span>
         <div class="selectors-row">
           <div class="field-group">
             <label class="field-label" for="gearScope">Pieces Upgrading</label>
@@ -323,25 +324,31 @@
               <option value="60">60 Pieces (15 Apex Arena Roster)</option>
             </select>
           </div>
-          <div class="field-group">
-            <label class="field-label" for="enhCurrent">Current Enhancement Level</label>
-            <select id="enhCurrent" class="styled-select" onchange="onEnhChange()"></select>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="enhTarget">Target Enhancement Level</label>
-            <select id="enhTarget" class="styled-select" onchange="onEnhChange()"></select>
-          </div>
         </div>
 
+        <!-- Track 1: Red Gear Ascension & Level Checkpoints (19, 39, 59, 79, 99) -->
+        <span class="section-label">2. Red Gear Ascension & Level Gates (Mithril + Sacrifices)</span>
+        <div class="selectors-row">
+          <div class="field-group">
+            <label class="field-label" for="empCurrent">Current Milestone</label>
+            <select id="empCurrent" class="styled-select" onchange="onEmpChange()"></select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="empTarget">Target Milestone</label>
+            <select id="empTarget" class="styled-select" onchange="onEmpChange()"></select>
+          </div>
+        </div>
         <div class="presets-row">
-          <span class="preset-label">Enhancement Quick Jump:</span>
-          <button class="preset-btn" onclick="setEnhPreset(0, 40)">Lv 0 ➔ 40</button>
-          <button class="preset-btn" onclick="setEnhPreset(40, 70)">Lv 40 ➔ 70</button>
-          <button class="preset-btn" onclick="setEnhPreset(70, 100)">Lv 70 ➔ 100 (Unlocks Mastery)</button>
-          <button class="preset-btn" onclick="setEnhPreset(0, 100)">Full Max (Lv 0 ➔ 100)</button>
+          <span class="preset-label">Checkpoints Quick Jump:</span>
+          <button class="preset-btn" onclick="setEmpPreset(0, 1)">Base ➔ Red Ascension (2 Sacrifices)</button>
+          <button class="preset-btn" onclick="setEmpPreset(1, 2)">Red ➔ Lv 20 (+10 Mithril, 3 Sac)</button>
+          <button class="preset-btn" onclick="setEmpPreset(2, 4)">Lv 20 ➔ Lv 60 (+50 Mithril, 10 Sac)</button>
+          <button class="preset-btn" onclick="setEmpPreset(4, 6)">Lv 60 ➔ Lv 100 (+90 Mithril, 20 Sac)</button>
+          <button class="preset-btn" onclick="setEmpPreset(0, 6)">Full Red Empowerment (150 Mithril, 35 Sac)</button>
         </div>
 
-        <span class="section-label">2. Mastery Forging (Levels 1 to 20)</span>
+        <!-- Track 2: Mastery Forging (1 to 20) with Incremental Sacrifices -->
+        <span class="section-label">3. Mastery Forging (Levels 1 to 20: Incremental Sacrifices after Lv 10)</span>
         <div class="selectors-row">
           <div class="field-group">
             <label class="field-label" for="mastCurrent">Current Mastery Level</label>
@@ -352,18 +359,30 @@
             <select id="mastTarget" class="styled-select" onchange="onMastChange()"></select>
           </div>
         </div>
-
         <div class="presets-row">
           <span class="preset-label">Mastery Quick Jump:</span>
-          <button class="preset-btn" onclick="setMastPreset(0, 5)">Lv 0 ➔ 5 (Gate 1)</button>
-          <button class="preset-btn" onclick="setMastPreset(5, 10)">Lv 5 ➔ 10 (Gate 2)</button>
-          <button class="preset-btn" onclick="setMastPreset(10, 15)">Lv 10 ➔ 15 (Mithril Era)</button>
-          <button class="preset-btn" onclick="setMastPreset(15, 20)">Lv 15 ➔ 20 (Sovereign Cap)</button>
-          <button class="preset-btn" onclick="setMastPreset(0, 20)">Full Mastery (0 ➔ 20)</button>
+          <button class="preset-btn" onclick="setMastPreset(0, 10)">Lv 0 ➔ 10 (Essence Only: 0 Sacrifices)</button>
+          <button class="preset-btn" onclick="setMastPreset(10, 15)">Lv 10 ➔ 15 (15 Sacrifices/Piece)</button>
+          <button class="preset-btn" onclick="setMastPreset(15, 20)">Lv 15 ➔ 20 (40 Sacrifices/Piece)</button>
+          <button class="preset-btn" onclick="setMastPreset(10, 20)">Lv 10 ➔ 20 (55 Sacrifices/Piece)</button>
+          <button class="preset-btn" onclick="setMastPreset(0, 20)">Full Mastery 1–20 (55 Sacrifices/Piece)</button>
         </div>
 
+        <!-- Material Summary Grid -->
         <span class="section-label">Total Hero Gear Materials</span>
         <div class="results-grid">
+          <div class="result-stat">
+            <span class="stat-label">Total Sacrifices</span>
+            <span id="resTotalSacrifices" class="stat-val total-sac">0 Pieces</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Red Gate Sacrifices</span>
+            <span id="resEmpSac" class="stat-val sub-sac">0 Pieces</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-label">Mastery Sacrifices</span>
+            <span id="resMastSac" class="stat-val sub-sac">0 Pieces</span>
+          </div>
           <div class="result-stat">
             <span class="stat-label">Mithril</span>
             <span id="resMithril" class="stat-val mithril">0</span>
@@ -372,30 +391,19 @@
             <span class="stat-label">Essence Stones</span>
             <span id="resEssence" class="stat-val essence">0</span>
           </div>
-          <div class="result-stat">
-            <span class="stat-label">Mythic Sacrifices</span>
-            <span id="resSacrifice" class="stat-val sacrifice">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Enhancement EXP</span>
-            <span id="resEXP" class="stat-val exp">0</span>
-          </div>
-          <div class="result-stat">
-            <span class="stat-label">Fodder Equiv.</span>
-            <span id="resFodder" class="stat-val" style="color:var(--text-main);">0 Gear</span>
-          </div>
         </div>
 
-        <span class="section-label">Mastery & Sacrifice Milestone Breakdown</span>
+        <!-- Milestone Breakdown Table -->
+        <span class="section-label">Comprehensive Cost & Sacrifices Breakdown</span>
         <div class="breakdown-wrapper">
           <table class="breakdown-table">
             <thead>
               <tr>
-                <th>Mastery Level</th>
+                <th>Phase / Level</th>
                 <th>Mithril</th>
                 <th>Essence Stones</th>
                 <th>Mythic Sacrifices</th>
-                <th>Milestone Perk</th>
+                <th>Milestone Perk / Gate Requirements</th>
               </tr>
             </thead>
             <tbody id="gearTableBody"></tbody>
@@ -479,72 +487,70 @@
       document.getElementById('btnWidgetTab').classList.toggle('active', type === 'widget');
     }
 
-    // 1. HERO GEAR ENHANCEMENT (0 to 100)
-    // Incremental EXP per 10-level tier (total ~125,000 EXP per piece)
-    const enhTiers = [
-      { from: 0,  to: 10,  exp: 3000 },
-      { from: 10, to: 20,  exp: 5500 },
-      { from: 20, to: 30,  exp: 8500 },
-      { from: 30, to: 40,  exp: 12000 },
-      { from: 40, to: 50,  exp: 16000 },
-      { from: 50, to: 60,  exp: 21000 },
-      { from: 60, to: 70,  exp: 26000 },
-      { from: 70, to: 80,  exp: 32000 },
-      { from: 80, to: 90,  exp: 38000 },
-      { from: 90, to: 100, exp: 45000 }
+    // 1. RED GEAR ASCENSION & CHECKPOINT DATA (19, 39, 59, 79, 99)
+    const empTiers = [
+      { id: 1, name: "Mythic Lv 100 ➔ Red Ascension", mithril: 0,  sacrifice: 2,  note: "Ascend to Red / Legendary Tier (Unlocks Mithril Era)" },
+      { id: 2, name: "Level 19 ➔ 20 Checkpoint",      mithril: 10, sacrifice: 3,  note: "+20% Attack / Defense Expedition Buff" },
+      { id: 3, name: "Level 39 ➔ 40 Checkpoint",      mithril: 20, sacrifice: 5,  note: "+7.5% Hero Health / Lethality Exploration Buff" },
+      { id: 4, name: "Level 59 ➔ 60 Checkpoint",      mithril: 30, sacrifice: 5,  note: "+15% Combat Health & Defense Buff" },
+      { id: 5, name: "Level 79 ➔ 80 Checkpoint",      mithril: 40, sacrifice: 10, note: "+35% Lethality & Expedition Command Power" },
+      { id: 6, name: "Level 99 ➔ 100 Final Cap",      mithril: 50, sacrifice: 10, note: "👑 +50% Attack / Defense Max Empowerment" }
     ];
 
-    function populateEnhDropdowns() {
-      const cur = document.getElementById('enhCurrent');
-      const tar = document.getElementById('enhTarget');
+    function populateEmpDropdowns() {
+      const cur = document.getElementById('empCurrent');
+      const tar = document.getElementById('empTarget');
       cur.innerHTML = '';
       tar.innerHTML = '';
-      for (let i = 0; i <= 100; i += 10) {
-        if (i < 100) cur.add(new Option(`Lv. ${i}`, i));
-        if (i > 0) tar.add(new Option(`Lv. ${i}`, i));
-      }
+
+      cur.add(new Option('Base (Pre-Red Ascension)', 0));
+      empTiers.forEach(tier => {
+        cur.add(new Option(tier.name, tier.id));
+        tar.add(new Option(tier.name, tier.id));
+      });
       cur.value = 0;
-      tar.value = 100;
+      tar.value = 6;
     }
 
-    function onEnhChange() {
-      const c = parseInt(document.getElementById('enhCurrent').value);
-      let t = parseInt(document.getElementById('enhTarget').value);
+    function onEmpChange() {
+      const c = parseInt(document.getElementById('empCurrent').value);
+      let t = parseInt(document.getElementById('empTarget').value);
       if (c >= t) {
-        t = Math.min(100, c + 10);
-        document.getElementById('enhTarget').value = t;
+        t = Math.min(6, c + 1);
+        document.getElementById('empTarget').value = t;
       }
       calculateGear();
     }
 
-    function setEnhPreset(c, t) {
-      document.getElementById('enhCurrent').value = c;
-      document.getElementById('enhTarget').value = t;
+    function setEmpPreset(c, t) {
+      document.getElementById('empCurrent').value = c;
+      document.getElementById('empTarget').value = t;
       calculateGear();
     }
 
-    // 2. MASTERY FORGING (Levels 1 to 20) with Mithril & Mythic Sacrifices
+    // 2. MASTERY FORGING (1 to 20: Levels 1-10 are 0 Sacrifices, Levels 11-20 increase incrementally +1 each level)
     const masteryData = [
-      { lvl: 1,  stones: 10,  mithril: 0,   sacrifice: 0, perk: "+1.5% Base Stat Boost" },
-      { lvl: 2,  stones: 15,  mithril: 0,   sacrifice: 0, perk: "Stat Expansion" },
-      { lvl: 3,  stones: 20,  mithril: 0,   sacrifice: 0, perk: "Stat Expansion" },
-      { lvl: 4,  stones: 25,  mithril: 0,   sacrifice: 0, perk: "Stat Expansion" },
-      { lvl: 5,  stones: 35,  mithril: 0,   sacrifice: 1, perk: "🔥 Gate 1: Requires 1x Mythic Gear Piece" },
-      { lvl: 6,  stones: 45,  mithril: 0,   sacrifice: 0, perk: "Attack / Defense Amplification" },
-      { lvl: 7,  stones: 60,  mithril: 0,   sacrifice: 0, perk: "Combat Scaling" },
-      { lvl: 8,  stones: 75,  mithril: 0,   sacrifice: 0, perk: "Combat Scaling" },
-      { lvl: 9,  stones: 95,  mithril: 0,   sacrifice: 0, perk: "Combat Scaling" },
-      { lvl: 10, stones: 120, mithril: 0,   sacrifice: 1, perk: "🔥 Gate 2: Requires 1x Mythic Gear Piece" },
-      { lvl: 11, stones: 150, mithril: 15,  sacrifice: 0, perk: "⚡ Unlocks Mithril Era Refinement" },
-      { lvl: 12, stones: 185, mithril: 20,  sacrifice: 0, perk: "Mithril Scaling Tier 2" },
-      { lvl: 13, stones: 225, mithril: 25,  sacrifice: 0, perk: "Mithril Scaling Tier 3" },
-      { lvl: 14, stones: 270, mithril: 35,  sacrifice: 0, perk: "Mithril Scaling Tier 4" },
-      { lvl: 15, stones: 320, mithril: 45,  sacrifice: 1, perk: "🔥 Gate 3: Requires 1x Mythic Gear Piece" },
-      { lvl: 16, stones: 380, mithril: 60,  sacrifice: 0, perk: "Sovereign Stat Tier" },
-      { lvl: 17, stones: 450, mithril: 75,  sacrifice: 0, perk: "Sovereign Stat Tier" },
-      { lvl: 18, stones: 530, mithril: 95,  sacrifice: 0, perk: "High-Tier Combat Lethality" },
-      { lvl: 19, stones: 620, mithril: 120, sacrifice: 0, perk: "Penultimate Mastery Step" },
-      { lvl: 20, stones: 720, mithril: 150, sacrifice: 1, perk: "👑 Gate 4 & Cap: 1x Mythic Gear Piece" }
+      { lvl: 1,  stones: 10,  sacrifice: 0, perk: "+1.5% Base Stat Boost" },
+      { lvl: 2,  stones: 20,  sacrifice: 0, perk: "Stat Expansion Tier 2" },
+      { lvl: 3,  stones: 30,  sacrifice: 0, perk: "Stat Expansion Tier 3" },
+      { lvl: 4,  stones: 40,  sacrifice: 0, perk: "Stat Expansion Tier 4" },
+      { lvl: 5,  stones: 50,  sacrifice: 0, perk: "Major Command Boost" },
+      { lvl: 6,  stones: 60,  sacrifice: 0, perk: "Combat Scaling Tier 6" },
+      { lvl: 7,  stones: 70,  sacrifice: 0, perk: "Combat Scaling Tier 7" },
+      { lvl: 8,  stones: 80,  sacrifice: 0, perk: "Combat Scaling Tier 8" },
+      { lvl: 9,  stones: 90,  sacrifice: 0, perk: "Combat Scaling Tier 9" },
+      { lvl: 10, stones: 100, sacrifice: 0, perk: "⭐ Unlocks Red Ascension Prerequisite" },
+      // INCREMENTAL SACRIFICE ERA (LEVELS 11 TO 20)
+      { lvl: 11, stones: 110, sacrifice: 1, perk: "⚡ Mastery Lv 11: Requires 1x Mythic Gear" },
+      { lvl: 12, stones: 120, sacrifice: 2, perk: "⚡ Mastery Lv 12: Requires 2x Mythic Gear" },
+      { lvl: 13, stones: 130, sacrifice: 3, perk: "⚡ Mastery Lv 13: Requires 3x Mythic Gear" },
+      { lvl: 14, stones: 140, sacrifice: 4, perk: "⚡ Mastery Lv 14: Requires 4x Mythic Gear" },
+      { lvl: 15, stones: 150, sacrifice: 5, perk: "⚡ Mastery Lv 15: Requires 5x Mythic Gear" },
+      { lvl: 16, stones: 160, sacrifice: 6, perk: "⚡ Mastery Lv 16: Requires 6x Mythic Gear" },
+      { lvl: 17, stones: 170, sacrifice: 7, perk: "⚡ Mastery Lv 17: Requires 7x Mythic Gear" },
+      { lvl: 18, stones: 180, sacrifice: 8, perk: "⚡ Mastery Lv 18: Requires 8x Mythic Gear" },
+      { lvl: 19, stones: 190, sacrifice: 9, perk: "⚡ Mastery Lv 19: Requires 9x Mythic Gear" },
+      { lvl: 20, stones: 200, sacrifice: 10, perk: "👑 Mastery Lv 20 Cap: Requires 10x Mythic Gear" }
     ];
 
     function populateMastDropdowns() {
@@ -558,7 +564,7 @@
         tar.add(new Option(`Mastery Lv. ${i}`, i));
       }
       cur.value = 0;
-      tar.value = 10;
+      tar.value = 20;
     }
 
     function onMastChange() {
@@ -577,59 +583,73 @@
       calculateGear();
     }
 
+    // ACCURATE UNIFIED GEAR CALCULATION
     function calculateGear() {
       const pieces = parseInt(document.getElementById('gearScope').value);
-      const enhC = parseInt(document.getElementById('enhCurrent').value);
-      const enhT = parseInt(document.getElementById('enhTarget').value);
+      const empC = parseInt(document.getElementById('empCurrent').value);
+      const empT = parseInt(document.getElementById('empTarget').value);
       const mastC = parseInt(document.getElementById('mastCurrent').value);
       const mastT = parseInt(document.getElementById('mastTarget').value);
 
-      // 1. Calculate Enhancement EXP
-      let totalEXP = 0;
-      enhTiers.forEach(tier => {
-        if (tier.from >= enhC && tier.to <= enhT) {
-          totalEXP += tier.exp;
-        }
-      });
-      totalEXP *= pieces;
-      const fodderEquiv = Math.round(totalEXP / 5000); // 1 Mythic piece = ~5,000 EXP if burned
-
-      // 2. Calculate Mastery (Mithril, Stones, Sacrifices)
       let totalMithril = 0;
-      let totalEssence = 0;
-      let totalSacrifices = 0;
+      let empSacrifices = 0;
       let tbody = '';
+
+      // 1. Calculate Red Checkpoint Costs & Sacrifices
+      for (let i = empC; i < empT; i++) {
+        const step = empTiers[i];
+        const stepMithril = step.mithril * pieces;
+        const stepSac = step.sacrifice * pieces;
+
+        totalMithril += stepMithril;
+        empSacrifices += stepSac;
+
+        tbody += `
+          <tr style="background: rgba(103, 232, 249, 0.08);">
+            <td><strong>🔴 ${step.name}</strong></td>
+            <td style="color:var(--mithril-cyan); font-weight:800;">${stepMithril > 0 ? stepMithril.toLocaleString() : '—'}</td>
+            <td style="color:var(--text-muted);">—</td>
+            <td style="color:var(--gear-red); font-weight:800;">${stepSac.toLocaleString()} Mythic Gear</td>
+            <td style="color:var(--text-muted);">${step.note}</td>
+          </tr>
+        `;
+      }
+
+      // 2. Calculate Mastery Forging Costs & Incremental Sacrifices
+      let totalEssence = 0;
+      let mastSacrifices = 0;
 
       for (let i = mastC; i < mastT; i++) {
         const step = masteryData[i];
-        const stepMithril = step.mithril * pieces;
         const stepEssence = step.stones * pieces;
-        const stepSacrifice = step.sacrifice * pieces;
+        const stepSac = step.sacrifice * pieces;
 
-        totalMithril += stepMithril;
         totalEssence += stepEssence;
-        totalSacrifices += stepSacrifice;
+        mastSacrifices += stepSac;
 
         tbody += `
           <tr>
             <td><strong>Mastery Lv. ${step.lvl}</strong></td>
-            <td style="color:var(--mithril-cyan); font-weight:700;">${stepMithril.toLocaleString()}</td>
+            <td style="color:var(--text-muted);">—</td>
             <td style="color:var(--essence-purple); font-weight:700;">${stepEssence.toLocaleString()}</td>
-            <td style="color:var(--gear-red); font-weight:700;">${stepSacrifice > 0 ? stepSacrifice + 'x Gear' : '—'}</td>
+            <td style="color:var(--gear-red); font-weight:700;">${stepSac > 0 ? stepSac.toLocaleString() + ' Mythic Gear' : '—'}</td>
             <td style="color:var(--text-muted);">${step.perk}</td>
           </tr>
         `;
       }
 
+      const totalSacrifices = empSacrifices + mastSacrifices;
+
+      // Update Result Stat Cards
+      document.getElementById('resTotalSacrifices').innerText = `${totalSacrifices.toLocaleString()} Pieces`;
+      document.getElementById('resEmpSac').innerText = `${empSacrifices.toLocaleString()} Pieces`;
+      document.getElementById('resMastSac').innerText = `${mastSacrifices.toLocaleString()} Pieces`;
       document.getElementById('resMithril').innerText = totalMithril.toLocaleString();
       document.getElementById('resEssence').innerText = totalEssence.toLocaleString();
-      document.getElementById('resSacrifice').innerText = totalSacrifices > 0 ? `${totalSacrifices}x Pieces` : '0';
-      document.getElementById('resEXP').innerText = totalEXP.toLocaleString();
-      document.getElementById('resFodder').innerText = `~${fodderEquiv} Pieces`;
-      document.getElementById('gearTableBody').innerHTML = tbody || '<tr><td colspan="5" style="text-align:center; padding:16px; color:var(--text-muted);">No Mastery level range selected.</td></tr>';
+      document.getElementById('gearTableBody').innerHTML = tbody || '<tr><td colspan="5" style="text-align:center; padding:16px; color:var(--text-muted);">No progression milestone selected.</td></tr>';
     }
 
-    // 3. EXCLUSIVE HERO WIDGETS (0 to 30)
+    // 3. EXCLUSIVE HERO WIDGETS
     const widgetLevels = [
       { lvl: 1,  cost: 5,   note: "Unlocks Exclusive Weapon Skill" },
       { lvl: 2,  cost: 5,   note: "Base Stat Boost" },
@@ -742,7 +762,7 @@
       if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
-    // High-performance snow canvas
+    // High performance snow canvas
     const canvas = document.getElementById('snowCanvas');
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -775,7 +795,7 @@
     }
 
     applySavedTheme();
-    populateEnhDropdowns();
+    populateEmpDropdowns();
     populateMastDropdowns();
     populateWidgetDropdowns();
     calculateGear();
