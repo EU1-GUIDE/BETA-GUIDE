@@ -6,7 +6,7 @@
   <title>EU1 BETA | FAQ & Support Desk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <script>
     if (localStorage.getItem('wos_theme') === 'halloween') {
       document.documentElement.classList.add('halloween');
@@ -15,7 +15,7 @@
   <style>
     :root {
       --bg-deep: #060b13;
-      --bg-card: rgba(14, 26, 43, 0.88);
+      --bg-card: rgba(14, 26, 43, 0.85);
       --border-ice: rgba(120, 210, 255, 0.28);
       --accent-frost: #56d4ff;
       --accent-glow: rgba(86, 212, 255, 0.45);
@@ -39,7 +39,12 @@
       --discord-blurple: #ff7700;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background: var(--bg-deep);
       color: var(--text-main);
@@ -88,6 +93,11 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-nav-link:hover {
+      text-shadow: 0 0 10px var(--accent-glow);
     }
 
     .theme-toggle-btn {
@@ -132,143 +142,212 @@
       margin-top: 6px;
     }
 
-    /* FAQ List */
-    .faq-list {
+    /* FAQ Accordion */
+    .faq-section {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      margin-bottom: 24px;
+      gap: 12px;
+      margin-bottom: 32px;
     }
 
-    .faq-card {
+    .faq-item {
       background: var(--bg-card);
       border: 1px solid var(--border-ice);
       border-radius: 14px;
       overflow: hidden;
       backdrop-filter: blur(8px);
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s;
     }
 
-    .faq-card:hover {
+    .faq-item:hover {
       border-color: var(--accent-frost);
     }
 
     .faq-question {
-      padding: 18px 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      user-select: none;
-      background: rgba(4, 9, 16, 0.6);
-      gap: 12px;
-    }
-
-    .question-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .q-icon {
-      font-size: 1.4rem;
-    }
-
-    .q-text {
+      padding: 16px 20px;
       font-family: 'Cinzel', serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #fff;
-      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
     }
 
-    .toggle-arrow {
-      font-size: 1.1rem;
+    .faq-icon {
       color: var(--accent-frost);
-      transition: transform 0.3s ease;
-      flex-shrink: 0;
+      font-size: 1.2rem;
+      transition: transform 0.25s ease;
     }
 
-    .faq-card.open .toggle-arrow {
+    .faq-item.open .faq-icon {
       transform: rotate(180deg);
     }
 
     .faq-answer {
-      display: none;
-      padding: 18px 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #d0e2f2;
-    }
-
-    .faq-card.open .faq-answer {
-      display: block;
-    }
-
-    .faq-answer p { margin-bottom: 10px; }
-    .faq-answer ul { margin-left: 20px; margin-bottom: 12px; }
-    .faq-answer li { margin-bottom: 6px; }
-
-    .highlight-tip {
-      background: rgba(86, 212, 255, 0.1);
-      border-left: 3px solid var(--accent-frost);
-      padding: 10px 14px;
-      border-radius: 6px;
-      margin-top: 12px;
-      font-size: 0.92rem;
-    }
-
-    /* Support Callout */
-    .support-card {
-      background: var(--bg-card);
-      border: 1px solid var(--discord-blurple);
-      border-radius: 16px;
-      padding: 24px 20px;
-      text-align: center;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 20px rgba(88, 101, 242, 0.2);
-    }
-
-    .support-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-
-    .support-desc {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease;
       color: var(--text-muted);
       font-size: 1rem;
-      line-height: 1.5;
-      margin-bottom: 18px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      line-height: 1.55;
+      padding: 0 20px;
+      border-top: 1px solid transparent;
     }
 
-    .btn-discord {
-      display: inline-flex;
+    .faq-item.open .faq-answer {
+      max-height: 350px;
+      padding: 14px 20px 18px;
+      border-top-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Support Desk Form Card */
+    .support-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 26px 22px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .form-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: #fff;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      background: var(--discord-blurple);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 800;
-      padding: 12px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      box-shadow: 0 0 16px rgba(88, 101, 242, 0.4);
+      margin-bottom: 8px;
     }
 
-    .btn-discord:hover {
-      box-shadow: 0 0 24px rgba(88, 101, 242, 0.7);
+    .form-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .field-label span.req {
+      color: var(--accent-frost);
+    }
+
+    .field-input, .field-textarea {
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field-input:focus, .field-textarea:focus {
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .field-textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(88, 101, 242, 0.5);
+      background: var(--discord-blurple);
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(88, 101, 242, 0.35);
+      margin-top: 8px;
+    }
+
+    .btn-submit:hover:not(:disabled) {
       transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(88, 101, 242, 0.55);
+      filter: brightness(1.1);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(6, 11, 19, 0.95);
+      border: 1px solid var(--online-green);
+      color: #00ff88;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      pointer-events: none;
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-popup.error {
+      border-color: #ff4757;
+      color: #ff4757;
+      box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
     }
 
     .portal-footer {
@@ -276,6 +355,28 @@
       margin-top: 36px;
       color: var(--text-muted);
       font-size: 0.85rem;
+      letter-spacing: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .visitor-badge-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 20px;
+      padding: 4px 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .visitor-badge-container img {
+      height: 20px;
+      border-radius: 4px;
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -292,122 +393,230 @@
     </header>
 
     <div class="hero-header">
-      <h1 class="hero-title">HELP DESK & FAQ</h1>
-      <p class="hero-subtitle">Installation Guides • Private Server Security • Beta Information</p>
+      <h1 class="hero-title">FAQ & SUPPORT DESK</h1>
+      <p class="hero-subtitle">Server Intel • Mod Support • Troubleshooting</p>
     </div>
 
-    <main class="faq-list">
-      <!-- FAQ 1: Auto Blocker / Android Install -->
-      <article class="faq-card open">
-        <div class="faq-question" onclick="toggleFAQ(this)">
-          <div class="question-left">
-            <span class="q-icon">🛡️</span>
-            <span class="q-text">How do I bypass Samsung "Auto Blocker" to install?</span>
-          </div>
-          <span class="toggle-arrow">▼</span>
+    <!-- Accordion -->
+    <div class="faq-section">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAccordion(this)">
+          <span>Is my official Whiteout Survival account safe?</span>
+          <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          <p>On newer Android devices (especially Samsung One UI 6+), the <strong>Auto Blocker</strong> security feature automatically blocks sideloaded APK downloads from outside the Google Play Store by default.</p>
-          <p><strong>To allow installation:</strong></p>
-          <ul>
-            <li>Open phone <strong>Settings</strong> ➔ scroll down to <strong>Security and Privacy</strong>.</li>
-            <li>Tap on <strong>Auto Blocker</strong>.</li>
-            <li>Toggle it <strong>OFF</strong> temporarily (or allow installation from your web browser).</li>
-            <li>Tap the downloaded EU1 APK to install smoothly. You can safely turn Auto Blocker back on afterwards!</li>
-          </ul>
+          Yes. The EU1 BETA private server runs as a completely isolated application package (separate APK) on your Android device. It uses its own sandbox save data and does not overwrite or interfere with your live retail account.
         </div>
-      </article>
+      </div>
 
-      <!-- FAQ 2: Dual App Install -->
-      <article class="faq-card">
-        <div class="faq-question" onclick="toggleFAQ(this)">
-          <div class="question-left">
-            <span class="q-icon">📱</span>
-            <span class="q-text">Can I keep the official Whiteout Survival installed?</span>
-          </div>
-          <span class="toggle-arrow">▼</span>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAccordion(this)">
+          <span>Will there be server progress wipes?</span>
+          <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          <p><strong>Yes, absolutely.</strong> The EU1 Beta client utilizes a separate, independent package identifier from the official Google Play application.</p>
-          <p>Both games run as separate apps side-by-side on your home screen. Installing or playing on EU1 will never overwrite, conflict with, or affect your official Century Games account progress.</p>
+          Because this is an active beta testing realm, database rollbacks or seasonal wipes may occur prior to major version patches. Full advance notice will always be posted in the official announcements channel on Discord.
         </div>
-      </article>
+      </div>
 
-      <!-- FAQ 3: PC Emulators -->
-      <article class="faq-card">
-        <div class="faq-question" onclick="toggleFAQ(this)">
-          <div class="question-left">
-            <span class="q-icon">💻</span>
-            <span class="q-text">Can I play on PC using an emulator?</span>
-          </div>
-          <span class="toggle-arrow">▼</span>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAccordion(this)">
+          <span>Why is Android Auto Blocker stopping installation?</span>
+          <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          <p>Yes! EU1 runs smoothly on modern Android emulators. We recommend:</p>
-          <ul>
-            <li><strong>LDPlayer 9 (Recommended):</strong> Best overall performance and low CPU/RAM usage.</li>
-            <li><strong>BlueStacks 5 (Pie 64-bit instance):</strong> Very stable with crisp rendering.</li>
-            <li><strong>MuMu Player 12:</strong> Excellent high-FPS support.</li>
-          </ul>
-          <p>Simply drag and drop the downloaded <code>.apk</code> file directly into your emulator window to install.</p>
+          Samsung One UI and modern Android builds block third-party APKs downloaded outside Google Play by default. You must temporarily turn off "Auto Blocker" in your device's Security and Privacy settings to install the client.
         </div>
-      </article>
+      </div>
 
-      <!-- FAQ 4: Beta Realm & Wipes -->
-      <article class="faq-card">
-        <div class="faq-question" onclick="toggleFAQ(this)">
-          <div class="question-left">
-            <span class="q-icon">⏳</span>
-            <span class="q-text">Are there server wipes during the Beta test?</span>
-          </div>
-          <span class="toggle-arrow">▼</span>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAccordion(this)">
+          <span>How do I redeem active gift codes?</span>
+          <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          <p>EU1 is currently an active Beta test server where we balance custom drop rates, event progression, and high-tier features (such as T12 Exalted troops and FC10). While we strive for data persistence, scheduled wipes may occur prior to major version milestones.</p>
-          <div class="highlight-tip">
-            <strong>Beta Tester Perks:</strong> Active participants during beta phases receive exclusive commemorative Discord roles and booster starter packs whenever fresh seasons launch!
-          </div>
+          Visit the Gift Code Depot from our portal home, tap any code to copy it, then head into the game: Tap your Chief Avatar → Settings → Gift Code → Paste and confirm.
         </div>
-      </article>
+      </div>
+    </div>
 
-      <!-- FAQ 5: Gift Codes -->
-      <article class="faq-card">
-        <div class="faq-question" onclick="toggleFAQ(this)">
-          <div class="question-left">
-            <span class="q-icon">🎁</span>
-            <span class="q-text">How do I redeem Gift Codes?</span>
-          </div>
-          <span class="toggle-arrow">▼</span>
-        </div>
-        <div class="faq-answer">
-          <p>Visit the <strong>Gift Code Depot</strong> on the main portal to copy active codes with one tap. Then inside the game:</p>
-          <ul>
-            <li>Tap your <strong>Chief Avatar</strong> in the top-left corner.</li>
-            <li>Tap <strong>Settings</strong> (gear icon) ➔ select <strong>Gift Code</strong>.</li>
-            <li>Paste the code and tap <strong>Redeem</strong> to receive instant Diamonds, Fire Crystals, and Speedups via in-game mail.</li>
-          </ul>
-        </div>
-      </article>
-    </main>
+    <!-- Mod Contact Form -->
+    <div class="support-card">
+      <div class="form-header">
+        <h2 class="form-title">
+          <span>💬</span> ASK A QUESTION OR REPORT AN ISSUE
+        </h2>
+        <p class="form-subtitle">
+          Have a question not covered above? Fill out this quick form and your inquiry will be routed straight to the moderator private inbox on our Discord server.
+        </p>
+      </div>
 
-    <!-- Support / Discord CTA -->
-    <section class="support-card">
-      <h2 class="support-title">Still Need Assistance?</h2>
-      <p class="support-desc">Our moderation team and community helpers are active on Discord 24/7. Open a ticket, report a bug, or connect with your alliance.</p>
-      <a href="https://discord.gg/pqEHcrqB3" target="_blank" rel="noopener noreferrer" class="btn-discord">
-        <span>💬</span> Join EU1 Support on Discord
-      </a>
-    </section>
+      <form class="contact-form" id="modForm" onsubmit="handleFormSubmit(event)">
+        <!-- 1. Discord Tag (Required) -->
+        <div class="field-group">
+          <label class="field-label" for="discordTag">
+            Discord Tag <span class="req">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="discordTag" 
+            class="field-input" 
+            placeholder="e.g. SurvivorChief#1234 or @username" 
+            required
+          >
+        </div>
+
+        <!-- 2. In-Game Name (Required) -->
+        <div class="field-group">
+          <label class="field-label" for="ign">
+            In-Game Name (IGN) <span class="req">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="ign" 
+            class="field-input" 
+            placeholder="e.g. ChiefFrost88" 
+            required
+          >
+        </div>
+
+        <!-- 3. Server (Optional) -->
+        <div class="field-group">
+          <label class="field-label" for="server">
+            Server / State (Optional)
+          </label>
+          <input 
+            type="text" 
+            id="server" 
+            class="field-input" 
+            placeholder="e.g. EU1 BETA, State 1042"
+          >
+        </div>
+
+        <!-- 4. Alliance (Optional) -->
+        <div class="field-group">
+          <label class="field-label" for="alliance">
+            Alliance (Optional)
+          </label>
+          <input 
+            type="text" 
+            id="alliance" 
+            class="field-input" 
+            placeholder="e.g. [ICE] FrostVanguard"
+          >
+        </div>
+
+        <!-- 5. Your Question (Required) -->
+        <div class="field-group">
+          <label class="field-label" for="userQuestion">
+            Your Question or Inquiry <span class="req">*</span>
+          </label>
+          <textarea 
+            id="userQuestion" 
+            class="field-textarea" 
+            placeholder="Type your question or feedback here..." 
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-submit">
+          <span>📨</span> SEND TO DISCORD MOD TEAM
+        </button>
+      </form>
+    </div>
 
     <footer class="portal-footer">
-      EU1 BETA SERVER • SURVIVOR TOOLKIT
+      <div class="visitor-badge-container">
+        <img 
+          src="https://hits.sh/eu1-beta-realm.github.io.svg?label=Survivors+Checked+In&extraCount=1280&color=56d4ff&labelColor=0e1a2b&style=flat" 
+          alt="Survivors Checked In"
+        />
+      </div>
+      <div>EU1 BETA SERVER • SURVIVOR TOOLKIT</div>
     </footer>
   </div>
 
+  <div id="toast" class="toast-popup">Inquiry Transmitted to Mod Inbox!</div>
+
   <script>
-    function toggleFAQ(el) {
-      const card = el.parentElement;
-      card.classList.toggle('open');
+    // Configured Discord Webhook URL
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1564517001249038416/N5vA3qXFX7XVVtvyINYgt36ajRr32I0DcJGd4-LSz2PAPrDWAFZnFsN-UfRpqD8C90ye";
+
+    function toggleAccordion(element) {
+      const item = element.parentElement;
+      item.classList.toggle('open');
+    }
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<span>⏳</span> TRANSMITTING INTEL...`;
+
+      const discordTag = document.getElementById('discordTag').value.trim();
+      const ign = document.getElementById('ign').value.trim();
+      const server = document.getElementById('server').value.trim() || 'EU1 BETA (Default)';
+      const alliance = document.getElementById('alliance').value.trim() || 'None Specified';
+      const question = document.getElementById('userQuestion').value.trim();
+
+      // Rich Discord Embed payload
+      const payload = {
+        username: "EU1 Command Dispatch",
+        avatar_url: "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/2744.png",
+        embeds: [
+          {
+            title: "❄️ New Player Support Ticket",
+            color: 5690623, // Hex #56D4FF in decimal
+            fields: [
+              { name: "👤 Discord Tag", value: discordTag, inline: true },
+              { name: "🎮 In-Game Name", value: ign, inline: true },
+              { name: "🌐 Server / Realm", value: server, inline: true },
+              { name: "🛡️ Alliance", value: alliance, inline: true },
+              { name: "📝 Inquiry / Issue", value: question, inline: false }
+            ],
+            footer: {
+              text: "EU1 BETA Support Portal • Standalone Dispatch"
+            },
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
+
+      try {
+        const response = await fetch(DISCORD_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          showToast("Ticket transmitted to mod team!");
+          document.getElementById('modForm').reset();
+        } else {
+          showToast("⚠️ Discord rejected ticket. Check webhook!", true);
+        }
+      } catch (err) {
+        showToast("⚠️ Network error transmitting to Discord.", true);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      if (isError) {
+        toast.classList.add('error');
+      } else {
+        toast.classList.remove('error');
+      }
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
     }
 
     // Unified Persistent Theme Engine
@@ -431,7 +640,7 @@
       if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
-    // High performance snow canvas
+    // Snow animation logic
     const canvas = document.getElementById('snowCanvas');
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -444,7 +653,7 @@
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 35; i++) {
         flakes.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -455,7 +664,7 @@
 
       function drawSnow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.35)' : 'rgba(255, 255, 255, 0.4)';
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.45)';
         ctx.beginPath();
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
@@ -467,7 +676,7 @@
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
           f.y += f.d;
-          f.x += Math.sin(f.y / 25) * 0.3;
+          f.x += Math.sin(f.y / 25) * 0.4;
           if (f.y > canvas.height) {
             flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
           }
