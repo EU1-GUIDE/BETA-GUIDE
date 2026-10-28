@@ -21,6 +21,7 @@
       --fire-crystal: #ff5e36;
       --exalted: #a855f7;
       --widget: #f59e0b;
+      --pet-green: #10b981;
     }
 
     body.halloween {
@@ -36,6 +37,7 @@
       --fire-crystal: #ff7700;
       --exalted: #d946ef;
       --widget: #fbbf24;
+      --pet-green: #34d399;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -176,6 +178,12 @@
       border-color: var(--widget);
     }
 
+    .calc-card.pet-card { border-color: rgba(16, 185, 129, 0.4); }
+    .calc-card.pet-card:hover {
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45);
+      border-color: var(--pet-green);
+    }
+
     .calc-card.disabled {
       opacity: 0.65;
       cursor: not-allowed;
@@ -219,6 +227,11 @@
       background: rgba(245, 158, 11, 0.18);
       color: var(--widget);
       border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .status-badge.live-green {
+      background: rgba(16, 185, 129, 0.18);
+      color: var(--pet-green);
+      border: 1px solid rgba(16, 185, 129, 0.35);
     }
     .status-badge.queue {
       background: rgba(255, 209, 102, 0.15);
@@ -303,6 +316,17 @@
       box-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
     }
 
+    .calc-card.pet-card .btn-calc {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #a7f3d0;
+    }
+    .calc-card.pet-card:hover .btn-calc {
+      background: var(--pet-green);
+      color: #040910;
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.6);
+    }
+
     .calc-card.disabled .btn-calc {
       background: rgba(255, 255, 255, 0.04);
       border-color: rgba(255, 255, 255, 0.1);
@@ -374,7 +398,7 @@
         <div class="btn-calc">Open Troop Calc ➔</div>
       </a>
 
-      <!-- 4. Hero Gear & Widgets (Now Active!) -->
+      <!-- 4. Hero Gear & Widgets -->
       <a href="calc-hero-gear.html" class="calc-card widget-card">
         <div class="card-top">
           <span class="card-icon">⚔️</span>
@@ -387,24 +411,24 @@
         <div class="btn-calc">Open Hero Gear Calc ➔</div>
       </a>
 
-      <!-- 5. Beast Sanctuary & Pets (Next) -->
-      <div class="calc-card disabled">
+      <!-- 5. Beast Sanctuary & Pets (Now Active) -->
+      <a href="calc-pets.html" class="calc-card pet-card">
         <div class="card-top">
           <span class="card-icon">🐾</span>
-          <span class="status-badge queue">Next In Line</span>
+          <span class="status-badge live-green">● Ready to Use</span>
         </div>
         <div>
           <h2 class="card-title">Beast Sanctuary</h2>
-          <p class="card-desc">Pet food levels, refining potions, beast marks, and combat skill milestone requirements.</p>
+          <p class="card-desc">All 15 Sanctuary Beasts (including Shelldragon), Lv 1-150 progression, Beast Food, Potions/Serums, and Beast Marks.</p>
         </div>
-        <div class="btn-calc">In Testing</div>
-      </div>
+        <div class="btn-calc">Open Pet Calc ➔</div>
+      </a>
 
-      <!-- 6. Dawn Academy Experts -->
+      <!-- 6. Dawn Academy Experts (Final Module) -->
       <div class="calc-card disabled">
         <div class="card-top">
           <span class="card-icon">📜</span>
-          <span class="status-badge queue">Scheduled</span>
+          <span class="status-badge queue">Next In Line</span>
         </div>
         <div>
           <h2 class="card-title">Dawn Experts</h2>
@@ -426,6 +450,7 @@
       document.getElementById('themeText').innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
     }
 
+    // Lightweight 15-particle snow canvas for low-resource environments
     const canvas = document.getElementById('snowCanvas');
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -433,12 +458,12 @@
       function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
-      for (let i = 0; i < 45; i++) {
-        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.5 });
+      for (let i = 0; i < 15; i++) {
+        flakes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, d: Math.random() + 0.3 });
       }
       function drawSnow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.5)';
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)';
         ctx.beginPath();
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
@@ -449,7 +474,7 @@
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
           f.y += f.d;
-          f.x += Math.sin(f.y / 20) * 0.5;
+          f.x += Math.sin(f.y / 30) * 0.3;
           if (f.y > canvas.height) flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
         }
         requestAnimationFrame(drawSnow);
