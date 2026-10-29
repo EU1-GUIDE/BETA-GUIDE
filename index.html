@@ -22,6 +22,7 @@
       --text-main: #e8f5ff;
       --text-muted: #8ca3be;
       --gold-tag: #ffd166;
+      --gold-glow: rgba(255, 209, 102, 0.4);
       --online-green: #00ff88;
       --discord-blurple: #5865f2;
     }
@@ -35,6 +36,7 @@
       --text-main: #fff2e0;
       --text-muted: #ad94a8;
       --gold-tag: #ffb703;
+      --gold-glow: rgba(255, 183, 3, 0.5);
       --online-green: #ffb703;
       --discord-blurple: #ff7700;
     }
@@ -180,6 +182,16 @@
       box-shadow: 0 8px 24px rgba(88, 101, 242, 0.4);
     }
 
+    .portal-card.payment-card {
+      border-color: rgba(255, 209, 102, 0.35);
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.08) 0%, rgba(14, 26, 43, 0.9) 100%);
+    }
+
+    .portal-card.payment-card:hover {
+      border-color: var(--gold-tag);
+      box-shadow: 0 8px 24px var(--gold-glow);
+    }
+
     .card-top {
       display: flex;
       justify-content: space-between;
@@ -216,6 +228,12 @@
       background: rgba(88, 101, 242, 0.18);
       color: #7289da;
       border: 1px solid rgba(88, 101, 242, 0.35);
+    }
+
+    .status-badge.payment {
+      background: rgba(255, 209, 102, 0.18);
+      color: var(--gold-tag);
+      border: 1px solid rgba(255, 209, 102, 0.4);
     }
 
     .card-title {
@@ -269,6 +287,18 @@
       background: var(--discord-blurple);
       color: #fff;
       box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
+    }
+
+    .portal-card.payment-card .btn-portal {
+      background: rgba(255, 209, 102, 0.15);
+      border-color: rgba(255, 209, 102, 0.4);
+      color: var(--gold-tag);
+    }
+
+    .portal-card.payment-card:hover .btn-portal {
+      background: var(--gold-tag);
+      color: #060b13;
+      box-shadow: 0 0 16px var(--gold-glow);
     }
 
     .portal-footer {
@@ -374,7 +404,20 @@
         <div class="btn-portal">Join Server ➔</div>
       </a>
 
-      <!-- 5. WOS Calculator Suite -->
+      <!-- 5. Frost Star Top-Up & Beta Purchases (NEW) -->
+      <a href="payment.html" class="portal-card payment-card">
+        <div class="card-top">
+          <span class="card-icon">💳</span>
+          <span class="status-badge payment">● 25% Bonus + Re-Credit</span>
+        </div>
+        <div>
+          <h2 class="card-title">Frost Star Top-Up</h2>
+          <p class="card-desc">Official Stripe payment portal. All beta purchases include an extra 25% bonus and will be 100% re-credited at official launch.</p>
+        </div>
+        <div class="btn-portal">Purchase Stars ➔</div>
+      </a>
+
+      <!-- 6. WOS Calculator Suite -->
       <a href="calculator.html" class="portal-card">
         <div class="card-top">
           <span class="card-icon">🧮</span>
