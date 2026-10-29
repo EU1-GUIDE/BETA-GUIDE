@@ -6,13 +6,22 @@
   <title>EU1 BETA | Calculator Suite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  
+  <!-- Zero-Flicker Pre-Render Script: Applies active theme before paint -->
   <script>
-    if (localStorage.getItem('wos_theme') === 'halloween') {
-      document.documentElement.classList.add('halloween');
-    }
+    (function() {
+      const savedTheme = localStorage.getItem('wos_theme');
+      if (savedTheme && savedTheme !== 'frost') {
+        document.documentElement.classList.add(savedTheme);
+      }
+    })();
   </script>
+
   <style>
+    /* ========================================================
+       THEME 1: FROST REALM (DEFAULT ARCTIC BLUE / DARK ICE)
+       ======================================================== */
     :root {
       --bg-deep: #060b13;
       --bg-card: rgba(14, 26, 43, 0.85);
@@ -30,6 +39,29 @@
       --dawn-blue: #38bdf8;
     }
 
+    /* ========================================================
+       THEME 2: POLAR LIGHT (HIGH-CONTRAST ARCTIC DAY MODE)
+       ======================================================== */
+    body.polar, html.polar body {
+      --bg-deep: #ebf3f9;
+      --bg-card: rgba(255, 255, 255, 0.94);
+      --border-ice: rgba(2, 132, 199, 0.28);
+      --accent-frost: #0284c7;
+      --accent-glow: rgba(2, 132, 199, 0.25);
+      --text-main: #0c1e33;
+      --text-muted: #475569;
+      --gold-tag: #b45309;
+      --online-green: #15803d;
+      --fire-crystal: #ea580c;
+      --exalted: #7e22ce;
+      --widget: #d97706;
+      --pet-green: #059669;
+      --dawn-blue: #0284c7;
+    }
+
+    /* ========================================================
+       THEME 3: SPOOKY TUNDRA (HALLOWEEN / SHADOW ORANGE)
+       ======================================================== */
     body.halloween, html.halloween body {
       --bg-deep: #09060f;
       --bg-card: rgba(26, 16, 36, 0.88);
@@ -47,6 +79,46 @@
       --dawn-blue: #fb923c;
     }
 
+    /* ========================================================
+       THEME 4: HARVEST FEAST (THANKSGIVING / ROASTED AMBER)
+       ======================================================== */
+    body.harvest, html.harvest body {
+      --bg-deep: #140904;
+      --bg-card: rgba(36, 18, 10, 0.88);
+      --border-ice: rgba(249, 115, 22, 0.38);
+      --accent-frost: #f97316;
+      --accent-glow: rgba(249, 115, 22, 0.5);
+      --text-main: #fff3ea;
+      --text-muted: #bda08f;
+      --gold-tag: #eab308;
+      --online-green: #eab308;
+      --fire-crystal: #f97316;
+      --exalted: #c084fc;
+      --widget: #f59e0b;
+      --pet-green: #84cc16;
+      --dawn-blue: #fdba74;
+    }
+
+    /* ========================================================
+       THEME 5: FROST FESTIVAL (CHRISTMAS / HOLIDAY EVERGREEN)
+       ======================================================== */
+    body.holiday, html.holiday body {
+      --bg-deep: #06140d;
+      --bg-card: rgba(12, 36, 25, 0.88);
+      --border-ice: rgba(34, 197, 94, 0.35);
+      --accent-frost: #ef4444;
+      --accent-glow: rgba(239, 68, 68, 0.5);
+      --text-main: #f0fdf4;
+      --text-muted: #96beaa;
+      --gold-tag: #facc15;
+      --online-green: #22c55e;
+      --fire-crystal: #ef4444;
+      --exalted: #a855f7;
+      --widget: #fbbf24;
+      --pet-green: #22c55e;
+      --dawn-blue: #38bdf8;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg-deep);
@@ -56,6 +128,7 @@
       overflow-x: hidden;
       position: relative;
       padding-bottom: 70px;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     #snowCanvas {
@@ -86,6 +159,12 @@
       border-radius: 12px;
       backdrop-filter: blur(8px);
       margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    body.polar .top-badge-banner {
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
     }
 
     .back-nav-link {
@@ -96,17 +175,70 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: color 0.2s;
+    }
+    .back-nav-link:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    /* Styled 5-Theme Native Dropdown */
+    .theme-select-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
     }
 
-    .theme-toggle-btn {
+    .theme-select {
+      appearance: none;
+      -webkit-appearance: none;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-ice);
       color: var(--text-main);
-      padding: 6px 14px;
+      padding: 7px 32px 7px 14px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
+      outline: none;
+      transition: all 0.2s ease;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2356d4ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    body.polar .theme-select {
+      background-color: rgba(2, 132, 199, 0.08);
+      color: #0c1e33;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230284c7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    body.halloween .theme-select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ff8400' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    body.harvest .theme-select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    body.holiday .theme-select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    .theme-select:hover, .theme-select:focus {
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .theme-select option {
+      background: #060b13;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      padding: 6px;
+    }
+
+    body.polar .theme-select option {
+      background: #ffffff;
+      color: #0c1e33;
     }
 
     .hero-header {
@@ -118,14 +250,23 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
+    body.polar .hero-header {
+      background: radial-gradient(circle at center, rgba(2, 132, 199, 0.12) 0%, transparent 70%);
+      border: 1px solid rgba(2, 132, 199, 0.2);
+    }
+
     .hero-title {
       font-family: 'Cinzel', serif;
       font-size: 2.3rem;
       font-weight: 900;
       letter-spacing: 3px;
-      color: #fff;
+      color: var(--text-main);
       text-transform: uppercase;
       text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    body.polar .hero-title {
+      text-shadow: none;
     }
 
     .hero-subtitle {
@@ -154,6 +295,11 @@
       color: inherit;
       transition: all 0.25s ease;
       min-height: 220px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    body.polar .calc-card {
+      box-shadow: 0 4px 18px rgba(2, 132, 199, 0.08);
     }
 
     .calc-card:hover {
@@ -226,7 +372,7 @@
     }
     .status-badge.live-purple {
       background: rgba(168, 85, 247, 0.18);
-      color: #c084fc;
+      color: var(--exalted);
       border: 1px solid rgba(168, 85, 247, 0.35);
     }
     .status-badge.live-amber {
@@ -245,11 +391,18 @@
       border: 1px solid rgba(56, 189, 248, 0.35);
     }
 
+    body.polar .status-badge.live-fc { background: rgba(234, 88, 12, 0.12); border-color: var(--fire-crystal); }
+    body.polar .status-badge.live-blue { background: rgba(2, 132, 199, 0.12); border-color: var(--accent-frost); }
+    body.polar .status-badge.live-purple { background: rgba(126, 34, 206, 0.12); border-color: var(--exalted); }
+    body.polar .status-badge.live-amber { background: rgba(217, 119, 6, 0.12); border-color: var(--widget); }
+    body.polar .status-badge.live-green { background: rgba(5, 150, 105, 0.12); border-color: var(--pet-green); }
+    body.polar .status-badge.live-sky { background: rgba(2, 132, 199, 0.12); border-color: var(--dawn-blue); }
+
     .card-title {
       font-family: 'Cinzel', serif;
       font-size: 1.35rem;
       font-weight: 800;
-      color: #fff;
+      color: var(--text-main);
       margin-bottom: 8px;
     }
 
@@ -278,15 +431,29 @@
       transition: all 0.2s ease;
     }
 
+    body.polar .btn-calc {
+      background: rgba(2, 132, 199, 0.08);
+      color: var(--accent-frost);
+      border-color: var(--border-ice);
+    }
+
     .calc-card.fc-card .btn-calc {
       background: rgba(255, 94, 54, 0.2);
       border-color: rgba(255, 94, 54, 0.4);
       color: #ff9176;
     }
+    body.polar .calc-card.fc-card .btn-calc {
+      background: rgba(234, 88, 12, 0.1);
+      color: var(--fire-crystal);
+      border-color: rgba(234, 88, 12, 0.3);
+    }
     .calc-card.fc-card:hover .btn-calc {
       background: var(--fire-crystal);
       color: #040910;
       box-shadow: 0 0 14px rgba(255, 94, 54, 0.6);
+    }
+    body.polar .calc-card.fc-card:hover .btn-calc {
+      color: #ffffff;
     }
 
     .calc-card.gear-card .btn-calc {
@@ -294,16 +461,29 @@
       border-color: rgba(86, 212, 255, 0.4);
       color: #e8f5ff;
     }
+    body.polar .calc-card.gear-card .btn-calc {
+      background: rgba(2, 132, 199, 0.1);
+      color: var(--accent-frost);
+      border-color: rgba(2, 132, 199, 0.3);
+    }
     .calc-card.gear-card:hover .btn-calc {
       background: var(--accent-frost);
       color: #040910;
       box-shadow: 0 0 14px var(--accent-glow);
+    }
+    body.polar .calc-card.gear-card:hover .btn-calc {
+      color: #ffffff;
     }
 
     .calc-card.troop-card .btn-calc {
       background: rgba(168, 85, 247, 0.2);
       border-color: rgba(168, 85, 247, 0.4);
       color: #e9d5ff;
+    }
+    body.polar .calc-card.troop-card .btn-calc {
+      background: rgba(126, 34, 206, 0.1);
+      color: var(--exalted);
+      border-color: rgba(126, 34, 206, 0.3);
     }
     .calc-card.troop-card:hover .btn-calc {
       background: var(--exalted);
@@ -316,10 +496,18 @@
       border-color: rgba(245, 158, 11, 0.4);
       color: #fde68a;
     }
+    body.polar .calc-card.widget-card .btn-calc {
+      background: rgba(217, 119, 6, 0.1);
+      color: var(--widget);
+      border-color: rgba(217, 119, 6, 0.3);
+    }
     .calc-card.widget-card:hover .btn-calc {
       background: var(--widget);
       color: #040910;
       box-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
+    }
+    body.polar .calc-card.widget-card:hover .btn-calc {
+      color: #ffffff;
     }
 
     .calc-card.pet-card .btn-calc {
@@ -327,10 +515,18 @@
       border-color: rgba(16, 185, 129, 0.4);
       color: #a7f3d0;
     }
+    body.polar .calc-card.pet-card .btn-calc {
+      background: rgba(5, 150, 105, 0.1);
+      color: var(--pet-green);
+      border-color: rgba(5, 150, 105, 0.3);
+    }
     .calc-card.pet-card:hover .btn-calc {
       background: var(--pet-green);
       color: #040910;
       box-shadow: 0 0 14px rgba(16, 185, 129, 0.6);
+    }
+    body.polar .calc-card.pet-card:hover .btn-calc {
+      color: #ffffff;
     }
 
     .calc-card.dawn-card .btn-calc {
@@ -338,10 +534,18 @@
       border-color: rgba(56, 189, 248, 0.4);
       color: #bae6fd;
     }
+    body.polar .calc-card.dawn-card .btn-calc {
+      background: rgba(2, 132, 199, 0.1);
+      color: var(--dawn-blue);
+      border-color: rgba(2, 132, 199, 0.3);
+    }
     .calc-card.dawn-card:hover .btn-calc {
       background: var(--dawn-blue);
       color: #040910;
       box-shadow: 0 0 14px rgba(56, 189, 248, 0.6);
+    }
+    body.polar .calc-card.dawn-card:hover .btn-calc {
+      color: #ffffff;
     }
 
     .portal-footer {
@@ -359,9 +563,17 @@
   <div class="container">
     <header class="top-badge-banner">
       <a href="index.html" class="back-nav-link">← Portal Home</a>
-      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
-        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
-      </button>
+
+      <!-- 5-Theme Quick Switcher Dropdown -->
+      <div class="theme-select-wrapper">
+        <select id="themeSelect" class="theme-select" onchange="changeTheme(this.value)">
+          <option value="frost">❄️ Frost Realm (Default)</option>
+          <option value="polar">☀️ Polar Light (Day Mode)</option>
+          <option value="halloween">🎃 Spooky Tundra</option>
+          <option value="harvest">🦃 Harvest Feast</option>
+          <option value="holiday">🎄 Frost Festival</option>
+        </select>
+      </div>
     </header>
 
     <div class="hero-header">
@@ -371,7 +583,7 @@
 
     <main class="calc-grid">
       <!-- 1. Fire Crystals -->
-      <a href="calc-fire-crystals.html" class="calc-card fc-card">
+      <a href="calc-fire-crystal.html" class="calc-card fc-card">
         <div class="card-top">
           <span class="card-icon">🔥</span>
           <span class="status-badge live-fc">● Ready to Use</span>
@@ -423,7 +635,7 @@
       </a>
 
       <!-- 5. Beast Sanctuary & Pets -->
-      <a href="calc-pets.html" class="calc-card pet-card">
+      <a href="calc-beast.html" class="calc-card pet-card">
         <div class="card-top">
           <span class="card-icon">🐾</span>
           <span class="status-badge live-green">● Ready to Use</span>
@@ -436,7 +648,7 @@
       </a>
 
       <!-- 6. Dawn Academy Experts -->
-      <a href="calc-dawn-academy.html" class="calc-card dawn-card">
+      <a href="calc-dawn-experts.html" class="calc-card dawn-card">
         <div class="card-top">
           <span class="card-icon">📜</span>
           <span class="status-badge live-sky">● Ready to Use</span>
@@ -455,25 +667,45 @@
   </div>
 
   <script>
-    // Unified Persistent Theme
-    function applySavedTheme() {
-      const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
-      document.body.classList.toggle('halloween', isHalloween);
-      document.documentElement.classList.toggle('halloween', isHalloween);
-      const themeIcon = document.getElementById('themeIcon');
-      const themeText = document.getElementById('themeText');
-      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
-      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    // 5-Theme Persistent Dropdown Engine
+    const ALL_THEMES = ['frost', 'polar', 'halloween', 'harvest', 'holiday'];
+
+    function applyTheme(theme) {
+      ALL_THEMES.forEach(t => {
+        document.body.classList.remove(t);
+        document.documentElement.classList.remove(t);
+      });
+
+      if (theme && theme !== 'frost') {
+        document.body.classList.add(theme);
+        document.documentElement.classList.add(theme);
+      }
+
+      localStorage.setItem('wos_theme', theme);
+
+      const sel = document.getElementById('themeSelect');
+      if (sel) sel.value = theme;
     }
 
-    function toggleSpookyTheme() {
-      const isHalloween = document.body.classList.toggle('halloween');
-      document.documentElement.classList.toggle('halloween', isHalloween);
-      localStorage.setItem('wos_theme', isHalloween ? 'halloween' : 'frost');
-      const themeIcon = document.getElementById('themeIcon');
-      const themeText = document.getElementById('themeText');
-      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
-      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    function changeTheme(theme) {
+      applyTheme(theme);
+    }
+
+    function initThemeDropdown() {
+      const current = localStorage.getItem('wos_theme') || 'frost';
+      applyTheme(current);
+    }
+
+    // Snow particle tint dynamically matching each active theme
+    function getParticleColor() {
+      const current = localStorage.getItem('wos_theme') || 'frost';
+      switch (current) {
+        case 'polar': return 'rgba(2, 132, 199, 0.28)';
+        case 'halloween': return 'rgba(255, 140, 0, 0.4)';
+        case 'harvest': return 'rgba(245, 158, 11, 0.45)';
+        case 'holiday': return 'rgba(255, 255, 255, 0.65)';
+        default: return 'rgba(255, 255, 255, 0.45)';
+      }
     }
 
     // Lightweight 15-particle snow canvas
@@ -489,7 +721,7 @@
       }
       function drawSnow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)';
+        ctx.fillStyle = getParticleColor();
         ctx.beginPath();
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
@@ -508,7 +740,7 @@
       drawSnow();
     }
 
-    applySavedTheme();
+    initThemeDropdown();
   </script>
 </body>
 </html>
