@@ -6,7 +6,7 @@
   <title>EU1 BETA | Gift Code Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <script>
     if (localStorage.getItem('wos_theme') === 'halloween') {
       document.documentElement.classList.add('halloween');
@@ -24,6 +24,8 @@
       --gold-tag: #ffd166;
       --online-green: #00ff88;
       --discord-blurple: #5865f2;
+      --temp-amber: #f59e0b;
+      --temp-glow: rgba(245, 158, 11, 0.45);
     }
 
     body.halloween, html.halloween body {
@@ -37,6 +39,8 @@
       --gold-tag: #ffb703;
       --online-green: #ffb703;
       --discord-blurple: #ff7700;
+      --temp-amber: #fbbf24;
+      --temp-glow: rgba(251, 191, 36, 0.5);
     }
 
     * {
@@ -241,6 +245,13 @@
       transform: translateY(-2px);
     }
 
+    /* Temporary Code Highlight */
+    .code-card.temp-code {
+      border-color: var(--temp-amber);
+      background: radial-gradient(circle at top right, rgba(245, 158, 11, 0.12) 0%, rgba(14, 26, 43, 0.92) 80%);
+      box-shadow: 0 4px 18px var(--temp-glow);
+    }
+
     .card-meta-tag {
       font-size: 0.75rem;
       font-weight: 800;
@@ -253,6 +264,26 @@
       background: rgba(86, 212, 255, 0.15);
       color: var(--accent-frost);
       border: 1px solid rgba(86, 212, 255, 0.3);
+    }
+
+    .card-meta-tag.temp-tag {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--temp-amber);
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    .timer-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--temp-amber);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(4, 9, 16, 0.75);
+      padding: 4px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(245, 158, 11, 0.3);
     }
 
     .code-title {
@@ -287,6 +318,16 @@
       background: var(--accent-frost);
       color: #040910;
       box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .btn-copy-code.temp-btn {
+      border-color: rgba(245, 158, 11, 0.4);
+      color: var(--temp-amber);
+    }
+    .btn-copy-code.temp-btn:hover {
+      background: var(--temp-amber);
+      color: #040910;
+      box-shadow: 0 0 14px var(--temp-glow);
     }
 
     .no-results-card {
@@ -371,13 +412,27 @@
         </button>
       </div>
       <div class="filter-meta-bar">
-        <span>Available Codes: <span id="codeCount" class="count-badge">37</span></span>
+        <span>Available Codes: <span id="codeCount" class="count-badge">38</span></span>
         <span>Tap to Copy</span>
       </div>
     </div>
 
-    <!-- Verified 37 Gift Codes: Rendered Directly in DOM -->
+    <!-- Verified Gift Codes with Temporary Code at the Top -->
     <main class="codes-container" id="codesList">
+      
+      <!-- ⏳ TEMPORARY FLASH CODE: WWUHZSYM (Expires 2:00 AM CDT Tomorrow) -->
+      <div class="code-card temp-code" id="tempCodeCard" data-code="WWUHZSYM" data-expires="2026-10-30T02:00:00-05:00">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div class="card-meta-tag temp-tag">⏳ Limited-Time Flash Code</div>
+          <div class="timer-badge">
+            <span>⏱️</span> Expires: <span id="timerDisplay">Calculating...</span>
+          </div>
+        </div>
+        <div class="code-title">WWUHZSYM</div>
+        <button class="btn-copy-code temp-btn" onclick="copyCode('WWUHZSYM')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <!-- STANDARD VERIFIED CODES -->
       <div class="code-card" data-code="37D7652B5C">
         <div class="card-meta-tag">Gift Code</div>
         <div class="code-title">37D7652B5C</div>
@@ -622,7 +677,7 @@
 
       cards.forEach(card => {
         const code = card.getAttribute('data-code');
-        if (code.includes(query)) {
+        if (code && code.toUpperCase().includes(query)) {
           card.style.display = 'block';
           visibleCount++;
         } else {
@@ -682,6 +737,43 @@
 
       const allCodes = visibleCards.map(c => c.querySelector('.code-title').innerText.trim()).join('\n');
       copyTextToClipboard(allCodes, `Copied all ${visibleCards.length} codes!`);
+    }
+
+    // Live Expiration Timer Engine (Seconds Precision & Auto-Disappear)
+    function initCountdownTimer() {
+      const tempCard = document.getElementById('tempCodeCard');
+      const display = document.getElementById('timerDisplay');
+      if (!tempCard || !display) return;
+
+      const expiresTimestamp = new Date(tempCard.getAttribute('data-expires')).getTime();
+
+      function tick() {
+        const now = new Date().getTime();
+        const diff = expiresTimestamp - now;
+
+        if (diff <= 0) {
+          clearInterval(timerInterval);
+          // Smooth fade out and removal
+          tempCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          tempCard.style.opacity = '0';
+          tempCard.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            tempCard.remove();
+            filterCodes(); // Update counter badge
+          }, 500);
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const pad = (n) => String(n).padStart(2, '0');
+        display.innerText = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+      }
+
+      tick();
+      const timerInterval = setInterval(tick, 1000);
     }
 
     // Unified Persistent Theme Engine
@@ -752,6 +844,7 @@
     }
 
     applySavedTheme();
+    initCountdownTimer();
   </script>
 </body>
 </html>
