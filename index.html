@@ -6,13 +6,22 @@
   <title>EU1 BETA | Server Portal & Command Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  
+  <!-- Zero-Flicker Pre-Render Script: Applies active theme before paint -->
   <script>
-    if (localStorage.getItem('wos_theme') === 'halloween') {
-      document.documentElement.classList.add('halloween');
-    }
+    (function() {
+      const savedTheme = localStorage.getItem('wos_theme');
+      if (savedTheme && savedTheme !== 'frost') {
+        document.documentElement.classList.add(savedTheme);
+      }
+    })();
   </script>
+
   <style>
+    /* ========================================================
+       THEME 1: FROST REALM (DEFAULT ARCTIC BLUE / DARK ICE)
+       ======================================================== */
     :root {
       --bg-deep: #060b13;
       --bg-card: rgba(14, 26, 43, 0.82);
@@ -27,6 +36,26 @@
       --discord-blurple: #5865f2;
     }
 
+    /* ========================================================
+       THEME 2: POLAR LIGHT (HIGH-CONTRAST ARCTIC DAY MODE)
+       ======================================================== */
+    body.polar, html.polar body {
+      --bg-deep: #ebf3f9;
+      --bg-card: rgba(255, 255, 255, 0.94);
+      --border-ice: rgba(2, 132, 199, 0.28);
+      --accent-frost: #0284c7;
+      --accent-glow: rgba(2, 132, 199, 0.25);
+      --text-main: #0c1e33;
+      --text-muted: #475569;
+      --gold-tag: #b45309;
+      --gold-glow: rgba(180, 83, 9, 0.25);
+      --online-green: #15803d;
+      --discord-blurple: #4f46e5;
+    }
+
+    /* ========================================================
+       THEME 3: SPOOKY TUNDRA (HALLOWEEN / SHADOW ORANGE)
+       ======================================================== */
     body.halloween, html.halloween body {
       --bg-deep: #09060f;
       --bg-card: rgba(26, 16, 36, 0.88);
@@ -39,6 +68,40 @@
       --gold-glow: rgba(255, 183, 3, 0.5);
       --online-green: #ffb703;
       --discord-blurple: #ff7700;
+    }
+
+    /* ========================================================
+       THEME 4: HARVEST FEAST (THANKSGIVING / ROASTED AMBER)
+       ======================================================== */
+    body.harvest, html.harvest body {
+      --bg-deep: #140904;
+      --bg-card: rgba(36, 18, 10, 0.88);
+      --border-ice: rgba(249, 115, 22, 0.38);
+      --accent-frost: #f97316;
+      --accent-glow: rgba(249, 115, 22, 0.5);
+      --text-main: #fff3ea;
+      --text-muted: #bda08f;
+      --gold-tag: #eab308;
+      --gold-glow: rgba(234, 179, 8, 0.5);
+      --online-green: #eab308;
+      --discord-blurple: #d97706;
+    }
+
+    /* ========================================================
+       THEME 5: FROST FESTIVAL (CHRISTMAS / HOLIDAY EVERGREEN)
+       ======================================================== */
+    body.holiday, html.holiday body {
+      --bg-deep: #06140d;
+      --bg-card: rgba(12, 36, 25, 0.88);
+      --border-ice: rgba(34, 197, 94, 0.35);
+      --accent-frost: #ef4444;
+      --accent-glow: rgba(239, 68, 68, 0.5);
+      --text-main: #f0fdf4;
+      --text-muted: #96beaa;
+      --gold-tag: #facc15;
+      --gold-glow: rgba(250, 204, 21, 0.5);
+      --online-green: #22c55e;
+      --discord-blurple: #15803d;
     }
 
     * {
@@ -55,6 +118,7 @@
       overflow-x: hidden;
       position: relative;
       padding-bottom: 60px;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     #snowCanvas {
@@ -85,6 +149,12 @@
       border-radius: 12px;
       backdrop-filter: blur(8px);
       margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    body.polar .top-badge-banner {
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
     }
 
     .server-tag {
@@ -107,20 +177,66 @@
       box-shadow: 0 0 8px var(--online-green);
     }
 
-    .theme-toggle-btn {
+    /* Styled 5-Theme Native Dropdown */
+    .theme-select-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .theme-select {
+      appearance: none;
+      -webkit-appearance: none;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-ice);
       color: var(--text-main);
-      padding: 6px 14px;
+      padding: 7px 32px 7px 14px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      outline: none;
       transition: all 0.2s ease;
-      white-space: nowrap;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2356d4ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    body.polar .theme-select {
+      background-color: rgba(2, 132, 199, 0.08);
+      color: #0c1e33;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230284c7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    body.halloween .theme-select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ff8400' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    body.harvest .theme-select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    body.holiday .theme-select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    .theme-select:hover, .theme-select:focus {
+      border-color: var(--accent-frost);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .theme-select option {
+      background: #060b13;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      padding: 6px;
+    }
+
+    body.polar .theme-select option {
+      background: #ffffff;
+      color: #0c1e33;
     }
 
     .hero-header {
@@ -132,12 +248,17 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
+    body.polar .hero-header {
+      background: radial-gradient(circle at center, rgba(2, 132, 199, 0.12) 0%, transparent 70%);
+      border: 1px solid rgba(2, 132, 199, 0.2);
+    }
+
     .hero-title {
       font-family: 'Cinzel', serif;
       font-size: 2.3rem;
       font-weight: 900;
       letter-spacing: 3px;
-      color: #fff;
+      color: var(--text-main);
       text-transform: uppercase;
       text-shadow: 0 0 16px var(--accent-glow);
     }
@@ -169,6 +290,11 @@
       transition: all 0.25s ease;
       position: relative;
       min-height: 220px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    body.polar .portal-card {
+      box-shadow: 0 4px 18px rgba(2, 132, 199, 0.08);
     }
 
     .portal-card:hover {
@@ -184,7 +310,7 @@
 
     .portal-card.payment-card {
       border-color: rgba(255, 209, 102, 0.35);
-      background: linear-gradient(135deg, rgba(255, 209, 102, 0.08) 0%, rgba(14, 26, 43, 0.9) 100%);
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.08) 0%, var(--bg-card) 100%);
     }
 
     .portal-card.payment-card:hover {
@@ -214,14 +340,14 @@
 
     .status-badge.live {
       background: rgba(0, 255, 136, 0.15);
-      color: #00ff88;
-      border: 1px solid rgba(0, 255, 136, 0.3);
+      color: var(--online-green);
+      border: 1px solid var(--online-green);
     }
 
     .status-badge.faq {
       background: rgba(86, 212, 255, 0.15);
       color: var(--accent-frost);
-      border: 1px solid rgba(86, 212, 255, 0.3);
+      border: 1px solid var(--accent-frost);
     }
 
     .status-badge.discord {
@@ -230,17 +356,23 @@
       border: 1px solid rgba(88, 101, 242, 0.35);
     }
 
+    body.polar .status-badge.discord {
+      color: var(--discord-blurple);
+      border-color: var(--discord-blurple);
+      background: rgba(79, 70, 229, 0.1);
+    }
+
     .status-badge.payment {
       background: rgba(255, 209, 102, 0.18);
       color: var(--gold-tag);
-      border: 1px solid rgba(255, 209, 102, 0.4);
+      border: 1px solid var(--gold-tag);
     }
 
     .card-title {
       font-family: 'Cinzel', serif;
       font-size: 1.35rem;
       font-weight: 800;
-      color: #fff;
+      color: var(--text-main);
       margin-bottom: 8px;
       letter-spacing: 1px;
     }
@@ -271,16 +403,34 @@
       cursor: pointer;
     }
 
+    body.polar .btn-portal {
+      background: rgba(2, 132, 199, 0.08);
+      color: var(--accent-frost);
+      border-color: var(--border-ice);
+    }
+
     .portal-card:hover .btn-portal {
       background: var(--accent-frost);
       color: #040910;
       box-shadow: 0 0 14px var(--accent-glow);
     }
 
+    body.polar .portal-card:hover .btn-portal {
+      background: var(--accent-frost);
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(2, 132, 199, 0.35);
+    }
+
     .portal-card.discord-card .btn-portal {
       background: rgba(88, 101, 242, 0.22);
       border-color: rgba(88, 101, 242, 0.45);
       color: #e0e4ff;
+    }
+
+    body.polar .portal-card.discord-card .btn-portal {
+      background: rgba(79, 70, 229, 0.1);
+      color: var(--discord-blurple);
+      border-color: rgba(79, 70, 229, 0.3);
     }
 
     .portal-card.discord-card:hover .btn-portal {
@@ -341,9 +491,17 @@
         <span class="pulse-dot"></span>
         EU1 BETA REALM
       </div>
-      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
-        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
-      </button>
+      
+      <!-- 5-Theme Quick Switcher Dropdown -->
+      <div class="theme-select-wrapper">
+        <select id="themeSelect" class="theme-select" onchange="changeTheme(this.value)">
+          <option value="frost">❄️ Frost Realm (Default)</option>
+          <option value="polar">☀️ Polar Light (Day Mode)</option>
+          <option value="halloween">🎃 Spooky Tundra</option>
+          <option value="harvest">🦃 Harvest Feast</option>
+          <option value="holiday">🎄 Frost Festival</option>
+        </select>
+      </div>
     </header>
 
     <div class="hero-header">
@@ -404,7 +562,7 @@
         <div class="btn-portal">Join Server ➔</div>
       </a>
 
-      <!-- 5. Frost Star Top-Up & Beta Purchases (NEW) -->
+      <!-- 5. Frost Star Top-Up & Beta Purchases -->
       <a href="payment.html" class="portal-card payment-card">
         <div class="card-top">
           <span class="card-icon">💳</span>
@@ -443,25 +601,44 @@
   </div>
 
   <script>
-    // Unified Persistent Theme Engine
-    function applySavedTheme() {
-      const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
-      document.body.classList.toggle('halloween', isHalloween);
-      document.documentElement.classList.toggle('halloween', isHalloween);
-      const themeIcon = document.getElementById('themeIcon');
-      const themeText = document.getElementById('themeText');
-      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
-      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    const ALL_THEMES = ['frost', 'polar', 'halloween', 'harvest', 'holiday'];
+
+    function applyTheme(theme) {
+      ALL_THEMES.forEach(t => {
+        document.body.classList.remove(t);
+        document.documentElement.classList.remove(t);
+      });
+
+      if (theme && theme !== 'frost') {
+        document.body.classList.add(theme);
+        document.documentElement.classList.add(theme);
+      }
+
+      localStorage.setItem('wos_theme', theme);
+
+      const sel = document.getElementById('themeSelect');
+      if (sel) sel.value = theme;
     }
 
-    function toggleSpookyTheme() {
-      const isHalloween = document.body.classList.toggle('halloween');
-      document.documentElement.classList.toggle('halloween', isHalloween);
-      localStorage.setItem('wos_theme', isHalloween ? 'halloween' : 'frost');
-      const themeIcon = document.getElementById('themeIcon');
-      const themeText = document.getElementById('themeText');
-      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
-      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    function changeTheme(theme) {
+      applyTheme(theme);
+    }
+
+    function initThemeDropdown() {
+      const current = localStorage.getItem('wos_theme') || 'frost';
+      applyTheme(current);
+    }
+
+    // Snow particle tint dynamically matching each active theme
+    function getParticleColor() {
+      const current = localStorage.getItem('wos_theme') || 'frost';
+      switch (current) {
+        case 'polar': return 'rgba(2, 132, 199, 0.28)';
+        case 'halloween': return 'rgba(255, 140, 0, 0.4)';
+        case 'harvest': return 'rgba(245, 158, 11, 0.45)';
+        case 'holiday': return 'rgba(255, 255, 255, 0.65)';
+        default: return 'rgba(255, 255, 255, 0.45)';
+      }
     }
 
     // High performance snow canvas
@@ -488,7 +665,7 @@
 
       function drawSnow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.4)' : 'rgba(255, 255, 255, 0.45)';
+        ctx.fillStyle = getParticleColor();
         ctx.beginPath();
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
@@ -510,7 +687,7 @@
       drawSnow();
     }
 
-    applySavedTheme();
+    initThemeDropdown();
   </script>
 </body>
 </html>
