@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU1 BETA | Official Top-Up & Launch Credit Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script>
+    if (localStorage.getItem('wos_theme') === 'halloween') {
+      document.documentElement.classList.add('halloween');
+    }
+  </script>
+  <style>
+    :root {
+      --bg-deep: #060b13;
+      --bg-card: rgba(14, 26, 43, 0.88);
+      --border-ice: rgba(120, 210, 255, 0.28);
+      --accent-frost: #56d4ff;
+      --accent-glow: rgba(86, 212, 255, 0.45);
+      --text-main: #e8f5ff;
+      --text-muted: #8ca3be;
+      --gold-tag: #ffd166;
+      --gold-glow: rgba(255, 209, 102, 0.4);
+      --bonus-cyan: #38bdf8;
+      --stripe-blue: #635bff;
+      --stripe-hover: #7a73ff;
+      --success-green: #00ff88;
+    }
+
+    body.halloween, html.halloween body {
+      --bg-deep: #09060f;
+      --bg-card: rgba(26, 16, 36, 0.88);
+      --border-ice: rgba(255, 123, 0, 0.4);
+      --accent-frost: #ff8400;
+      --accent-glow: rgba(255, 132, 0, 0.5);
+      --text-main: #fff2e0;
+      --text-muted: #ad94a8;
+      --gold-tag: #ffb703;
+      --gold-glow: rgba(255, 183, 3, 0.5);
+      --bonus-cyan: #fb923c;
+      --stripe-blue: #ff7700;
+      --stripe-hover: #ff9124;
+      --success-green: #ffb703;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(94vw, 920px);
+      margin: 0 auto;
+      padding: 16px 8px;
+    }
+
+    .top-badge-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      padding: 10px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+    }
+
+    .back-nav-link {
+      color: var(--accent-frost);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .back-nav-link:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 24px 16px;
+      margin-bottom: 24px;
+      border-radius: 16px;
+      background: radial-gradient(circle at center, rgba(255, 209, 102, 0.12) 0%, transparent 75%);
+      border: 1px solid rgba(255, 209, 102, 0.25);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 209, 102, 0.15);
+      color: var(--gold-tag);
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.3rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-top: 6px;
+    }
+
+    /* VIP Double-Credit Announcement Callout */
+    .announcement-card {
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.12) 0%, rgba(14, 26, 43, 0.95) 100%);
+      border: 2px solid var(--gold-tag);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 28px var(--gold-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .announcement-card::before {
+      content: '🔥 100% RE-CREDITED AT LAUNCH';
+      position: absolute;
+      top: 14px;
+      right: -30px;
+      background: var(--gold-tag);
+      color: #060b13;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      padding: 4px 35px;
+      transform: rotate(25deg);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+
+    .ann-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--gold-tag);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ann-text {
+      color: var(--text-main);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .ann-highlight-box {
+      background: rgba(4, 9, 16, 0.75);
+      border: 1px solid var(--border-ice);
+      border-radius: 12px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .hl-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hl-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+    .hl-value { font-family: 'Share Tech Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--bonus-cyan); }
+    .hl-value.launch { color: var(--gold-tag); }
+
+    /* Interactive Estimator */
+    .estimator-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 22px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .estimator-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent-frost);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .selector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .styled-select, .styled-input {
+      width: 100%;
+      height: 46px;
+      background: rgba(4, 9, 16, 0.85);
+      border: 1px solid var(--border-ice);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0 14px;
+      outline: none;
+    }
+    .styled-select:focus, .styled-input:focus {
+      border-color: var(--gold-tag);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    /* Checkout Master CTA */
+    .checkout-cta-box {
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(99, 91, 255, 0.18) 0%, rgba(14, 26, 43, 0.95) 75%);
+      border: 2px solid var(--stripe-blue);
+      border-radius: 16px;
+      padding: 28px 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 30px rgba(99, 91, 255, 0.35);
+    }
+
+    .checkout-cta-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .checkout-cta-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 580px;
+      margin: 0 auto 20px;
+      line-height: 1.5;
+    }
+
+    .btn-stripe-pay {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--stripe-blue);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      padding: 16px 36px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 6px 25px rgba(99, 91, 255, 0.5);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .btn-stripe-pay:hover {
+      background: var(--stripe-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(99, 91, 255, 0.7);
+    }
+
+    /* Visual Showcase Cards for Uploaded Images */
+    .showcase-section {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      margin-bottom: 30px;
+    }
+
+    .showcase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .showcase-header {
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 10px;
+    }
+
+    .showcase-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .showcase-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .showcase-img-wrapper {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-ice);
+      background: #040910;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .showcase-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+    .showcase-img:hover {
+      transform: scale(1.02);
+    }
+
+    .portal-footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="snowCanvas"></canvas>
+
+  <div class="container">
+    <header class="top-badge-banner">
+      <a href="index.html" class="back-nav-link">← Portal Home</a>
+      <button class="theme-toggle-btn" id="themeBtn" onclick="toggleSpookyTheme()">
+        <span id="themeIcon">🎃</span> <span id="themeText">Spooky Tundra</span>
+      </button>
+    </header>
+
+    <div class="hero-header">
+      <div class="hero-badge">Official Store • Beta Guarantee</div>
+      <h1 class="hero-title">FROST STAR TOP-UP</h1>
+      <p class="hero-subtitle">Beta Purchases Double-Credited at Official Launch • Exclusive 25% Bonus Active</p>
+    </div>
+
+    <!-- 1. VIP ANNOUNCEMENT: ALL BETA PURCHASES RE-CREDITED -->
+    <section class="announcement-card">
+      <h2 class="ann-heading">
+        <span>⭐</span> IMPORTANT: ALL BETA PURCHASES CREDITED AGAIN!
+      </h2>
+      <p class="ann-text">
+        All Frost Stars purchased during this beta testing period—<strong>including the full 25% extra bonus</strong>—will be 
+        <strong>credited a second time to your account</strong> when the official version of WOS Europe launches!
+      </p>
+
+      <div class="ann-highlight-box">
+        <div class="hl-item">
+          <span class="hl-title">Example Purchase:</span>
+          <span class="hl-value">600,000 Frost Stars ($389.99)</span>
+        </div>
+        <div class="hl-item">
+          <span class="hl-title">Instant Beta Delivery (+25%):</span>
+          <span class="hl-value">750,000 Frost Stars (Now)</span>
+        </div>
+        <div class="hl-item">
+          <span class="hl-title">Official Launch Delivery:</span>
+          <span class="hl-value launch">ANOTHER 750,000 Stars!</span>
+        </div>
+      </div>
+
+      <p class="ann-text" style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0;">
+        🛡️ <em>You can spend and enjoy your packages right now during beta without hesitation; you receive their 100% full value again (plus bonus) when official service commences.</em>
+      </p>
+    </section>
+
+    <!-- 2. QUICK FROST STAR & LAUNCH RETURN CALCULATOR -->
+    <section class="estimator-card">
+      <h3 class="estimator-title">🧮 Calculate Your Beta & Launch Return</h3>
+      <div class="selector-grid">
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Select Pack</label>
+          <select id="calcPackSelect" class="styled-select" onchange="updateEstimator()">
+            <option value="600000" data-price="389.99" selected>600,000 Stars ($389.99)</option>
+            <option value="300000" data-price="199.99">300,000 Stars ($199.99)</option>
+            <option value="150000" data-price="99.99">150,000 Stars ($99.99)</option>
+            <option value="75000" data-price="49.99">75,000 Stars ($49.99)</option>
+            <option value="30000" data-price="19.99">30,000 Stars ($19.99)</option>
+            <option value="15000" data-price="9.99">15,000 Stars ($9.99)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">During Beta (w/ 25% Bonus)</label>
+          <input type="text" id="calcBetaStars" class="styled-input" readonly value="750,000 Stars" style="color:var(--bonus-cyan);">
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">At Official Launch (100% Re-Credit)</label>
+          <input type="text" id="calcLaunchStars" class="styled-input" readonly value="+750,000 Stars" style="color:var(--gold-tag);">
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. STRIPE SECURE CHECKOUT CTA -->
+    <section class="checkout-cta-box">
+      <h2 class="checkout-cta-title">SECURE OFFICIAL CHECKOUT</h2>
+      <p class="checkout-cta-subtitle">
+        Purchases are securely processed through Stripe. Please enter your In-Game Name (IGN) and Player ID (FID) at checkout so automated delivery can dispatch to your mailbox.
+      </p>
+      <a href="https://buy.stripe.com/3cI4gAeaJbL1aRt5kS24000" target="_blank" rel="noopener noreferrer" class="btn-stripe-pay">
+        <span>💳</span> PROCEED TO STRIPE CHECKOUT
+      </a>
+    </section>
+
+    <!-- 4. VISUAL SHOWCASES: FROSTPACKS & CUMULATIVE TOP-UP REWARDS -->
+    <div class="showcase-section">
+      <!-- Card A: Frost Packs -->
+      <article class="showcase-card">
+        <header class="showcase-header">
+          <h3 class="showcase-title"><span>❄️</span> Available Frost Star Packages</h3>
+          <p class="showcase-desc">Official package tiers and base values currently available in the top-up store.</p>
+        </header>
+        <div class="showcase-img-wrapper">
+          <img src="FrostPacks.png" alt="Available Frost Star Packages" class="showcase-img" onerror="this.onerror=null; this.src='images/FrostPacks.png';">
+        </div>
+      </article>
+
+      <!-- Card B: Cumulative Top-Up Rewards -->
+      <article class="showcase-card">
+        <header class="showcase-header">
+          <h3 class="showcase-title"><span>🎁</span> Cumulative Top-Up Rewards</h3>
+          <p class="showcase-desc">
+            Every qualifying purchase made during beta counts toward your cumulative milestone spending tiers. 
+            All milestone reward tiers will be distributed to your account directly after the official launch!
+          </p>
+        </header>
+        <div class="showcase-img-wrapper">
+          <img src="Cumulative.png" alt="Cumulative Top-Up Rewards Milestone Table" class="showcase-img" onerror="this.onerror=null; this.src='images/Cumulative.png';">
+        </div>
+      </article>
+    </div>
+
+    <!-- 5. FINAL RE-CREDIT CHECKOUT REMINDER -->
+    <div style="text-align: center; margin-top: 10px;">
+      <a href="https://buy.stripe.com/3cI4gAeaJbL1aRt5kS24000" target="_blank" rel="noopener noreferrer" class="btn-stripe-pay" style="font-size: 1.05rem; padding: 12px 28px;">
+        <span>💳</span> Buy Frost Stars Now
+      </a>
+    </div>
+
+    <footer class="portal-footer">
+      EU1 BETA SERVER • WOS EUROPE OFFICIAL SUPPORT
+    </footer>
+  </div>
+
+  <script>
+    // Frost Star Interactive Estimator
+    function updateEstimator() {
+      const select = document.getElementById('calcPackSelect');
+      const baseStars = parseInt(select.value, 10);
+      const bonus = Math.round(baseStars * 0.25);
+      const totalPerDelivery = baseStars + bonus;
+
+      document.getElementById('calcBetaStars').value = `${totalPerDelivery.toLocaleString()} Stars`;
+      document.getElementById('calcLaunchStars').value = `+${totalPerDelivery.toLocaleString()} Stars`;
+    }
+
+    // Unified Persistent Theme Engine
+    function applySavedTheme() {
+      const isHalloween = localStorage.getItem('wos_theme') === 'halloween';
+      document.body.classList.toggle('halloween', isHalloween);
+      document.documentElement.classList.toggle('halloween', isHalloween);
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
+      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    function toggleSpookyTheme() {
+      const isHalloween = document.body.classList.toggle('halloween');
+      document.documentElement.classList.toggle('halloween', isHalloween);
+      localStorage.setItem('wos_theme', isHalloween ? 'halloween' : 'frost');
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (themeIcon) themeIcon.innerText = isHalloween ? '❄️' : '🎃';
+      if (themeText) themeText.innerText = isHalloween ? 'Frost Mode' : 'Spooky Tundra';
+    }
+
+    // Snow canvas background
+    const canvas = document.getElementById('snowCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let flakes = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      for (let i = 0; i < 22; i++) {
+        flakes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 2 + 1,
+          d: Math.random() + 0.35
+        });
+      }
+
+      function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = document.body.classList.contains('halloween') ? 'rgba(255, 140, 0, 0.35)' : 'rgba(255, 255, 255, 0.4)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.y += f.d;
+          f.x += Math.sin(f.y / 25) * 0.3;
+          if (f.y > canvas.height) {
+            flakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+          }
+        }
+        requestAnimationFrame(drawSnow);
+      }
+      drawSnow();
+    }
+
+    applySavedTheme();
+    updateEstimator();
+  </script>
+</body>
+</html>
