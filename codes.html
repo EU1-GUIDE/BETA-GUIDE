@@ -619,24 +619,60 @@
         </button>
       </div>
       <div class="filter-meta-bar">
-        <span>Available Codes: <span id="codeCount" class="count-badge">38</span></span>
+        <span>Available Codes: <span id="codeCount" class="count-badge">41</span></span>
         <span>Tap to Copy</span>
       </div>
     </div>
 
-    <!-- Verified Gift Codes with Temporary Code at the Top -->
+    <!-- Verified Gift Codes with Flash & Timed Codes at the Top -->
     <main class="codes-container" id="codesList">
       
-      <!-- ⏳ TEMPORARY FLASH CODE: WWUHZSYM (Expires 2:00 AM CDT Tomorrow) -->
-      <div class="code-card temp-code" id="tempCodeCard" data-code="WWUHZSYM" data-expires="2026-10-30T02:00:00-05:00">
+      <!-- ⏳ 24-HOUR FLASH CODE: XHCBPWFAUN (Expires 3:00 AM CDT Tomorrow) -->
+      <div class="code-card temp-code" data-code="XHCBPWFAUN" data-expires="2026-10-31T03:00:00-05:00">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-          <div class="card-meta-tag temp-tag">⏳ Limited-Time Flash Code</div>
+          <div class="card-meta-tag temp-tag">⏳ 24h Flash Code</div>
           <div class="timer-badge">
-            <span>⏱️</span> Expires: <span id="timerDisplay">Calculating...</span>
+            <span>⏱️</span> Expires: <span class="timer-display">Calculating...</span>
           </div>
         </div>
-        <div class="code-title">WWUHZSYM</div>
-        <button class="btn-copy-code temp-btn" onclick="copyCode('WWUHZSYM')"><span>📋</span> Copy Code</button>
+        <div class="code-title">XHCBPWFAUN</div>
+        <button class="btn-copy-code temp-btn" onclick="copyCode('XHCBPWFAUN')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <!-- ⏳ 7-DAY TIMED CODE: EAWEGKHDSY -->
+      <div class="code-card temp-code" data-code="EAWEGKHDSY" data-expires="2026-11-06T03:00:00-06:00">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div class="card-meta-tag temp-tag">⏳ 7-Day Timed Code</div>
+          <div class="timer-badge">
+            <span>⏱️</span> Expires: <span class="timer-display">Calculating...</span>
+          </div>
+        </div>
+        <div class="code-title">EAWEGKHDSY</div>
+        <button class="btn-copy-code temp-btn" onclick="copyCode('EAWEGKHDSY')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <!-- ⏳ 7-DAY TIMED CODE: KDQXZYTTXE -->
+      <div class="code-card temp-code" data-code="KDQXZYTTXE" data-expires="2026-11-06T03:00:00-06:00">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div class="card-meta-tag temp-tag">⏳ 7-Day Timed Code</div>
+          <div class="timer-badge">
+            <span>⏱️</span> Expires: <span class="timer-display">Calculating...</span>
+          </div>
+        </div>
+        <div class="code-title">KDQXZYTTXE</div>
+        <button class="btn-copy-code temp-btn" onclick="copyCode('KDQXZYTTXE')"><span>📋</span> Copy Code</button>
+      </div>
+
+      <!-- ⏳ 7-DAY TIMED CODE: VRXGWQPJKF -->
+      <div class="code-card temp-code" data-code="VRXGWQPJKF" data-expires="2026-11-06T03:00:00-06:00">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div class="card-meta-tag temp-tag">⏳ 7-Day Timed Code</div>
+          <div class="timer-badge">
+            <span>⏱️</span> Expires: <span class="timer-display">Calculating...</span>
+          </div>
+        </div>
+        <div class="code-title">VRXGWQPJKF</div>
+        <button class="btn-copy-code temp-btn" onclick="copyCode('VRXGWQPJKF')"><span>📋</span> Copy Code</button>
       </div>
 
       <!-- STANDARD VERIFIED CODES -->
@@ -946,40 +982,51 @@
       copyTextToClipboard(allCodes, `Copied all ${visibleCards.length} codes!`);
     }
 
-    // Live Expiration Timer Engine (Seconds Precision & Auto-Disappear)
+    // Live Expiration Timer Engine (Handles multiple cards with precision)
     function initCountdownTimer() {
-      const tempCard = document.getElementById('tempCodeCard');
-      const display = document.getElementById('timerDisplay');
-      if (!tempCard || !display) return;
-
-      const expiresTimestamp = new Date(tempCard.getAttribute('data-expires')).getTime();
+      const tempCards = document.querySelectorAll('.code-card[data-expires]');
+      if (!tempCards.length) return;
 
       function tick() {
         const now = new Date().getTime();
-        const diff = expiresTimestamp - now;
 
-        if (diff <= 0) {
-          clearInterval(timerInterval);
-          tempCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-          tempCard.style.opacity = '0';
-          tempCard.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            tempCard.remove();
-            filterCodes();
-          }, 500);
-          return;
-        }
+        tempCards.forEach(card => {
+          const expiresStr = card.getAttribute('data-expires');
+          if (!expiresStr) return;
 
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+          const expiresTimestamp = new Date(expiresStr).getTime();
+          const diff = expiresTimestamp - now;
+          const display = card.querySelector('.timer-display');
 
-        const pad = (n) => String(n).padStart(2, '0');
-        display.innerText = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+          if (diff <= 0) {
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              card.remove();
+              filterCodes();
+            }, 500);
+            return;
+          }
+
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          const pad = (n) => String(n).padStart(2, '0');
+          if (display) {
+            if (days > 0) {
+              display.innerText = `${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+            } else {
+              display.innerText = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+            }
+          }
+        });
       }
 
       tick();
-      const timerInterval = setInterval(tick, 1000);
+      setInterval(tick, 1000);
     }
 
     // 5-Theme Persistent Dropdown Engine
@@ -1071,6 +1118,7 @@
 
     initThemeDropdown();
     initCountdownTimer();
+    filterCodes(); // Auto-count on load
   </script>
 </body>
 </html>
