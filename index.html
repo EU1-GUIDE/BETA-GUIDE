@@ -34,6 +34,8 @@
       --gold-glow: rgba(255, 209, 102, 0.4);
       --online-green: #00ff88;
       --discord-blurple: #5865f2;
+      --tiktok-pink: #fe2c55;
+      --tiktok-cyan: #25f4ee;
     }
 
     /* ========================================================
@@ -51,6 +53,8 @@
       --gold-glow: rgba(180, 83, 9, 0.25);
       --online-green: #15803d;
       --discord-blurple: #4f46e5;
+      --tiktok-pink: #e11d48;
+      --tiktok-cyan: #0284c7;
     }
 
     /* ========================================================
@@ -68,6 +72,8 @@
       --gold-glow: rgba(255, 183, 3, 0.5);
       --online-green: #ffb703;
       --discord-blurple: #ff7700;
+      --tiktok-pink: #ff0055;
+      --tiktok-cyan: #00f2fe;
     }
 
     /* ========================================================
@@ -85,6 +91,8 @@
       --gold-glow: rgba(234, 179, 8, 0.5);
       --online-green: #eab308;
       --discord-blurple: #d97706;
+      --tiktok-pink: #f43f5e;
+      --tiktok-cyan: #38bdf8;
     }
 
     /* ========================================================
@@ -102,6 +110,8 @@
       --gold-glow: rgba(250, 204, 21, 0.5);
       --online-green: #22c55e;
       --discord-blurple: #15803d;
+      --tiktok-pink: #ef4444;
+      --tiktok-cyan: #22c55e;
     }
 
     * {
@@ -261,6 +271,10 @@
       color: var(--text-main);
       text-transform: uppercase;
       text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    body.polar .hero-title {
+      text-shadow: none;
     }
 
     .hero-subtitle {
@@ -451,6 +465,180 @@
       box-shadow: 0 0 16px var(--gold-glow);
     }
 
+    /* Standalone Media & Action Cards Section */
+    .action-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .standalone-action-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 16px;
+      padding: 20px 22px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      transition: all 0.25s ease;
+    }
+
+    body.polar .standalone-action-card {
+      box-shadow: 0 4px 18px rgba(2, 132, 199, 0.08);
+    }
+
+    .card-tiktok {
+      border-color: rgba(254, 44, 85, 0.35);
+      background: linear-gradient(135deg, rgba(254, 44, 85, 0.08) 0%, rgba(37, 244, 238, 0.05) 100%), var(--bg-card);
+    }
+
+    body.polar .card-tiktok {
+      background: linear-gradient(135deg, rgba(225, 29, 72, 0.06) 0%, rgba(2, 132, 199, 0.06) 100%), #ffffff;
+      border-color: rgba(225, 29, 72, 0.3);
+    }
+
+    .card-tiktok:hover {
+      border-color: rgba(254, 44, 85, 0.7);
+      box-shadow: 0 6px 24px rgba(254, 44, 85, 0.25);
+    }
+
+    .card-share {
+      border-color: var(--border-ice);
+    }
+
+    .card-share:hover {
+      border-color: var(--accent-frost);
+      box-shadow: 0 6px 24px var(--accent-glow);
+    }
+
+    .action-card-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .action-card-icon {
+      font-size: 2.2rem;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+    }
+
+    .card-tiktok .action-card-icon {
+      filter: drop-shadow(0 0 8px rgba(254, 44, 85, 0.5));
+    }
+
+    .action-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: 1px;
+    }
+
+    .action-card-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 3px;
+    }
+
+    .btn-action-pill {
+      padding: 13px 26px;
+      border-radius: 10px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-tiktok-pill {
+      background: linear-gradient(135deg, rgba(254, 44, 85, 0.25) 0%, rgba(37, 244, 238, 0.2) 100%);
+      border: 1px solid rgba(254, 44, 85, 0.5);
+      color: #fff;
+    }
+
+    body.polar .btn-tiktok-pill {
+      background: linear-gradient(135deg, rgba(225, 29, 72, 0.12) 0%, rgba(2, 132, 199, 0.12) 100%);
+      color: #0c1e33;
+      border-color: rgba(225, 29, 72, 0.4);
+    }
+
+    .btn-tiktok-pill:hover {
+      background: linear-gradient(135deg, #fe2c55 0%, #25f4ee 100%);
+      color: #060b13;
+      box-shadow: 0 0 18px rgba(254, 44, 85, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-share-pill {
+      background: rgba(18, 38, 62, 0.85);
+      border: 1px solid var(--border-ice);
+      color: var(--accent-frost);
+    }
+
+    body.polar .btn-share-pill {
+      background: rgba(2, 132, 199, 0.08);
+      color: var(--accent-frost);
+      border-color: var(--border-ice);
+    }
+
+    .btn-share-pill:hover {
+      background: var(--accent-frost);
+      color: #040910;
+      box-shadow: 0 0 16px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    body.polar .btn-share-pill:hover {
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(6, 11, 19, 0.95);
+      border: 1px solid var(--online-green);
+      color: #00ff88;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      pointer-events: none;
+    }
+
+    body.polar .toast-popup {
+      background: #ffffff;
+      color: #15803d;
+      border-color: #15803d;
+      box-shadow: 0 4px 20px rgba(21, 128, 61, 0.25);
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
     .portal-footer {
       text-align: center;
       margin-top: 36px;
@@ -478,6 +666,12 @@
       height: 20px;
       border-radius: 4px;
       vertical-align: middle;
+    }
+
+    @media (max-width: 600px) {
+      .btn-action-pill {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -589,6 +783,37 @@
       </a>
     </main>
 
+    <!-- Standalone Media & Sharing Section -->
+    <section class="action-cards-stack">
+      <!-- Card A: TikTok Community Showcase -->
+      <article class="standalone-action-card card-tiktok">
+        <div class="action-card-left">
+          <span class="action-card-icon">🎬</span>
+          <div>
+            <h3 class="action-card-title">SEE EU1 FOOTAGE IN ACTION</h3>
+            <p class="action-card-desc">Watch high-tier PvP battles, rally gameplay, and server highlights on TikTok.</p>
+          </div>
+        </div>
+        <a href="https://www.tiktok.com/@monstrosity13?_r=1&_t=ZT-9B2fE6ks8xq" target="_blank" rel="noopener noreferrer" class="btn-action-pill btn-tiktok-pill">
+          <span>📱</span> Watch on TikTok
+        </a>
+      </article>
+
+      <!-- Card B: Standalone Share This Site -->
+      <article class="standalone-action-card card-share">
+        <div class="action-card-left">
+          <span class="action-card-icon">🌐</span>
+          <div>
+            <h3 class="action-card-title">SHARE THIS SITE</h3>
+            <p class="action-card-desc">Send the EU1 toolkit, gift codes, and calculators directly to your alliance members.</p>
+          </div>
+        </div>
+        <button type="button" class="btn-action-pill btn-share-pill" onclick="shareSiteLink()">
+          <span>🔗</span> Share This Site
+        </button>
+      </article>
+    </section>
+
     <footer class="portal-footer">
       <div class="visitor-badge-container">
         <img 
@@ -600,7 +825,57 @@
     </footer>
   </div>
 
+  <div id="toast" class="toast-popup">Site Link Copied to Clipboard!</div>
+
   <script>
+    // Native Web Share with Clipboard Fallback
+    function shareSiteLink() {
+      const shareData = {
+        title: "EU1 BETA | Server Portal & Command Hub",
+        text: "Check out the official EU1 Beta Survival Toolkit, active gift codes, calculators, and client download!",
+        url: window.location.href
+      };
+
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        navigator.share(shareData).catch(() => {});
+      } else {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(window.location.href)
+            .then(() => showToast("Site Link Copied to Clipboard!"))
+            .catch(() => fallbackCopyShare(window.location.href));
+        } else {
+          fallbackCopyShare(window.location.href);
+        }
+      }
+    }
+
+    function fallbackCopyShare(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast("Site Link Copied to Clipboard!");
+      } catch (err) {
+        showToast("Link: " + window.location.href);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // 5-Theme Persistent Dropdown Engine
     const ALL_THEMES = ['frost', 'polar', 'halloween', 'harvest', 'holiday'];
 
     function applyTheme(theme) {
