@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EU1 BETA | Server Portal & Command Hub</title>
+  <title>EU1 OFFICIAL | Server Portal & Command Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -366,7 +366,7 @@
 
     .status-badge.discord {
       background: rgba(88, 101, 242, 0.18);
-      color: #7289da;
+      color: #a5b4fc;
       border: 1px solid rgba(88, 101, 242, 0.35);
     }
 
@@ -395,7 +395,7 @@
       color: var(--text-muted);
       font-size: 0.95rem;
       line-height: 1.45;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       flex-grow: 1;
     }
 
@@ -415,6 +415,7 @@
       gap: 8px;
       transition: all 0.2s ease;
       cursor: pointer;
+      text-decoration: none;
     }
 
     body.polar .btn-portal {
@@ -435,22 +436,64 @@
       box-shadow: 0 0 14px rgba(2, 132, 199, 0.35);
     }
 
-    .portal-card.discord-card .btn-portal {
+    /* Dual Discord Button Stack */
+    .discord-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .btn-discord-sub {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.96rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(88, 101, 242, 0.45);
       background: rgba(88, 101, 242, 0.22);
-      border-color: rgba(88, 101, 242, 0.45);
       color: #e0e4ff;
     }
 
-    body.polar .portal-card.discord-card .btn-portal {
+    body.polar .btn-discord-sub {
       background: rgba(79, 70, 229, 0.1);
       color: var(--discord-blurple);
       border-color: rgba(79, 70, 229, 0.3);
     }
 
-    .portal-card.discord-card:hover .btn-portal {
+    .btn-discord-sub:hover {
       background: var(--discord-blurple);
-      color: #fff;
-      box-shadow: 0 0 16px rgba(88, 101, 242, 0.6);
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(88, 101, 242, 0.6);
+      transform: translateX(2px);
+    }
+
+    .btn-discord-sub.alliance-btn {
+      border-color: rgba(255, 209, 102, 0.4);
+      background: rgba(255, 209, 102, 0.12);
+      color: var(--gold-tag);
+    }
+
+    body.polar .btn-discord-sub.alliance-btn {
+      background: rgba(180, 83, 9, 0.08);
+      border-color: rgba(180, 83, 9, 0.3);
+      color: var(--gold-tag);
+    }
+
+    .btn-discord-sub.alliance-btn:hover {
+      background: var(--gold-tag);
+      color: #060b13;
+      box-shadow: 0 0 14px var(--gold-glow);
+    }
+
+    body.polar .btn-discord-sub.alliance-btn:hover {
+      color: #ffffff;
     }
 
     .portal-card.payment-card .btn-portal {
@@ -613,7 +656,7 @@
     <header class="top-badge-banner">
       <div class="server-tag">
         <span class="pulse-dot"></span>
-        EU1 BETA REALM
+        EU1 OFFICIAL REALM
       </div>
       
       <!-- 5-Theme Quick Switcher Dropdown -->
@@ -668,33 +711,42 @@
         </div>
         <div>
           <h2 class="card-title">FAQ & Help Desk</h2>
-          <p class="card-desc">Frequently asked questions about private servers, safety, beta wipe details, and direct mod inquiry form.</p>
+          <p class="card-desc">Frequently asked questions about server setup, account safety, launch details, and direct mod inquiry form.</p>
         </div>
         <div class="btn-portal">Visit FAQ ➔</div>
       </a>
 
-      <!-- 4. Official Discord -->
-      <a href="https://discord.gg/pqEHcrqB3" target="_blank" rel="noopener noreferrer" class="portal-card discord-card">
+      <!-- 4. Dual Discord Hubs (Raffles + MonstersInc Alliance) -->
+      <div class="portal-card discord-card">
         <div class="card-top">
           <span class="card-icon">💬</span>
-          <span class="status-badge discord">● Official Server</span>
+          <span class="status-badge discord">● 2 Active Hubs</span>
         </div>
         <div>
-          <h2 class="card-title">Join Discord</h2>
-          <p class="card-desc">Connect with the EU1 community, coordinate rallies, receive announcements, and chat with moderators.</p>
+          <h2 class="card-title">Community Discords</h2>
+          <p class="card-desc">Join our open hub for exclusive Frost Star raffles & giveaways, or squad up with <strong>MonstersInc [MON]</strong>—recruiting active players across multiple states.</p>
         </div>
-        <div class="btn-portal">Join Server ➔</div>
-      </a>
+        <div class="discord-btn-group">
+          <a href="https://discord.gg/NUbwDNTUp" target="_blank" rel="noopener noreferrer" class="btn-discord-sub">
+            <span>🎟️ Raffles & Giveaways Hub</span>
+            <span>➔</span>
+          </a>
+          <a href="https://discord.gg/dBFnQbEbT" target="_blank" rel="noopener noreferrer" class="btn-discord-sub alliance-btn">
+            <span>⚔️ MonstersInc [MON] Alliance</span>
+            <span>➔</span>
+          </a>
+        </div>
+      </div>
 
-      <!-- 5. Frost Star Top-Up & Beta Purchases -->
+      <!-- 5. Frost Star Top-Up -->
       <a href="payment.html" class="portal-card payment-card">
         <div class="card-top">
           <span class="card-icon">💳</span>
-          <span class="status-badge payment">● 25% Bonus + Re-Credit</span>
+          <span class="status-badge payment">● +25% Bonus Stars</span>
         </div>
         <div>
           <h2 class="card-title">Frost Star Top-Up</h2>
-          <p class="card-desc">Official Stripe payment portal. All beta purchases include an extra 25% bonus and will be 100% re-credited at official launch.</p>
+          <p class="card-desc">Official Stripe payment portal. Launch carryover pricing is active with an extra 25% bonus Frost Stars delivered straight to your mailbox.</p>
         </div>
         <div class="btn-portal">Purchase Stars ➔</div>
       </a>
@@ -736,7 +788,7 @@
       <div class="visitor-badge-container" id="visitorBadgeWrap">
         <!-- Loaded dynamically by JavaScript to prevent refresh increments -->
       </div>
-      <div>EU1 BETA SERVER • SURVIVOR TOOLKIT</div>
+      <div>EU1 OFFICIAL SERVER • SURVIVOR TOOLKIT</div>
     </footer>
   </div>
 
@@ -746,8 +798,8 @@
     // Native Web Share with Clipboard Fallback
     function shareSiteLink() {
       const shareData = {
-        title: "EU1 BETA | Server Portal & Command Hub",
-        text: "Check out the official EU1 Beta Survival Toolkit, active gift codes, calculators, and client download!",
+        title: "EU1 OFFICIAL | Server Portal & Command Hub",
+        text: "Check out the official EU1 Survival Toolkit, active gift codes, calculators, and client download!",
         url: window.location.href
       };
 
@@ -802,11 +854,9 @@
       badgeImg.alt = 'Survivors Checked In';
 
       if (!sessionStorage.getItem(sessionKey)) {
-        // Fresh visit for this browser/tab session -> Call counter URL and record session
         sessionStorage.setItem(sessionKey, 'true');
         badgeImg.src = liveUrl;
       } else {
-        // Reload or return navigation during same session -> Load from cache without incrementing
         badgeImg.src = liveUrl;
       }
 
