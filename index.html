@@ -36,6 +36,7 @@
       --discord-blurple: #5865f2;
       --tiktok-pink: #fe2c55;
       --tiktok-cyan: #25f4ee;
+      --inactive-amber: #f59e0b;
     }
 
     /* ========================================================
@@ -55,6 +56,7 @@
       --discord-blurple: #4f46e5;
       --tiktok-pink: #e11d48;
       --tiktok-cyan: #0284c7;
+      --inactive-amber: #d97706;
     }
 
     /* ========================================================
@@ -74,6 +76,7 @@
       --discord-blurple: #ff7700;
       --tiktok-pink: #ff0055;
       --tiktok-cyan: #00f2fe;
+      --inactive-amber: #fbbf24;
     }
 
     /* ========================================================
@@ -93,6 +96,7 @@
       --discord-blurple: #d97706;
       --tiktok-pink: #f43f5e;
       --tiktok-cyan: #38bdf8;
+      --inactive-amber: #fbbf24;
     }
 
     /* ========================================================
@@ -112,6 +116,7 @@
       --discord-blurple: #15803d;
       --tiktok-pink: #ef4444;
       --tiktok-cyan: #22c55e;
+      --inactive-amber: #facc15;
     }
 
     * {
@@ -317,6 +322,20 @@
       box-shadow: 0 8px 24px var(--accent-glow);
     }
 
+    /* Inactive / Under Construction Card State */
+    .portal-card.inactive-card {
+      opacity: 0.72;
+      border-style: dashed;
+      border-color: rgba(245, 158, 11, 0.35);
+      cursor: default;
+    }
+
+    .portal-card.inactive-card:hover {
+      transform: none;
+      border-color: rgba(245, 158, 11, 0.45);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    }
+
     .portal-card.discord-card:hover {
       border-color: var(--discord-blurple);
       box-shadow: 0 8px 24px rgba(88, 101, 242, 0.4);
@@ -356,6 +375,12 @@
       background: rgba(0, 255, 136, 0.15);
       color: var(--online-green);
       border: 1px solid var(--online-green);
+    }
+
+    .status-badge.inactive {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--inactive-amber);
+      border: 1px solid var(--inactive-amber);
     }
 
     .status-badge.faq {
@@ -434,6 +459,19 @@
       background: var(--accent-frost);
       color: #ffffff;
       box-shadow: 0 0 14px rgba(2, 132, 199, 0.35);
+    }
+
+    .btn-portal.btn-disabled {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: rgba(245, 158, 11, 0.3);
+      color: var(--inactive-amber);
+      cursor: default;
+      box-shadow: none !important;
+    }
+
+    .portal-card.inactive-card:hover .btn-portal.btn-disabled {
+      background: rgba(245, 158, 11, 0.08);
+      color: var(--inactive-amber);
     }
 
     /* Dual Discord Button Stack */
@@ -690,18 +728,18 @@
         <div class="btn-portal">Open Guide ➔</div>
       </a>
 
-      <!-- 2. Gift Codes -->
-      <a href="codes.html" class="portal-card">
+      <!-- 2. Gift Codes (Inactive / Restocking) -->
+      <div class="portal-card inactive-card">
         <div class="card-top">
           <span class="card-icon">🎁</span>
-          <span class="status-badge live">● Active Tool</span>
+          <span class="status-badge inactive">● Restocking</span>
         </div>
         <div>
           <h2 class="card-title">Gift Code Depot</h2>
-          <p class="card-desc">All verified active gift codes, instant one-tap copy, search filters, and batch copy utilities.</p>
+          <p class="card-desc">Beta supply cache cleared. Restocking the depot with fresh Official Launch codes—check back soon or join Discord for live drops!</p>
         </div>
-        <div class="btn-portal">Launch Depot ➔</div>
-      </a>
+        <div class="btn-portal btn-disabled">🚧 New Codes Coming Soon</div>
+      </div>
 
       <!-- 3. FAQ & Support Desk -->
       <a href="faq.html" class="portal-card">
