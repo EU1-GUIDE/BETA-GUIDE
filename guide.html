@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EU1 BETA | Getting Started & Installation Guide</title>
+  <title>EU1 OFFICIAL | Getting Started & Installation Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -355,6 +355,90 @@
       box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
     }
 
+    /* Creator Referral Box */
+    .referral-callout {
+      background: rgba(86, 212, 255, 0.08);
+      border: 1px solid var(--border-ice);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    body.polar .referral-callout {
+      background: rgba(2, 132, 199, 0.06);
+      border-color: rgba(2, 132, 199, 0.25);
+    }
+
+    .referral-info {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .referral-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent-frost);
+      margin-bottom: 2px;
+    }
+
+    .referral-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .referral-action {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(4, 9, 16, 0.75);
+      border: 1px dashed var(--accent-frost);
+      border-radius: 8px;
+      padding: 6px 12px;
+    }
+
+    body.polar .referral-action {
+      background: #ffffff;
+    }
+
+    .referral-code-val {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent-frost);
+      letter-spacing: 1px;
+      user-select: all;
+    }
+
+    .btn-copy-ref {
+      background: var(--accent-frost);
+      color: #040910;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    body.polar .btn-copy-ref {
+      color: #ffffff;
+    }
+
+    .btn-copy-ref:hover {
+      box-shadow: 0 0 10px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
     .screenshot-frame {
       width: 100%;
       border-radius: 12px;
@@ -418,6 +502,38 @@
       color: var(--accent-frost);
     }
 
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(6, 11, 19, 0.95);
+      border: 1px solid var(--success-green);
+      color: var(--success-green);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.35);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      pointer-events: none;
+    }
+
+    body.polar .toast-popup {
+      background: #ffffff;
+      color: #15803d;
+      border-color: #15803d;
+      box-shadow: 0 4px 20px rgba(21, 128, 61, 0.25);
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
     .portal-footer {
       text-align: center;
       margin-top: 36px;
@@ -448,7 +564,7 @@
 
     <div class="hero-header">
       <h1 class="hero-title">GETTING STARTED</h1>
-      <p class="hero-subtitle">EU1 BETA Client Download & Setup Instructions</p>
+      <p class="hero-subtitle">EU1 Official Client Download & Setup Instructions</p>
     </div>
 
     <main class="guide-flow">
@@ -456,13 +572,13 @@
       <section class="step-card">
         <div class="step-badge-row">
           <span class="step-num">STEP 1</span>
-          <h2 class="step-heading">Download WOS APK Client</h2>
+          <h2 class="step-heading">Download WOS Official Client</h2>
         </div>
         <p class="step-desc">
-          Tap the button below to download the official EU1 BETA game client APK directly to your phone:
+          Tap the button below to download the official EU1 game client directly to your device:
         </p>
-        <a href="https://europa.176.9.65.91.nip.io/" target="_blank" rel="noopener noreferrer" class="btn-download-big">
-          ⬇️ Download EU1 BETA APK
+        <a href="https://play.europeeu1.com/" target="_blank" rel="noopener noreferrer" class="btn-download-big">
+          ⬇️ Download EU1 Official Client
         </a>
         <div class="screenshot-frame">
           <img src="download.jpg" alt="Download APK confirmation screenshot" class="guide-img">
@@ -491,8 +607,21 @@
           <h2 class="step-heading">Launch & Create Account</h2>
         </div>
         <p class="step-desc">
-          Once the APK finishes installing, open the game. At the login portal screen, tap <b>Sign Up</b> at the <b>bottom left</b> to create your account credentials and enter the server.
+          Once the client finishes installing, open the game. At the login portal screen, tap <b>Sign Up</b> at the <b>bottom left</b> to create your account credentials and enter the server.
         </p>
+
+        <!-- Creator Referral Code Box -->
+        <div class="referral-callout">
+          <div class="referral-info">
+            <div class="referral-label">🛡️ Creator Referral Code (Optional)</div>
+            <div class="referral-sub">Entering Monstrosity's referral code during registration or top-ups supports this free community site:</div>
+          </div>
+          <div class="referral-action">
+            <span class="referral-code-val">MONSTR_HMFHL5</span>
+            <button type="button" class="btn-copy-ref" onclick="copyReferralCode()">Copy</button>
+          </div>
+        </div>
+
         <div class="screenshot-frame">
           <img src="logineu1.jpg" alt="EU1 Login screen showing Sign Up button at bottom left" class="guide-img">
         </div>
@@ -505,11 +634,52 @@
     </main>
 
     <footer class="portal-footer">
-      EU1 BETA SERVER • SURVIVOR TOOLKIT
+      EU1 OFFICIAL SERVER • SURVIVOR TOOLKIT
     </footer>
   </div>
 
+  <div id="toast" class="toast-popup">Copied Referral Code: MONSTR_HMFHL5</div>
+
   <script>
+    // Copy Referral Code with Fallback
+    function copyReferralCode() {
+      const code = "MONSTR_HMFHL5";
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(code)
+          .then(() => showToast(`Copied Referral Code: ${code}`))
+          .catch(() => fallbackCopyRef(code));
+      } else {
+        fallbackCopyRef(code);
+      }
+    }
+
+    function fallbackCopyRef(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(`Copied Referral Code: ${text}`);
+      } catch (err) {
+        showToast(`Referral Code: ${text}`);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
     // 5-Theme Persistent Dropdown Engine
     const ALL_THEMES = ['frost', 'polar', 'halloween', 'harvest', 'holiday'];
 
