@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EU1 BETA | Official Top-Up & Launch Credit Portal</title>
+  <title>EU1 OFFICIAL | Frost Star Top-Up & Store</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -35,6 +35,8 @@
       --bonus-cyan: #38bdf8;
       --stripe-blue: #635bff;
       --stripe-hover: #7a73ff;
+      --discord-blurple: #5865f2;
+      --discord-hover: #6975f5;
       --success-green: #00ff88;
     }
 
@@ -54,6 +56,8 @@
       --bonus-cyan: #0284c7;
       --stripe-blue: #4f46e5;
       --stripe-hover: #4338ca;
+      --discord-blurple: #4f46e5;
+      --discord-hover: #4338ca;
       --success-green: #15803d;
     }
 
@@ -73,6 +77,8 @@
       --bonus-cyan: #fb923c;
       --stripe-blue: #ff7700;
       --stripe-hover: #ff9124;
+      --discord-blurple: #ff7700;
+      --discord-hover: #ff9124;
       --success-green: #ffb703;
     }
 
@@ -92,6 +98,8 @@
       --bonus-cyan: #fdba74;
       --stripe-blue: #d97706;
       --stripe-hover: #b45309;
+      --discord-blurple: #d97706;
+      --discord-hover: #b45309;
       --success-green: #eab308;
     }
 
@@ -111,6 +119,8 @@
       --bonus-cyan: #38bdf8;
       --stripe-blue: #15803d;
       --stripe-hover: #166534;
+      --discord-blurple: #15803d;
+      --discord-hover: #166534;
       --success-green: #22c55e;
     }
 
@@ -252,9 +262,9 @@
 
     .hero-badge {
       display: inline-block;
-      background: rgba(255, 209, 102, 0.15);
-      color: var(--gold-tag);
-      border: 1px solid rgba(255, 209, 102, 0.4);
+      background: rgba(0, 255, 136, 0.14);
+      color: var(--success-green);
+      border: 1px solid rgba(0, 255, 136, 0.4);
       padding: 4px 14px;
       border-radius: 20px;
       font-size: 0.85rem;
@@ -265,8 +275,8 @@
     }
 
     body.polar .hero-badge {
-      background: rgba(180, 83, 9, 0.08);
-      border-color: rgba(180, 83, 9, 0.3);
+      background: rgba(21, 128, 61, 0.08);
+      border-color: rgba(21, 128, 61, 0.3);
     }
 
     .hero-title {
@@ -289,7 +299,7 @@
       margin-top: 6px;
     }
 
-    /* VIP Double-Credit Announcement Callout */
+    /* Official Launch Pricing Announcement Callout */
     .announcement-card {
       background: linear-gradient(135deg, rgba(255, 209, 102, 0.12) 0%, var(--bg-card) 100%);
       border: 2px solid var(--gold-tag);
@@ -306,16 +316,16 @@
     }
 
     .announcement-card::before {
-      content: '🔥 100% RE-CREDITED AT LAUNCH';
+      content: '🚀 OFFICIAL LAUNCH ACTIVE';
       position: absolute;
-      top: 14px;
-      right: -30px;
+      top: 16px;
+      right: -34px;
       background: var(--gold-tag);
       color: #060b13;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 900;
       letter-spacing: 1px;
-      padding: 4px 35px;
+      padding: 4px 38px;
       transform: rotate(25deg);
       box-shadow: 0 2px 10px rgba(0,0,0,0.4);
     }
@@ -344,7 +354,7 @@
       border-radius: 12px;
       padding: 16px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
       margin-bottom: 16px;
     }
@@ -392,7 +402,6 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 12px;
-      margin-bottom: 16px;
     }
 
     .styled-select, .styled-input {
@@ -444,10 +453,99 @@
 
     .checkout-cta-subtitle {
       color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 580px;
+      font-size: 0.98rem;
+      max-width: 600px;
       margin: 0 auto 20px;
       line-height: 1.5;
+    }
+
+    /* Creator Support Referral Module */
+    .creator-referral-box {
+      background: rgba(4, 9, 16, 0.72);
+      border: 1px solid var(--border-ice);
+      border-radius: 12px;
+      padding: 16px 18px;
+      max-width: 580px;
+      margin: 0 auto 22px;
+      text-align: center;
+    }
+
+    body.polar .creator-referral-box {
+      background: #ffffff;
+      border-color: rgba(2, 132, 199, 0.3);
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.08);
+    }
+
+    .creator-ref-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--accent-frost);
+      margin-bottom: 6px;
+    }
+
+    .creator-ref-note {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+
+    .creator-ref-note strong {
+      color: var(--text-main);
+    }
+
+    .ref-code-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: rgba(86, 212, 255, 0.1);
+      border: 1px dashed var(--accent-frost);
+      border-radius: 10px;
+      padding: 8px 14px;
+      flex-wrap: wrap;
+    }
+
+    body.polar .ref-code-pill {
+      background: rgba(2, 132, 199, 0.06);
+    }
+
+    .ref-code-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--accent-frost);
+      user-select: all;
+    }
+
+    .btn-copy-ref {
+      background: var(--accent-frost);
+      color: #040910;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    body.polar .btn-copy-ref {
+      color: #ffffff;
+    }
+
+    .btn-copy-ref:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
     .btn-stripe-pay {
@@ -554,12 +652,173 @@
       transform: scale(1.02);
     }
 
+    /* Exclusive Discord Raffle & Offers Banner */
+    .discord-promo-card {
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.2) 0%, var(--bg-card) 100%);
+      border: 1px solid rgba(88, 101, 242, 0.5);
+      border-radius: 16px;
+      padding: 24px 22px;
+      margin-bottom: 26px;
+      box-shadow: 0 6px 24px rgba(88, 101, 242, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    body.polar .discord-promo-card {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, #ffffff 100%);
+      border-color: rgba(79, 70, 229, 0.35);
+      box-shadow: 0 4px 18px rgba(79, 70, 229, 0.12);
+    }
+
+    .discord-promo-info {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .discord-promo-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #a5b4fc;
+      background: rgba(88, 101, 242, 0.25);
+      border: 1px solid rgba(88, 101, 242, 0.45);
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    body.polar .discord-promo-badge {
+      color: var(--discord-blurple);
+      background: rgba(79, 70, 229, 0.1);
+    }
+
+    .discord-promo-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .discord-promo-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .btn-discord-join {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--discord-blurple);
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      padding: 14px 26px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 18px rgba(88, 101, 242, 0.45);
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-discord-join:hover {
+      background: var(--discord-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(88, 101, 242, 0.65);
+    }
+
+    .footer-ref-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ice);
+      border-radius: 20px;
+      padding: 6px 14px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-ref-pill code {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--accent-frost);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .footer-ref-pill button {
+      background: transparent;
+      border: 1px solid var(--border-ice);
+      color: var(--text-main);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .footer-ref-pill button:hover {
+      border-color: var(--accent-frost);
+      color: var(--accent-frost);
+    }
+
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(6, 11, 19, 0.95);
+      border: 1px solid var(--success-green);
+      color: var(--success-green);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.35);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      pointer-events: none;
+    }
+
+    body.polar .toast-popup {
+      background: #ffffff;
+      color: #15803d;
+      border-color: #15803d;
+      box-shadow: 0 4px 20px rgba(21, 128, 61, 0.25);
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
     .portal-footer {
       text-align: center;
       margin-top: 40px;
       color: var(--text-muted);
       font-size: 0.85rem;
       letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      .btn-discord-join {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -584,44 +843,44 @@
     </header>
 
     <div class="hero-header">
-      <div class="hero-badge">Official Store • Beta Guarantee</div>
+      <div class="hero-badge">Official Launch Live • Direct Top-Up</div>
       <h1 class="hero-title">FROST STAR TOP-UP</h1>
-      <p class="hero-subtitle">Beta Purchases Double-Credited at Official Launch • Exclusive 25% Bonus Active</p>
+      <p class="hero-subtitle">Launch Pricing Carryover Active • Includes +25% Extra Bonus Stars</p>
     </div>
 
-    <!-- 1. VIP ANNOUNCEMENT: ALL BETA PURCHASES RE-CREDITED -->
+    <!-- 1. OFFICIAL LAUNCH PRICING ANNOUNCEMENT -->
     <section class="announcement-card">
       <h2 class="ann-heading">
-        <span>⭐</span> IMPORTANT: ALL BETA PURCHASES CREDITED AGAIN!
+        <span>❄️</span> OFFICIAL LAUNCH PRICING & +25% BONUS CARRIED OVER!
       </h2>
       <p class="ann-text">
-        All Frost Stars purchased during this beta testing period—<strong>including the full 25% extra bonus</strong>—will be 
-        <strong>credited a second time to your account</strong> when the official version of WOS Europe launches!
+        Welcome to the official launch of <strong>WOS Europe (EU1)</strong>! To celebrate launch, our 
+        <strong>discounted package tiers and +25% extra bonus Frost Stars</strong> are carrying over directly as our standard official rates.
       </p>
 
       <div class="ann-highlight-box">
         <div class="hl-item">
-          <span class="hl-title">Example Purchase:</span>
-          <span class="hl-value">600,000 Frost Stars ($389.99)</span>
+          <span class="hl-title">Example Pack Selection:</span>
+          <span class="hl-value">600,000 Base Stars ($389.99)</span>
         </div>
         <div class="hl-item">
-          <span class="hl-title">Instant Beta Delivery (+25%):</span>
-          <span class="hl-value">750,000 Frost Stars (Now)</span>
+          <span class="hl-title">Launch Bonus (+25%):</span>
+          <span class="hl-value">+150,000 Extra Stars</span>
         </div>
         <div class="hl-item">
-          <span class="hl-title">Official Launch Delivery:</span>
-          <span class="hl-value launch">ANOTHER 750,000 Stars!</span>
+          <span class="hl-title">Total Instant Delivery:</span>
+          <span class="hl-value launch">750,000 Frost Stars!</span>
         </div>
       </div>
 
       <p class="ann-text" style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0;">
-        🛡️ <em>You can spend and enjoy your packages right now during beta without hesitation; you receive their 100% full value again (plus bonus) when official service commences.</em>
+        ⚡ <em>All purchases are delivered directly to your in-game mailbox once processed. Enjoy seamless carryover rates while they remain active!</em>
       </p>
     </section>
 
-    <!-- 2. QUICK FROST STAR & LAUNCH RETURN CALCULATOR -->
+    <!-- 2. QUICK FROST STAR BONUS CALCULATOR -->
     <section class="estimator-card">
-      <h3 class="estimator-title">🧮 Calculate Your Beta & Launch Return</h3>
+      <h3 class="estimator-title">🧮 Calculate Your Total Frost Star Delivery</h3>
       <div class="selector-grid">
         <div>
           <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Select Pack</label>
@@ -635,22 +894,37 @@
           </select>
         </div>
         <div>
-          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">During Beta (w/ 25% Bonus)</label>
-          <input type="text" id="calcBetaStars" class="styled-input" readonly value="750,000 Stars" style="color:var(--bonus-cyan);">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">+25% Bonus Stars</label>
+          <input type="text" id="calcBonusStars" class="styled-input" readonly value="+150,000 Stars" style="color:var(--bonus-cyan);">
         </div>
         <div>
-          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">At Official Launch (100% Re-Credit)</label>
-          <input type="text" id="calcLaunchStars" class="styled-input" readonly value="+750,000 Stars" style="color:var(--gold-tag);">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Total Delivered to Mailbox</label>
+          <input type="text" id="calcTotalStars" class="styled-input" readonly value="750,000 Stars" style="color:var(--gold-tag);">
         </div>
       </div>
     </section>
 
-    <!-- 3. STRIPE SECURE CHECKOUT CTA -->
+    <!-- 3. STRIPE SECURE CHECKOUT CTA & CREATOR REFERRAL -->
     <section class="checkout-cta-box">
       <h2 class="checkout-cta-title">SECURE OFFICIAL CHECKOUT</h2>
       <p class="checkout-cta-subtitle">
         Purchases are securely processed through Stripe. Please enter your In-Game Name (IGN) and Player ID (FID) at checkout so automated delivery can dispatch to your mailbox.
       </p>
+
+      <!-- Creator Support Box -->
+      <div class="creator-referral-box">
+        <div class="creator-ref-tag">🛡️ Official EU1 Discord Mod • Community Toolkit</div>
+        <p class="creator-ref-note">
+          Built and maintained by <strong>Monstrosity</strong>. If you enjoy using the code depot, calculators, and guides on this site, entering my referral code at checkout helps support ongoing updates at zero extra cost to you:
+        </p>
+        <div class="ref-code-pill">
+          <span class="ref-code-text" id="creatorRefCode">MONSTR_HMFHL5</span>
+          <button type="button" class="btn-copy-ref" onclick="copyReferralCode()">
+            <span>📋</span> Copy Code
+          </button>
+        </div>
+      </div>
+
       <a href="https://buy.stripe.com/3cI4gAeaJbL1aRt5kS24000" target="_blank" rel="noopener noreferrer" class="btn-stripe-pay">
         <span>💳</span> PROCEED TO STRIPE CHECKOUT
       </a>
@@ -674,8 +948,7 @@
         <header class="showcase-header">
           <h3 class="showcase-title"><span>🎁</span> Cumulative Top-Up Rewards</h3>
           <p class="showcase-desc">
-            Every qualifying purchase made during beta counts toward your cumulative milestone spending tiers. 
-            All milestone reward tiers will be distributed to your account directly after the official launch!
+            Every qualifying purchase counts toward your cumulative milestone spending tiers, unlocking additional bonus rewards as you top up!
           </p>
         </header>
         <div class="showcase-img-wrapper">
@@ -684,28 +957,90 @@
       </article>
     </div>
 
-    <!-- 5. FINAL RE-CREDIT CHECKOUT REMINDER -->
+    <!-- 5. EXCLUSIVE DISCORD OFFERS & FROST STAR RAFFLES -->
+    <section class="discord-promo-card">
+      <div class="discord-promo-info">
+        <div class="discord-promo-badge">🎟️ Community Perks & Giveaways</div>
+        <h3 class="discord-promo-title">JOIN OUR DISCORD FOR EXCLUSIVE OFFERS & FROST STAR RAFFLES</h3>
+        <p class="discord-promo-desc">
+          Hop into our community hub for flash promo announcements, strategy discussions, and regular Frost Star raffles!
+        </p>
+      </div>
+      <a href="https://discord.gg/NUbwDNTUp" target="_blank" rel="noopener noreferrer" class="btn-discord-join">
+        <span>💬</span> Join Discord Server ➔
+      </a>
+    </section>
+
+    <!-- 6. FINAL CHECKOUT REMINDER -->
     <div style="text-align: center; margin-top: 10px;">
+      <div style="margin-bottom: 14px;">
+        <div class="footer-ref-pill">
+          <span>Creator Referral Code:</span>
+          <code>MONSTR_HMFHL5</code>
+          <button type="button" onclick="copyReferralCode()">Copy</button>
+        </div>
+      </div>
       <a href="https://buy.stripe.com/3cI4gAeaJbL1aRt5kS24000" target="_blank" rel="noopener noreferrer" class="btn-stripe-pay" style="font-size: 1.05rem; padding: 12px 28px;">
         <span>💳</span> Buy Frost Stars Now
       </a>
     </div>
 
     <footer class="portal-footer">
-      EU1 BETA SERVER • WOS EUROPE OFFICIAL SUPPORT
+      EU1 OFFICIAL SERVER • WOS EUROPE SURVIVOR TOOLKIT
     </footer>
   </div>
 
+  <div id="toast" class="toast-popup">Referral Code Copied: MONSTR_HMFHL5</div>
+
   <script>
+    // Copy Creator Referral Code with Fallback
+    function copyReferralCode() {
+      const code = "MONSTR_HMFHL5";
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(code)
+          .then(() => showToast(`Copied Referral Code: ${code}`))
+          .catch(() => fallbackCopyRef(code));
+      } else {
+        fallbackCopyRef(code);
+      }
+    }
+
+    function fallbackCopyRef(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(`Copied Referral Code: ${text}`);
+      } catch (err) {
+        showToast(`Referral Code: ${text}`);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
     // Frost Star Interactive Estimator
     function updateEstimator() {
       const select = document.getElementById('calcPackSelect');
       const baseStars = parseInt(select.value, 10);
       const bonus = Math.round(baseStars * 0.25);
-      const totalPerDelivery = baseStars + bonus;
+      const totalDelivery = baseStars + bonus;
 
-      document.getElementById('calcBetaStars').value = `${totalPerDelivery.toLocaleString()} Stars`;
-      document.getElementById('calcLaunchStars').value = `+${totalPerDelivery.toLocaleString()} Stars`;
+      document.getElementById('calcBonusStars').value = `+${bonus.toLocaleString()} Stars`;
+      document.getElementById('calcTotalStars').value = `${totalDelivery.toLocaleString()} Stars`;
     }
 
     // 5-Theme Persistent Dropdown Engine
